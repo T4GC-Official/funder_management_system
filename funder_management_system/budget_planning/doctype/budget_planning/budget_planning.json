@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "prompt",
+ "creation": "2025-01-24 13:29:44.275431",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "budget_period_section",
+  "financial_year",
+  "column_break_ajhn",
+  "currency",
+  "section_break_asxc",
+  "budget_planning_template",
+  "budget_breakdown",
+  "section_break_orgb",
+  "total_quarter_1_budget",
+  "total_quarter_2_budget",
+  "total_quarter_3_budget",
+  "total_quarter_4_budget",
+  "yearly_budget",
+  "section_break_3hfl",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_3hfl",
+   "fieldtype": "Section Break",
+   "label": "Amendment Section"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Budget Planning",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "budget_period_section",
+   "fieldtype": "Section Break",
+   "label": "Budget Period"
+  },
+  {
+   "fieldname": "financial_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Financial Year",
+   "options": "Financial Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ajhn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_asxc",
+   "fieldtype": "Section Break",
+   "label": "Budget Head Details"
+  },
+  {
+   "fieldname": "budget_planning_template",
+   "fieldtype": "Link",
+   "label": "Budget Planning Template",
+   "options": "Budget Planning Template"
+  },
+  {
+   "fieldname": "budget_breakdown",
+   "fieldtype": "Table",
+   "label": "Budget Breakdown",
+   "options": "Budget Breakdown"
+  },
+  {
+   "fieldname": "section_break_orgb",
+   "fieldtype": "Section Break",
+   "label": "Budget Aggregate Details"
+  },
+  {
+   "fieldname": "total_quarter_1_budget",
+   "fieldtype": "Currency",
+   "label": "Total Quarter 1 Budget",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_quarter_2_budget",
+   "fieldtype": "Currency",
+   "label": "Total Quarter 2 Budget",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_quarter_3_budget",
+   "fieldtype": "Currency",
+   "label": "Total Quarter 3 Budget",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_quarter_4_budget",
+   "fieldtype": "Currency",
+   "label": "Total Quarter 4 Budget",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "yearly_budget",
+   "fieldtype": "Currency",
+   "label": "Total Yearly Budget",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-01-24 16:34:24.118983",
+ "modified_by": "Administrator",
+ "module": "Budget Planning",
+ "name": "Budget Planning",
+ "naming_rule": "Set by user",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}
