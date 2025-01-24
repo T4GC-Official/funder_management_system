@@ -6,6 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "section_break_mzcx",
   "financial_year"
  ],
  "fields": [
@@ -14,13 +15,19 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Financial Year",
+   "placeholder": "e.g. 2023-24",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "section_break_mzcx",
+   "fieldtype": "Section Break",
+   "placeholder": "2023-24"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-24 13:19:53.996432",
+ "modified": "2025-01-24 16:30:10.844704",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Financial Year",

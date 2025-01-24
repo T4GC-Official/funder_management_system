@@ -49,8 +49,7 @@
    "in_list_view": 1,
    "label": "Financial Year",
    "options": "Financial Year",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "column_break_ajhn",
@@ -121,7 +120,7 @@
   {
    "fieldname": "yearly_budget",
    "fieldtype": "Currency",
-   "label": "Yearly Budget",
+   "label": "Total Yearly Budget",
    "non_negative": 1,
    "precision": "2",
    "read_only": 1
@@ -130,7 +129,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-24 13:38:26.644150",
+ "modified": "2025-01-24 16:34:24.118983",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Planning",
@@ -151,7 +150,11 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }
