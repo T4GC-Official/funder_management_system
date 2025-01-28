@@ -83,7 +83,7 @@ app_license = "mit"
 # ------------
 
 # before_install = "funder_management_system.install.before_install"
-# after_install = "funder_management_system.install.after_install"
+after_install = "funder_management_system.utils.create_financial_year"
 
 # Uninstallation
 # ------------
