@@ -19,10 +19,12 @@
    "reqd": 1
   },
   {
+
    "fieldname": "budget_sub_category",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Budget Sub-Category",
+
    "reqd": 1,
    "unique": 1
   }
@@ -65,4 +67,5 @@
  "sort_order": "DESC",
  "states": [],
  "title_field": "budget_sub_category"
+
 }

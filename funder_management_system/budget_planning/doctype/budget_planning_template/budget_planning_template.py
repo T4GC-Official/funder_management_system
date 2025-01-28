@@ -13,3 +13,4 @@ class BudgetPlanningTemplate(Document):
 			q3 = row.quarter_3_budget or 0
 			q4 = row.quarter_4_budget or 0
 			row.sub_total = q1 + q2 + q3 + q4
+
