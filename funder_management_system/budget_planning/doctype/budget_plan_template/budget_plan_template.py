@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class BudgetPlanningTemplate(Document):
+class BudgetPlanTemplate(Document):
 	def before_save(self):
 		for row in self.budget_detail:
 			q1 = row.quarter_1_budget or 0

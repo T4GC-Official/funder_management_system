@@ -5,7 +5,7 @@
 import frappe
 from frappe.model.document import Document
 
-class BudgetPlanning(Document):
+class BudgetPlan(Document):
     def before_save(self):
         total_q1 = 0
         total_q2 = 0

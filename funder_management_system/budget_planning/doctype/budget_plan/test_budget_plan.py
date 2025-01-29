@@ -12,18 +12,18 @@ EXTRA_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
-class UnitTestBudgetPlanning(UnitTestCase):
+class UnitTestBudgetPlan(UnitTestCase):
 	"""
-	Unit tests for BudgetPlanning.
+	Unit tests for BudgetPlan.
 	Use this class for testing individual functions and methods.
 	"""
 
 	pass
 
 
-class IntegrationTestBudgetPlanning(IntegrationTestCase):
+class IntegrationTestBudgetPlan(IntegrationTestCase):
 	"""
-	Integration tests for BudgetPlanning.
+	Integration tests for BudgetPlan.
 	Use this class for testing interactions between multiple components.
 	"""
 
