@@ -21,6 +21,7 @@
    "in_list_view": 1,
    "label": "Q1",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
@@ -29,6 +30,7 @@
    "in_list_view": 1,
    "label": "Q2",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
@@ -37,6 +39,7 @@
    "in_list_view": 1,
    "label": "Q3",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
@@ -45,6 +48,7 @@
    "in_list_view": 1,
    "label": "Q4",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
@@ -53,6 +57,7 @@
    "in_list_view": 1,
    "label": "Sub Total",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2",
    "read_only": 1
   },
@@ -76,7 +81,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-28 16:59:30.078259",
+ "modified": "2025-01-29 14:48:38.809873",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Breakdown",

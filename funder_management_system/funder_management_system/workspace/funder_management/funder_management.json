@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"ovBhIUS9DU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Funder Management Details</b></span>\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Planning \",\"col\":4}}]",
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":4}}]",
  "creation": "2025-01-28 12:24:00.611386",
  "custom_blocks": [],
  "docstatus": 0,
@@ -16,10 +16,10 @@
  "link_type": "DocType",
  "links": [
   {
-   "description": "This Module is used for planning the budget for an year.",
+   "description": "This module allows Fundraising Admins to efficiently create and manage budget plans for a given financial year.",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Budget Planning ",
+   "label": "Budget Allocation Module",
    "link_count": 4,
    "link_type": "DocType",
    "onboard": 0,
@@ -48,7 +48,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Budget Planning",
+   "label": "Budget Plan",
    "link_count": 0,
    "link_to": "Budget Planning",
    "link_type": "DocType",
@@ -58,7 +58,7 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Budget Planning Template",
+   "label": "Budget Plan Template",
    "link_count": 0,
    "link_to": "Budget Planning Template",
    "link_type": "DocType",
@@ -66,7 +66,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-01-28 12:26:20.990633",
+ "modified": "2025-01-29 14:58:03.738420",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Funder Management",

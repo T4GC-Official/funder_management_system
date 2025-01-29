@@ -1,26 +1,26 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:budget_head",
+ "autoname": "field:budget_category",
  "creation": "2025-01-24 13:20:10.378468",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "budget_head"
+  "budget_category"
  ],
  "fields": [
   {
-   "fieldname": "budget_head",
+   "fieldname": "budget_category",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Budget Head",
+   "label": "Budget Category",
    "reqd": 1,
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-28 12:29:31.874834",
+ "modified": "2025-01-29 14:44:58.302369",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Category",
@@ -49,11 +49,11 @@
    "report": 1,
    "role": "Budget Planner",
    "share": 1,
-   "write": 1,
+   "write": 1
   }
  ],
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
- "title_field": "budget_head"
+ "title_field": "budget_category"
 }
