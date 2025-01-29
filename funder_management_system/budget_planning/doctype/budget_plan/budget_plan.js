@@ -1,18 +1,14 @@
-// Copyright (c) 2025, Tech4Good Community and contributors
-// For license information, please see license.txt
-
 frappe.ui.form.on("Budget Plan", {
-    budget_plan_template: function (frm) {
+    budget_plan_template: function(frm) {
         if (frm.doc.budget_plan_template) {
             frappe.call({
                 method: "funder_management_system.budget_planning.doctype.budget_plan.budget_plan.get_budget_detail",
                 args: {
                     template_name: frm.doc.budget_plan_template,
                 },
-                callback: function (r) {
+                callback: function(r) {
                     if (r.message) {
                         frm.clear_table("budget_breakdown");
-                        console.log(r.message);
                         r.message.forEach((row) => {
                             let child_row = frm.add_child("budget_breakdown");
                             child_row.budget_category = row.budget_category;
@@ -25,7 +21,7 @@ frappe.ui.form.on("Budget Plan", {
                         });
                         frm.refresh_field("budget_breakdown");
                     }
-                },
+                }
             });
         }
     },
@@ -41,5 +37,33 @@ frappe.ui.form.on("Budget Plan", {
             }
             return {};
         };
+    },
+});
+
+frappe.ui.form.on("Budget Breakdown", {
+
+    budget_sub_category: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+
+        if (row.budget_category && row.budget_sub_category) {
+            frappe.call({
+                method: "frappe.client.get_list",
+                args: {
+                    doctype: "Budget Sub-Category",
+                    filters: {
+                        budget_category: row.budget_category,
+                        name: row.budget_sub_category
+                    },
+                    fields: ["name"]
+                },
+                callback: function(r) {
+                    if (!r.message || r.message.length === 0) {
+                        frappe.msgprint(__('The selected sub-category is not valid for the chosen category.'));
+                        row.budget_sub_category = "";  // Reset invalid subcategory
+                        frm.refresh_field('budget_breakdown');
+                    }
+                }
+            });
+        }
     }
 });

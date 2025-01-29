@@ -15,14 +15,17 @@ frappe.ui.form.on("Budget Plan Template", {
             }
             return {};
         };
-    },
+    }
+});
+
+frappe.ui.form.on("Budget Breakdown", {
     budget_sub_category: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
         if (row.budget_category && row.budget_sub_category) {
             frappe.call({
                 method: "frappe.client.get_list",
                 args: {
-                    doctype: "Budget Sub Category",
+                    doctype: "Budget Sub-Category",
                     filters: {
                         budget_category: row.budget_category,
                         name: row.budget_sub_category
