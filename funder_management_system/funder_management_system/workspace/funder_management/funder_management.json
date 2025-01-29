@@ -50,7 +50,7 @@
    "is_query_report": 0,
    "label": "Budget Plan",
    "link_count": 0,
-   "link_to": "Budget Planning",
+   "link_to": "Budget Plan",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -60,13 +60,13 @@
    "is_query_report": 0,
    "label": "Budget Plan Template",
    "link_count": 0,
-   "link_to": "Budget Planning Template",
+   "link_to": "Budget Plan Template",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2025-01-29 14:58:03.738420",
+ "modified": "2025-01-29 15:19:46.357996",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Funder Management",
