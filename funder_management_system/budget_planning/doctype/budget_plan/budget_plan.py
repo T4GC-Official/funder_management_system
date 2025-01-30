@@ -41,7 +41,7 @@ class BudgetPlan(Document):
 
 @frappe.whitelist()
 def get_budget_detail(template_name):
-	template = frappe.get_doc("Budget Planning Template", template_name)
+	template = frappe.get_doc("Budget Plan Template", template_name)
 
 	child_table_data = []
 
