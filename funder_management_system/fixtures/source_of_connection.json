@@ -1,0 +1,44 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Source of Connection",
+  "modified": "2025-01-31 14:27:21.922724",
+  "name": "Research",
+  "source_of_connection": "Research"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Source of Connection",
+  "modified": "2025-01-31 14:27:31.978466",
+  "name": "Outreach",
+  "source_of_connection": "Outreach"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Source of Connection",
+  "modified": "2025-01-31 14:27:40.165824",
+  "name": "Events",
+  "source_of_connection": "Events"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Source of Connection",
+  "modified": "2025-01-31 14:27:50.042849",
+  "name": "Networking",
+  "source_of_connection": "Networking"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Source of Connection",
+  "modified": "2025-01-31 14:28:01.693232",
+  "name": "Partnerships",
+  "source_of_connection": "Partnerships"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Source of Connection",
+  "modified": "2025-01-31 14:28:10.509665",
+  "name": "Advisors",
+  "source_of_connection": "Advisors"
+ }
+]

@@ -1,0 +1,61 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-31 18:27:01.917050",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "column_break_ggnb",
+  "compliance_name",
+  "status",
+  "document_shared_date",
+  "attachment_if_any"
+ ],
+ "fields": [
+  {
+   "fieldname": "compliance_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Compliance Name",
+   "options": "Compliance Checklist",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "\nYet to be Shared\nNot Needed\nSent",
+   "reqd": 1
+  },
+  {
+   "fieldname": "attachment_if_any",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Attachment (if any)"
+  },
+  {
+   "fieldname": "document_shared_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Document Shared Date"
+  },
+  {
+   "fieldname": "column_break_ggnb",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-31 18:58:22.307313",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Compliance Checklist Child",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

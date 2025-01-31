@@ -1,0 +1,78 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-31 19:00:38.581827",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "organisation_poc_name",
+  "designation",
+  "phone",
+  "preferrend_means_of_communication",
+  "status",
+  "column_break_orfn",
+  "internal_poc_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "organisation_poc_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Organisation POC Name",
+   "options": "Organisation POC",
+   "reqd": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Phone",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "preferrend_means_of_communication",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Preferrend Means of Communication",
+   "options": "Preferred Means of Communication"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Active\nIn-Active"
+  },
+  {
+   "fieldname": "column_break_orfn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "internal_poc_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Internal POC Name",
+   "options": "User"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-31 19:06:15.368767",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "POC Assigned",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

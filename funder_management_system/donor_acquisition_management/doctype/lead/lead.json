@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-01-31 18:45:19.850362",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "organisation_details_section",
+  "organisation_name",
+  "naming_series",
+  "website_url",
+  "column_break_fxvu",
+  "official_email",
+  "pan_card",
+  "other_details_section",
+  "thematic_area",
+  "category",
+  "source_of_connection",
+  "column_break_vwez",
+  "financial_year_of_reachout",
+  "lead_stage",
+  "compliance_checklist_section",
+  "compliance_checklist",
+  "organisation_poc_details_section",
+  "assigned_poc"
+ ],
+ "fields": [
+  {
+   "fieldname": "organisation_details_section",
+   "fieldtype": "Section Break",
+   "label": "Organisation Details"
+  },
+  {
+   "fieldname": "organisation_name",
+   "fieldtype": "Link",
+   "label": "Organisation Name",
+   "options": "Organisation Details"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Lead ID",
+   "options": "LEAD-.YYYY.-",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "organisation_name.website_url",
+   "fieldname": "website_url",
+   "fieldtype": "Data",
+   "label": "Website URL",
+   "options": "URL"
+  },
+  {
+   "fetch_from": "organisation_name.official_email_id",
+   "fieldname": "official_email",
+   "fieldtype": "Data",
+   "label": "Official Email ID",
+   "options": "Email"
+  },
+  {
+   "fetch_from": "organisation_name.pan_card",
+   "fieldname": "pan_card",
+   "fieldtype": "Data",
+   "label": "PAN Card",
+   "length": 10
+  },
+  {
+   "fieldname": "column_break_fxvu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "other_details_section",
+   "fieldtype": "Section Break",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "thematic_area",
+   "fieldtype": "Table MultiSelect",
+   "label": "Thematic Area",
+   "options": "Thematic Area Child"
+  },
+  {
+   "fieldname": "source_of_connection",
+   "fieldtype": "Table MultiSelect",
+   "label": "Source of Connection",
+   "options": "Source of Connection Child"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "Category"
+  },
+  {
+   "fieldname": "financial_year_of_reachout",
+   "fieldtype": "Link",
+   "label": "Financial Year of Reachout",
+   "options": "Financial Year"
+  },
+  {
+   "default": "New Lead",
+   "fieldname": "lead_stage",
+   "fieldtype": "Select",
+   "label": "Lead Stage",
+   "options": "New Lead\nWarm Lead\nHot Lead\nConfirmed Lead\nCold Lead\nDropped Lead"
+  },
+  {
+   "fieldname": "column_break_vwez",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "compliance_checklist_section",
+   "fieldtype": "Section Break",
+   "label": "Compliance Checklist"
+  },
+  {
+   "fieldname": "compliance_checklist",
+   "fieldtype": "Table",
+   "label": "Compliance Checklist",
+   "options": "Compliance Checklist Child"
+  },
+  {
+   "fieldname": "organisation_poc_details_section",
+   "fieldtype": "Section Break",
+   "label": "Organisation POC Details"
+  },
+  {
+   "fieldname": "assigned_poc",
+   "fieldtype": "Table",
+   "label": "Assigned POC",
+   "options": "POC Assigned"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-31 19:09:46.353493",
+ "modified_by": "Administrator",
+ "module": "Donor Acquisition Management",
+ "name": "Lead",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

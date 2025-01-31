@@ -21,6 +21,18 @@ app_license = "mit"
 # 	}
 # ]
 
+fixtures = [{
+    "dt": "Thematic Area" 
+},
+{
+    "dt": "Category"
+},
+{
+    "dt": "Source of Connection"
+},
+{
+    "dt": "Compliance Checklist"
+}]
 # Includes in <head>
 # ------------------
 
