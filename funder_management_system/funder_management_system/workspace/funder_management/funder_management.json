@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Funder Acquistion Module\",\"col\":6}}]",
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Funder Acquisition Module\",\"col\":6}}]",
  "creation": "2025-01-28 12:24:00.611386",
  "custom_blocks": [],
  "docstatus": 0,
@@ -66,10 +66,10 @@
    "type": "Link"
   },
   {
-   "description": "This is a funder acquistion module",
+   "description": "This module allows members of the fundraising team to create a new organisation lead, track their relevant details and stages till conversion to a confirmed Donor.",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Funder Acquistion Module",
+   "label": "Funder Acquisition Module",
    "link_count": 7,
    "link_type": "DocType",
    "onboard": 0,
@@ -88,9 +88,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Lead",
+   "label": "Organisation Lead",
    "link_count": 0,
-   "link_to": "Lead",
+   "link_to": "Organisation Lead",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -146,7 +146,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-01-31 19:24:06.128067",
+ "modified": "2025-02-04 16:10:32.397936",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Funder Management",

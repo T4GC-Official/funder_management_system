@@ -27,7 +27,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Website URL",
-   "options": "URL"
+   "options": "URL",
+   "reqd": 1
   },
   {
    "fieldname": "official_email_id",
@@ -35,8 +36,7 @@
    "in_global_search": 1,
    "in_list_view": 1,
    "label": "Official Email ID",
-   "options": "Email",
-   "reqd": 1
+   "options": "Email"
   },
   {
    "fieldname": "pan_card",
@@ -59,7 +59,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-31 13:52:04.306595",
+ "modified": "2025-02-04 15:30:16.225960",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation Details",

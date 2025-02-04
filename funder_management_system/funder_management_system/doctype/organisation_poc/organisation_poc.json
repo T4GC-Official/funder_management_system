@@ -9,14 +9,16 @@
   "name1",
   "phone",
   "designation",
-  "status"
+  "status",
+  "email"
  ],
  "fields": [
   {
    "fieldname": "organisation",
    "fieldtype": "Link",
    "label": "Organisation",
-   "options": "Organisation Details"
+   "options": "Organisation Details",
+   "reqd": 1
   },
   {
    "fieldname": "name1",
@@ -28,10 +30,9 @@
   },
   {
    "fieldname": "phone",
-   "fieldtype": "Data",
+   "fieldtype": "Phone",
    "in_list_view": 1,
-   "label": "Phone",
-   "options": "Phone"
+   "label": "Phone"
   },
   {
    "fieldname": "designation",
@@ -43,12 +44,19 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Active\nIn-Active"
+   "options": "Active\nInactive"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-31 13:43:44.332861",
+ "modified": "2025-02-04 15:46:34.217754",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",

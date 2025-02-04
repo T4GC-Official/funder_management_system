@@ -9,7 +9,7 @@
   "column_break_ggnb",
   "compliance_name",
   "status",
-  "document_shared_date",
+  "shared_on",
   "attachment_if_any"
  ],
  "fields": [
@@ -36,20 +36,20 @@
    "label": "Attachment (if any)"
   },
   {
-   "fieldname": "document_shared_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Document Shared Date"
-  },
-  {
    "fieldname": "column_break_ggnb",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shared_on",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Shared On"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-31 18:58:22.307313",
+ "modified": "2025-02-04 15:49:57.826409",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Compliance Checklist Child",

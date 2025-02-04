@@ -15,10 +15,11 @@
   "pan_card",
   "other_details_section",
   "thematic_area",
-  "category",
+  "lead_category",
   "source_of_connection",
   "column_break_vwez",
   "financial_year_of_reachout",
+  "progress_status_section",
   "lead_stage",
   "compliance_checklist_section",
   "compliance_checklist",
@@ -34,8 +35,10 @@
   {
    "fieldname": "organisation_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Organisation Name",
-   "options": "Organisation Details"
+   "options": "Organisation Details",
+   "reqd": 1
   },
   {
    "fieldname": "naming_series",
@@ -87,14 +90,9 @@
    "options": "Source of Connection Child"
   },
   {
-   "fieldname": "category",
-   "fieldtype": "Link",
-   "label": "Category",
-   "options": "Category"
-  },
-  {
    "fieldname": "financial_year_of_reachout",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Financial Year of Reachout",
    "options": "Financial Year"
   },
@@ -130,14 +128,25 @@
    "fieldtype": "Table",
    "label": "Assigned POC",
    "options": "POC Assigned"
+  },
+  {
+   "fieldname": "progress_status_section",
+   "fieldtype": "Section Break",
+   "label": "Progress Status"
+  },
+  {
+   "fieldname": "lead_category",
+   "fieldtype": "Link",
+   "label": "Lead Category",
+   "options": "Category"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-31 19:09:46.353493",
+ "modified": "2025-02-04 15:52:41.544670",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
- "name": "Lead",
+ "name": "Organisation Lead",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [

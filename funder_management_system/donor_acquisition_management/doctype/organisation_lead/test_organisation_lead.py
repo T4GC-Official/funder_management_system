@@ -12,18 +12,18 @@ EXTRA_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
-class UnitTestLead(UnitTestCase):
+class UnitTestOrganisationLead(UnitTestCase):
 	"""
-	Unit tests for Lead.
+	Unit tests for OrganisationLead.
 	Use this class for testing individual functions and methods.
 	"""
 
 	pass
 
 
-class IntegrationTestLead(IntegrationTestCase):
+class IntegrationTestOrganisationLead(IntegrationTestCase):
 	"""
-	Integration tests for Lead.
+	Integration tests for OrganisationLead.
 	Use this class for testing interactions between multiple components.
 	"""
 
