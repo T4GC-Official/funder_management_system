@@ -18,5 +18,14 @@ frappe.ui.form.on("Donor", {
                 frm.set_value("pan_card", "");  // Reset invalid PAN
             }
         }
+    },
+    setup: function(frm) {
+        frm.set_query("lead_name", function() {
+            return {
+                filters: {
+                    lead_stage: "Confirmed Lead"
+                }
+            };
+        });
     }
 });

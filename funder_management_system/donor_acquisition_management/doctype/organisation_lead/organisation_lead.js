@@ -1,10 +1,84 @@
-// Copyright (c) 2025, Tech4Good Community and contributors
-// For license information, please see license.txt
-
 frappe.ui.form.on("Organisation Lead", {
+    refresh: function (frm) {
+        frm.trigger("load_compliance_checklist");
+    },
+
     organisation_name: function (frm) {
-        if(!frm.doc.organisation_name){
+        if (!frm.doc.organisation_name) {
             frm.refresh_field("website_url");
+        }
+    },
+    lead_stage: function (frm) {
+        let descriptions = {
+            "New Lead": "No outreach has happened to the lead for the current financial year.",
+            "Warm Lead": "Exploration call or some reach out done for the financial year. Lead seems interested to proceed further.",
+            "Hot Lead": "The proposal deck has been shared with the lead for the financial year. High probability of lead conversion.",
+            "Confirm Lead": "The lead has accepted the proposal and the MoU is signed.",
+            "Cold Lead": "Lead did not respond/Lead stopped responding",
+            "Dropped Lead": "Lead followups dropped from either side ",
+        };
+
+        let selected_stage = frm.doc.lead_stage;
+        let description = descriptions[selected_stage] || "Select a lead stage to see details.";
+        frm.set_value("lead_stage_description", description);
+        
+        if (frm.doc.lead_stage === "Confirmed Lead") {
+            frappe.confirm(
+                'Are you sure you want to create donor for ' + frm.doc.lead_name + `?`,
+                () => {
+                    frappe.call({
+                        method: "funder_management_system.donor_acquisition_management.doctype.organisation_lead.organisation_lead.create_donor_from_lead",
+                        args: {
+                            lead_name: frm.doc.name, // Pass only the name instead of full document
+                        },
+                        callback: function (r) {
+                            if (r.message === true) {
+                                
+
+                                // Save the Organisation Lead only if donor creation succeeds
+                                frm.save()
+                                    .then(() => {
+                                        frappe.msgprint(__('Donor created successfully!'));
+                                    })
+                                    .catch(() => {
+                                        frappe.msgprint(__('Failed to save lead.'));
+                                        frm.reload_doc(); // Reload if saving fails
+                                    });
+                            } else {
+                                frappe.msgprint(__('Failed to create donor.'));
+                                frm.reload_doc(); // Reload if donor creation fails
+                            }
+                        }
+                    });
+                },
+                () => {
+                    frappe.msgprint(__('Lead confirmation cancelled.'));
+                    frm.reload_doc(); // Reload if user cancels
+                }
+            );
+        }
+    },  
+
+
+    load_compliance_checklist: function (frm) {
+        if (frm.is_new()) {  // Only load checklist if the document is already created
+            frappe.call({
+                method: "frappe.client.get_list",
+                args: {
+                    doctype: "Compliance Checklist",
+                    fields: ["compliance_name"],
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        frm.clear_table("compliance_checklist");
+                        r.message.forEach((item) => {
+                            let row = frm.add_child("compliance_checklist");
+                            row.compliance_name = item.compliance_name;
+                        });
+                        frm.refresh_field("compliance_checklist");
+                    }
+                }
+            });
         }
     }
 });

@@ -42,7 +42,8 @@
    "fieldname": "pan_card",
    "fieldtype": "Data",
    "label": "PAN Card",
-   "length": 10
+   "length": 10,
+   "placeholder": "AAAPA1234A"
   },
   {
    "bold": 1,
@@ -59,7 +60,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-04 15:30:16.225960",
+ "modified": "2025-02-18 14:33:50.821848",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation Details",

@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "naming_series:",
  "creation": "2025-01-31 18:45:19.850362",
@@ -7,12 +8,14 @@
  "engine": "InnoDB",
  "field_order": [
   "organisation_details_section",
-  "organisation_name",
+  "organisation_id",
+  "lead_name",
   "naming_series",
   "website_url",
   "column_break_fxvu",
   "official_email",
   "pan_card",
+  "financial_year",
   "other_details_section",
   "thematic_area",
   "lead_category",
@@ -21,6 +24,8 @@
   "financial_year_of_reachout",
   "progress_status_section",
   "lead_stage",
+  "column_break_owrr",
+  "lead_stage_description",
   "compliance_checklist_section",
   "compliance_checklist",
   "organisation_poc_details_section",
@@ -33,14 +38,6 @@
    "label": "Organisation Details"
   },
   {
-   "fieldname": "organisation_name",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Organisation Name",
-   "options": "Organisation Details",
-   "reqd": 1
-  },
-  {
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Lead ID",
@@ -48,25 +45,28 @@
    "read_only": 1
   },
   {
-   "fetch_from": "organisation_name.website_url",
+   "fetch_from": "organisation_id.website_url",
    "fieldname": "website_url",
    "fieldtype": "Data",
    "label": "Website URL",
-   "options": "URL"
+   "options": "URL",
+   "read_only": 1
   },
   {
-   "fetch_from": "organisation_name.official_email_id",
+   "fetch_from": "organisation_id.official_email_id",
    "fieldname": "official_email",
    "fieldtype": "Data",
    "label": "Official Email ID",
-   "options": "Email"
+   "options": "Email",
+   "read_only": 1
   },
   {
-   "fetch_from": "organisation_name.pan_card",
+   "fetch_from": "organisation_id.pan_card",
    "fieldname": "pan_card",
    "fieldtype": "Data",
    "label": "PAN Card",
-   "length": 10
+   "length": 10,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_fxvu",
@@ -139,11 +139,43 @@
    "fieldtype": "Link",
    "label": "Lead Category",
    "options": "Category"
+  },
+  {
+   "fieldname": "organisation_id",
+   "fieldtype": "Link",
+   "label": "Select Organisation",
+   "options": "Organisation Details",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "organisation_id.organisation_name",
+   "fieldname": "lead_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lead Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "financial_year_of_reachout.financial_year",
+   "fieldname": "financial_year",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Financial Year",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_owrr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "lead_stage_description",
+   "fieldtype": "Data"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-04 15:52:41.544670",
+ "modified": "2025-02-18 19:31:33.713393",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "Organisation Lead",
@@ -163,7 +195,11 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "lead_name",
+ "track_changes": 1,
+ "translated_doctype": 1
 }
