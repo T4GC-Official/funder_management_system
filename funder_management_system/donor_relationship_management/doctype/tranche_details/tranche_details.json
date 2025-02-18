@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-02-05 17:19:53.737206",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tranche_amount",
+  "tranche_status",
+  "tranche_financial_year",
+  "received_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "tranche_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Tranche Amount"
+  },
+  {
+   "default": "Pending",
+   "fieldname": "tranche_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Tranche Status",
+   "options": "Pending\nDelayed\nReceived - On Time\nReceived - Delayed",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tranche_financial_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Tranche Financial Year",
+   "options": "Financial Year"
+  },
+  {
+   "fieldname": "received_on",
+   "fieldtype": "Date",
+   "label": "Received On"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-02-05 17:34:05.308313",
+ "modified_by": "Administrator",
+ "module": "Donor Relationship Management",
+ "name": "Tranche Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

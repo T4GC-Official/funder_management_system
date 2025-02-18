@@ -1,0 +1,171 @@
+{
+ "actions": [],
+ "allow_events_in_timeline": 1,
+ "allow_rename": 1,
+ "autoname": "format:GA-{YYYY}-{####}-{donor_name}",
+ "beta": 1,
+ "creation": "2025-02-18 15:41:17.182019",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "grant_details_section",
+  "column_break_idvi",
+  "donor",
+  "donor_name",
+  "grant_agreement_grant_period_section",
+  "grant_agreement_start_date",
+  "column_break_asip",
+  "grant_agreement_end_date",
+  "section_break_tsvg",
+  "grant_agreement_signed_on",
+  "total_number_of_tranches",
+  "column_break_oktb",
+  "type_of_funding",
+  "grant_agreement_type",
+  "column_break_kofh",
+  "total_grant_amount",
+  "financial_year_of_grant_agreement",
+  "section_break_sdna",
+  "tranche_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "grant_details_section",
+   "fieldtype": "Section Break",
+   "label": "Grant Agreemnt Details"
+  },
+  {
+   "fieldname": "donor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Donor",
+   "options": "Donor",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "donor.donor_name",
+   "fieldname": "donor_name",
+   "fieldtype": "Data",
+   "label": "Donor Name"
+  },
+  {
+   "description": "Grant Agreement Period",
+   "fieldname": "grant_agreement_grant_period_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "grant_agreement_start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "column_break_asip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "grant_agreement_end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "description": "Other Grant Agreement Details",
+   "fieldname": "section_break_tsvg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "grant_agreement_signed_on",
+   "fieldtype": "Date",
+   "label": "Grant Agreement Signed On"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_number_of_tranches",
+   "fieldtype": "Int",
+   "label": "Total Number of Tranches",
+   "length": 1
+  },
+  {
+   "fieldname": "column_break_oktb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type_of_funding",
+   "fieldtype": "Select",
+   "label": "Type of Funding",
+   "options": "Restricted\nUnrestricted"
+  },
+  {
+   "fieldname": "grant_agreement_type",
+   "fieldtype": "Select",
+   "label": "Grant Agreement Type",
+   "options": "Single Year\nMulti Year"
+  },
+  {
+   "fieldname": "column_break_kofh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_grant_amount",
+   "fieldtype": "Currency",
+   "label": "Total Grant Amount"
+  },
+  {
+   "fieldname": "financial_year_of_grant_agreement",
+   "fieldtype": "Link",
+   "label": "Financial Year of Grant Agreement",
+   "options": "Financial Year"
+  },
+  {
+   "fieldname": "section_break_sdna",
+   "fieldtype": "Section Break",
+   "label": "Tranche Details"
+  },
+  {
+   "fieldname": "tranche_table",
+   "fieldtype": "Table",
+   "label": "Tranche Table",
+   "options": "Tranche Details"
+  },
+  {
+   "description": "Donor Details",
+   "fieldname": "column_break_idvi",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-18 17:48:41.990111",
+ "modified_by": "Administrator",
+ "module": "Donor Relationship Management",
+ "name": "Grant Agreement",
+ "naming_rule": "Expression",
+ "nsm_parent_field": "parent_grant_agreement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "donor_name",
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1,
+ "translated_doctype": 1
+}

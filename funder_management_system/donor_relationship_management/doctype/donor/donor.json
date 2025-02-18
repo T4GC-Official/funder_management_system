@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:donor_name",
+ "creation": "2025-02-05 17:35:02.404091",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "donor_name_section",
+  "lead_name",
+  "donor_name",
+  "website_url",
+  "official_email_id",
+  "pan_card",
+  "section_break_qwig",
+  "donor_type",
+  "engagement_check_list_section",
+  "engagement_checklist"
+ ],
+ "fields": [
+  {
+   "fetch_from": "lead_name.lead_name",
+   "fieldname": "donor_name",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Donor Name",
+   "unique": 1
+  },
+  {
+   "fetch_from": "lead_name.website_url",
+   "fieldname": "website_url",
+   "fieldtype": "Data",
+   "label": "Website URL",
+   "options": "URL",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "lead_name.official_email",
+   "fieldname": "official_email_id",
+   "fieldtype": "Data",
+   "label": "Official Email ID",
+   "options": "Email",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "lead_name.pan_card",
+   "fieldname": "pan_card",
+   "fieldtype": "Data",
+   "label": "PAN Card",
+   "length": 10,
+   "read_only": 1
+  },
+  {
+   "fieldname": "donor_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Donor Status",
+   "options": "New Donor\nRenewed Donor\nDropped"
+  },
+  {
+   "fieldname": "donor_name_section",
+   "fieldtype": "Section Break",
+   "label": "Donor Details"
+  },
+  {
+   "fieldname": "engagement_check_list_section",
+   "fieldtype": "Section Break",
+   "label": "Engagement Check List"
+  },
+  {
+   "fieldname": "engagement_checklist",
+   "fieldtype": "Table",
+   "label": "Engagement Checklist",
+   "options": "Engagement Checklist"
+  },
+  {
+   "fieldname": "lead_name",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Select Lead",
+   "options": "Organisation Lead",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_qwig",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "Grant Agreement",
+   "link_fieldname": "donor"
+  }
+ ],
+ "modified": "2025-02-18 14:50:06.608794",
+ "modified_by": "Administrator",
+ "module": "Donor Relationship Management",
+ "name": "Donor",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "donor_name",
+ "track_changes": 1,
+ "translated_doctype": 1
+}
