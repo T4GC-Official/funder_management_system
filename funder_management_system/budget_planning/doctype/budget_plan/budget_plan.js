@@ -2,8 +2,26 @@ frappe.ui.form.on("Budget Plan", {
     refresh: function(frm) {
         // Ensure child table exists before applying styles
         if (frm.fields_dict['budget_breakdown'] && frm.fields_dict['budget_breakdown'].grid && frm.fields_dict['budget_breakdown'].grid.wrapper) {
-            frm.fields_dict['budget_breakdown'].grid.wrapper.find('.grid-heading-row').css("white-space", "normal");
-            frm.fields_dict['budget_breakdown'].grid.wrapper.css("overflow-x", "auto");
+            let grid_wrapper = frm.fields_dict['budget_breakdown'].grid.wrapper;
+            
+            // Ensure column headers wrap properly
+            grid_wrapper.find('.grid-heading-row').css({
+                "white-space": "normal",
+                "word-wrap": "break-word"
+            });
+
+            // Ensure table has horizontal scroll for better visibility
+            grid_wrapper.css({
+                "overflow-x": "auto",
+                "max-width": "100%"
+            });
+
+            // Adjust all columns to be fully visible
+            grid_wrapper.find('.grid-row').find('.grid-static-col, .grid-data-col').css({
+                "min-width": "150px",  // Adjust as needed for visibility
+                "max-width": "300px",  // Prevent overflow
+                "word-wrap": "break-word"
+            });
         }
 
         // Set filter for budget_sub_category dynamically
@@ -24,6 +42,7 @@ frappe.ui.form.on("Budget Plan", {
             }
         }
     },
+
 
     budget_plan_template: function(frm) {
         if (frm.doc.budget_plan_template) {
