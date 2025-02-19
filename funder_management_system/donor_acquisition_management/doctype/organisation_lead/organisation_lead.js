@@ -1,4 +1,7 @@
 frappe.ui.form.on("Organisation Lead", {
+    onload_post_render: function(frm) {
+        frm.trigger("lead_description");
+    },
     refresh: function (frm) {
         frm.trigger("load_compliance_checklist");
     },
@@ -8,20 +11,25 @@ frappe.ui.form.on("Organisation Lead", {
             frm.refresh_field("website_url");
         }
     },
-    lead_stage: function (frm) {
+    lead_description: function (frm) {
         let descriptions = {
             "New Lead": "No outreach has happened to the lead for the current financial year.",
             "Warm Lead": "Exploration call or some reach out done for the financial year. Lead seems interested to proceed further.",
             "Hot Lead": "The proposal deck has been shared with the lead for the financial year. High probability of lead conversion.",
-            "Confirm Lead": "The lead has accepted the proposal and the MoU is signed.",
+            "Confirmed Lead": "The lead has accepted the proposal and the MoU is signed.",
             "Cold Lead": "Lead did not respond/Lead stopped responding",
             "Dropped Lead": "Lead followups dropped from either side ",
         };
 
         let selected_stage = frm.doc.lead_stage;
+        console.log(selected_stage);
         let description = descriptions[selected_stage] || "Select a lead stage to see details.";
-        frm.set_value("lead_stage_description", description);
-        
+        frm.set_df_property("lead_stage", "description", description);
+
+    },
+
+    lead_stage: function (frm) {
+        frm.trigger("lead_description");
         if (frm.doc.lead_stage === "Confirmed Lead") {
             frappe.confirm(
                 'Are you sure you want to create donor for ' + frm.doc.lead_name + `?`,

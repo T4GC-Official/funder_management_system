@@ -25,7 +25,6 @@
   "progress_status_section",
   "lead_stage",
   "column_break_owrr",
-  "lead_stage_description",
   "compliance_checklist_section",
   "compliance_checklist",
   "organisation_poc_details_section",
@@ -167,15 +166,11 @@
   {
    "fieldname": "column_break_owrr",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "lead_stage_description",
-   "fieldtype": "Data"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-18 19:31:33.713393",
+ "modified": "2025-02-19 13:47:30.633806",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "Organisation Lead",
