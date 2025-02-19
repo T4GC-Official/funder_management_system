@@ -2,3 +2,4 @@ Funder Management System
 Budget Planning
 Donor Acquisition Management
 Donor Relationship Management
+Utilisation

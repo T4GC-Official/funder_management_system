@@ -160,13 +160,14 @@ after_install = "funder_management_system.utils.create_financial_year"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"funder_management_system.tasks.all"
-# 	],
-# 	"daily": [
-# 		"funder_management_system.tasks.daily"
-# 	],
+
+scheduler_events = {
+	# "all": [
+	# 	"funder_management_system.tasks.all"
+	# ],
+	"daily": [
+		"funder_management_system.donor_relationship_management.doctype.donor.donor.send_engagement_checklist_item_reminders"
+	]}
 # 	"hourly": [
 # 		"funder_management_system.tasks.hourly"
 # 	],

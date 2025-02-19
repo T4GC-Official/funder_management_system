@@ -85,8 +85,7 @@
    "fieldname": "total_number_of_tranches",
    "fieldtype": "Int",
    "label": "Total Number of Tranches",
-   "length": 1,
-   "set_only_once": 1
+   "length": 1
   },
   {
    "fieldname": "column_break_oktb",
@@ -139,7 +138,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-19 12:26:38.799236",
+ "modified": "2025-02-19 16:58:33.133566",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Grant Agreement",

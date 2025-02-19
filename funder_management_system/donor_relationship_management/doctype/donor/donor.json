@@ -16,7 +16,7 @@
   "section_break_qwig",
   "donor_type",
   "engagement_check_list_section",
-  "engagement_checklist"
+  "engagement_checklist_table"
  ],
  "fields": [
   {
@@ -71,16 +71,12 @@
    "label": "Engagement Check List"
   },
   {
-   "fieldname": "engagement_checklist",
-   "fieldtype": "Table",
-   "label": "Engagement Checklist",
-   "options": "Engagement Checklist"
-  },
-  {
    "fieldname": "lead_name",
    "fieldtype": "Link",
+   "in_filter": 1,
    "in_global_search": 1,
    "in_list_view": 1,
+   "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Select Lead",
    "options": "Organisation Lead",
@@ -89,6 +85,12 @@
   {
    "fieldname": "section_break_qwig",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "engagement_checklist_table",
+   "fieldtype": "Table",
+   "label": "Engagement Checklist",
+   "options": "Engagement Checklist"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -98,7 +100,7 @@
    "link_fieldname": "donor"
   }
  ],
- "modified": "2025-02-18 14:50:06.608794",
+ "modified": "2025-02-19 14:51:56.510514",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Donor",

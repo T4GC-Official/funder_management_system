@@ -43,13 +43,14 @@
    "fieldname": "shared_on",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Shared On"
+   "label": "Shared On",
+   "mandatory_depends_on": "eval:doc.status==\"Sent\""
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-18 19:29:40.092743",
+ "modified": "2025-02-19 15:28:23.977137",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Compliance Checklist Child",
