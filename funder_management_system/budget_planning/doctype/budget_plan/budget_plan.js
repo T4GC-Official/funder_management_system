@@ -1,4 +1,9 @@
 frappe.ui.form.on("Budget Plan", {
+    refresh: function(frm) {
+        frm.fields_dict['budget_breakdown'].grid.wrapper.find('.grid-heading-row').css("white-space", "normal");
+        frm.fields_dict['budget_breakdown'].grid.wrapper.css("overflow-x", "auto");
+      },
+
     budget_plan_template: function(frm) {
         if (frm.doc.budget_plan_template) {
             frappe.call({
@@ -41,10 +46,6 @@ frappe.ui.form.on("Budget Plan", {
 });
 
 frappe.ui.form.on("Budget Breakdown", {
-    refresh: function(frm) {
-      frm.fields_dict['budget_breakdown'].grid.wrapper.find('.grid-heading-row').css("white-space", "normal");
-      frm.fields_dict['budget_breakdown'].grid.wrapper.css("overflow-x", "auto");
-    },
     budget_sub_category: function(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
 
