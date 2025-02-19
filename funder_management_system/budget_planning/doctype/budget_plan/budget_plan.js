@@ -1,28 +1,49 @@
 frappe.ui.form.on("Budget Plan", {
     refresh: function(frm) {
-        // Ensure child table exists before applying styles
-        if (frm.fields_dict['budget_breakdown'] && frm.fields_dict['budget_breakdown'].grid && frm.fields_dict['budget_breakdown'].grid.wrapper) {
+        setTimeout(() => {
             let grid_wrapper = frm.fields_dict['budget_breakdown'].grid.wrapper;
-            
-            // Ensure column headers wrap properly
-            grid_wrapper.find('.grid-heading-row').css({
-                "white-space": "normal",
-                "word-wrap": "break-word"
-            });
 
-            // Ensure table has horizontal scroll for better visibility
-            grid_wrapper.css({
-                "overflow-x": "auto",
-                "max-width": "100%"
-            });
+            // Function to dynamically set column widths based on the row with the most content
+            function adjustTableWidths() {
+                const table = grid_wrapper.find("table");
+                if (!table.length) return;
 
-            // Adjust all columns to be fully visible
-            grid_wrapper.find('.grid-row').find('.grid-static-col, .grid-data-col').css({
-                "min-width": "150px",  // Adjust as needed for visibility
-                "max-width": "300px",  // Prevent overflow
-                "word-wrap": "break-word"
-            });
-        }
+                const headerCells = table.find("thead th");
+                const rows = table.find("tbody tr");
+                if (!rows.length || !headerCells.length) return;
+
+                // Find the row with the most content (widest)
+                let widestRow = null;
+                let maxWidth = 0;
+
+                rows.each(function() {
+                    let rowWidth = $(this).outerWidth();
+                    if (rowWidth > maxWidth) {
+                        maxWidth = rowWidth;
+                        widestRow = $(this);
+                    }
+                });
+
+                if (!widestRow) return;
+
+                // Apply column widths from the widest row
+                const widestRowCells = widestRow.find("td");
+                widestRowCells.each(function(index) {
+                    let cellWidth = $(this).outerWidth();
+                    if (headerCells[index]) {
+                        $(headerCells[index]).css("width", cellWidth + "px");
+                    }
+                    rows.each(function() {
+                        $(this).find("td").eq(index).css("width", cellWidth + "px");
+                    });
+                });
+            }
+
+            // Adjust after rendering and on window resize
+            setTimeout(adjustTableWidths, 100);
+            $(window).on("resize", adjustTableWidths);
+            frm.fields_dict['budget_breakdown'].grid.wrapper.on("scroll", adjustTableWidths);
+        }, 500);
 
         // Set filter for budget_sub_category dynamically
         if (frm.fields_dict['budget_breakdown'] && frm.fields_dict['budget_breakdown'].grid) {
@@ -42,7 +63,6 @@ frappe.ui.form.on("Budget Plan", {
             }
         }
     },
-
 
     budget_plan_template: function(frm) {
         if (frm.doc.budget_plan_template) {
@@ -65,6 +85,11 @@ frappe.ui.form.on("Budget Plan", {
                             child_row.sub_total = row.sub_total;
                         });
                         frm.refresh_field("budget_breakdown");
+
+                        // Adjust widths after data is loaded
+                        setTimeout(() => {
+                            adjustTableWidths();
+                        }, 200);
                     } else {
                         frappe.msgprint(__('No budget details found for the selected template.'));
                     }
@@ -99,12 +124,9 @@ frappe.ui.form.on("Budget Breakdown", {
                     }
                     if (!r.message || r.message.length === 0) {
                         frappe.msgprint(__('The selected sub-category is not valid for the chosen category.'));
-                        row.budget_sub_category = "";  // Reset invalid subcategory
-                        frm.refresh_field('budget_breakdown');
+                        row.budget_sub_category = "";
+                        frm.refresh_field("budget_breakdown");
                     }
-                },
-                error: function() {
-                    frappe.msgprint(__('Failed to validate the budget sub-category.'));
                 }
             });
         }
