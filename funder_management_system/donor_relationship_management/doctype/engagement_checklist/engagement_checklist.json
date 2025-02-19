@@ -21,20 +21,21 @@
    "fieldname": "item_frequency",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Item Frequency",
+   "label": "Reminder Frequency",
    "options": "\nMonthly\nQuarterly\nHalf Yearly\nYearly"
   },
   {
    "fieldname": "next_reminder_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Next Reminder Date"
+   "label": "Next Reminder Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-19 16:54:01.799555",
+ "modified": "2025-02-19 19:36:31.979877",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Engagement Checklist",
