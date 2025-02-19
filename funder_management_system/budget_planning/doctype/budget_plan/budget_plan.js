@@ -1,8 +1,24 @@
 frappe.ui.form.on("Budget Plan", {
     refresh: function(frm) {
-        frm.fields_dict['budget_breakdown'].grid.wrapper.find('.grid-heading-row').css("white-space", "normal");
-        frm.fields_dict['budget_breakdown'].grid.wrapper.css("overflow-x", "auto");
-      },
+        // Ensure child table exists before applying styles
+        if (frm.fields_dict['budget_breakdown'] && frm.fields_dict['budget_breakdown'].grid) {
+            frm.fields_dict['budget_breakdown'].grid.wrapper.find('.grid-heading-row').css("white-space", "normal");
+            frm.fields_dict['budget_breakdown'].grid.wrapper.css("overflow-x", "auto");
+        }
+
+        // Set filter for budget_sub_category dynamically
+        frm.fields_dict['budget_breakdown'].grid.get_field('budget_sub_category').get_query = function(doc, cdt, cdn) {
+            let row = locals[cdt][cdn];
+            if (row.budget_category) {
+                return {
+                    filters: {
+                        budget_category: row.budget_category
+                    }
+                };
+            }
+            return {};
+        };
+    },
 
     budget_plan_template: function(frm) {
         if (frm.doc.budget_plan_template) {
@@ -29,20 +45,7 @@ frappe.ui.form.on("Budget Plan", {
                 }
             });
         }
-    },
-    refresh: function(frm) {
-        frm.fields_dict['budget_breakdown'].grid.get_field('budget_sub_category').get_query = function(doc, cdt, cdn) {
-            let row = locals[cdt][cdn];
-            if (row.budget_category) {
-                return {
-                    filters: {
-                        budget_category: row.budget_category
-                    }
-                };
-            }
-            return {};
-        };
-    },
+    }
 });
 
 frappe.ui.form.on("Budget Breakdown", {
