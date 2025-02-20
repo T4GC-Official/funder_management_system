@@ -45,7 +45,7 @@ frappe.ui.form.on("Organisation Lead", {
         if (frm.doc.lead_stage === "Confirmed Lead") {
             
             frappe.confirm(
-                'Are you sure you want to create donor for ' + frm.doc.lead_name + `?`,
+                'Changing the Lead Status to "Confirmed Lead" for ' + frm.doc.lead_name + ` will create a new Donor record. \n Do you want to proceed with this step? \n\n Yes: Create Donor \n No: Cancel and review the lead details.`,
                 () => {
                     frappe.call({
                         method: "funder_management_system.donor_acquisition_management.doctype.organisation_lead.organisation_lead.create_donor_from_lead",
