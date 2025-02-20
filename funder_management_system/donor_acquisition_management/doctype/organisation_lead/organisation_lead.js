@@ -31,16 +31,20 @@ frappe.ui.form.on("Organisation Lead", {
     },
 
     lead_stage: function (frm) {
+
         
          if (!frm.doc.lead_name) {
-            frappe.msgprint({
-                title: __("Please Create a Organisation Lead"),
-                message: __("Please select the organisation name and save it before changing the Lead Stage."),
-                indicator: "red"
-            });
-            // reload the document to prevent further changes
-            frm.reload_doc();
-            return;
+
+            if (frm.doc.lead_stage == "Confirmed Lead") {
+                frappe.msgprint({
+                    title: __("Please Create a Organisation Lead"),
+                    message: __("Please select the organisation name and save it before changing the Lead Stage to <strong>Confirmed Lead</strong>"),
+                    indicator: "red"
+                });
+                frm.set_value("lead_stage", "New Lead");
+            }
+            
+            return ; 
         }
         frm.trigger("lead_description");
         //check if organisation field is empty 
