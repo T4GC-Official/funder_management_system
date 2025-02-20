@@ -34,7 +34,7 @@ frappe.ui.form.on("Organisation Lead", {
         
          if (!frm.doc.organisation_name) {
             frappe.msgprint({
-                title: __("Please create a Organisation Lead"),
+                title: __("Please Create a Organisation Lead"),
                 message: __("Please select the organisation name and save it before changing the Lead Stage."),
                 indicator: "red"
             });
