@@ -23,7 +23,7 @@ frappe.ui.form.on("Organisation Lead", {
 
         let selected_stage = frm.doc.lead_stage;
         if(selected_stage === "Confirmed Lead"){
-            frm.set_df_property("lead_stage", "read_only", 1);
+            //frm.set_df_property("lead_stage", "read_only", 1);
         }
         let description = descriptions[selected_stage] || "Select a lead stage to see details.";
         frm.set_df_property("lead_stage", "description", description);
