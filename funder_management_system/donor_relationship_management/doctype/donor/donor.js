@@ -35,14 +35,10 @@ frappe.ui.form.on("Donor", {
 
 frappe.ui.form.on("Engagement Checklist", {
     item_frequency: function(frm, cdt, cdn) {
-        console.log("Item Frequency changed!");
 
         let row = locals[cdt][cdn];  // Get the specific child table row
         let days_to_add = get_days_to_add(row.item_frequency);
         let next_reminder_date = frappe.datetime.add_days(frappe.datetime.get_today(), days_to_add);
-
-        console.log(`Selected Frequency: ${row.item_frequency}, Days to Add: ${days_to_add}, Next Reminder Date: ${next_reminder_date}`);
-
         frappe.model.set_value(cdt, cdn, "next_reminder_date", next_reminder_date);
         frm.refresh_field("engagement_checklist_table");  // Replace with your actual child table fieldname
     }
