@@ -23,8 +23,14 @@ frappe.ui.form.on('Grant Agreement', {
         if (child_table.length < count) {
             for (let i = child_table.length; i < count; i++) {
                 let new_row = frm.add_child("tranche_table");
-                new_row.tranche_amount = 0;  // Default amount
-                new_row.tranche_status = "Pending";  // Default status
+                if (child_table.length > 0) {
+                    new_row.tranche_amount = child_table[0].tranche_amount;  // Copy amount from first row
+                    new_row.tranche_status = child_table[0].tranche_status;  // Copy status from first row
+                    new_row.tranche_status = child_table[0].tranche_financial_year;  // Copy status from first row
+                } else {
+                    new_row.tranche_amount = 0;  // Default amount
+                    new_row.tranche_status = "Pending";  // Default status
+                }
             }
         } 
         // Remove extra rows if needed
@@ -37,7 +43,7 @@ frappe.ui.form.on('Grant Agreement', {
     },
     
     total_number_of_tranches: function(frm) {
-        frappe.msgprint("Field value of 'Total Number of Tranches' has been changed!");
+        frappe.msgprint("You are changing the 'Total Number of Tranches' this will regenerate the Tranche Table rows. Please review the Tranche Table after saving the document.");
         frm.trigger("number_of_tranche");
     },
     grant_agreement_end_date: function(frm) {
