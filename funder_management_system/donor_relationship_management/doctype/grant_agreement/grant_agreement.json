@@ -13,6 +13,7 @@
   "column_break_idvi",
   "donor",
   "donor_name",
+  "tranche_progress",
   "grant_agreement_grant_period_section",
   "grant_agreement_start_date",
   "column_break_asip",
@@ -135,11 +136,22 @@
    "description": "Donor Details",
    "fieldname": "column_break_idvi",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tranche_progress",
+   "fieldtype": "Percent",
+   "hidden": 1,
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tranche Progress",
+   "search_index": 1,
+   "show_on_timeline": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-19 19:34:44.620244",
+ "modified": "2025-02-20 11:49:06.185934",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Grant Agreement",
