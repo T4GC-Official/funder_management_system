@@ -23,7 +23,7 @@ frappe.ui.form.on("Organisation Lead", {
 
         let selected_stage = frm.doc.lead_stage;
         if(selected_stage === "Confirmed Lead"){
-            frm.set_df_property("lead_stage", "read_only", 1);
+            //frm.set_df_property("lead_stage", "read_only", 1);
         }
         let description = descriptions[selected_stage] || "Select a lead stage to see details.";
         frm.set_df_property("lead_stage", "description", description);
@@ -32,12 +32,14 @@ frappe.ui.form.on("Organisation Lead", {
 
     lead_stage: function (frm) {
         
-         if (!frm.doc.organisation_name) {
+         if (!frm.doc.lead_name) {
             frappe.msgprint({
                 title: __("Please Create a Organisation Lead"),
                 message: __("Please select the organisation name and save it before changing the Lead Stage."),
                 indicator: "red"
             });
+            // reload the document to prevent further changes
+            frm.reload_doc();
             return;
         }
         frm.trigger("lead_description");
@@ -45,7 +47,7 @@ frappe.ui.form.on("Organisation Lead", {
         if (frm.doc.lead_stage === "Confirmed Lead") {
             
             frappe.confirm(
-                'Changing the Lead Status to "Confirmed Lead" for ' + frm.doc.lead_name + ` will create a new Donor record. \n Do you want to proceed with this step? \n\n Yes: Create Donor \n No: Cancel and review the lead details.`,
+                'Changing the Lead Status to "Confirmed Lead" for <strong>' + frm.doc.lead_name + `</strong> will create a new Donor record. <br> Do you want to proceed with this step? <br><hr> Click <strong>Yes</strong>: Create Donor <br><hr> Click <strong>No</strong>: Cancel and review the lead details.`,
                 () => {
                     frappe.call({
                         method: "funder_management_system.donor_acquisition_management.doctype.organisation_lead.organisation_lead.create_donor_from_lead",
