@@ -31,11 +31,11 @@ frappe.ui.form.on("Organisation Lead", {
     },
 
     lead_stage: function (frm) {
-         //check if organisation field is empty 
+        
          if (!frm.doc.organisation_name) {
             frappe.msgprint({
-                title: __("Organisation Name Required"),
-                message: __("Please enter the organisation name and save it before confirming the lead."),
+                title: __("Please create a Organisation Lead"),
+                message: __("Please select the organisation name and save it before changing the Lead Stage."),
                 indicator: "red"
             });
             return;
