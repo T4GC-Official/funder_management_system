@@ -22,15 +22,28 @@ frappe.ui.form.on("Organisation Lead", {
         };
 
         let selected_stage = frm.doc.lead_stage;
-        console.log(selected_stage);
+        if(selected_stage === "Confirmed Lead"){
+            frm.set_df_property("lead_stage", "read_only", 1);
+        }
         let description = descriptions[selected_stage] || "Select a lead stage to see details.";
         frm.set_df_property("lead_stage", "description", description);
 
     },
 
     lead_stage: function (frm) {
+         //check if organisation field is empty 
+         if (!frm.doc.organisation_name) {
+            frappe.msgprint({
+                title: __("Organisation Name Required"),
+                message: __("Please enter the organisation name and save it before confirming the lead."),
+                indicator: "red"
+            });
+            return;
+        }
         frm.trigger("lead_description");
+        //check if organisation field is empty 
         if (frm.doc.lead_stage === "Confirmed Lead") {
+            
             frappe.confirm(
                 'Are you sure you want to create donor for ' + frm.doc.lead_name + `?`,
                 () => {
