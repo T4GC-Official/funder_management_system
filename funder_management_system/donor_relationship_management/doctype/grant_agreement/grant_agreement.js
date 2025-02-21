@@ -10,11 +10,17 @@ frappe.ui.form.on('Grant Agreement', {
         };
     },
     refresh: function(frm) {
-        frm.trigger("number_of_tranche");
         frm.get_field("tranche_table").grid.cannot_add_rows = true;  // Disable add row button
+        // disable delete row button
+        frm.get_field("tranche_table").grid.wrapper.find('.grid-remove-rows').hide();
+        // remove check box column from child table
+        frm.get_field("tranche_table").grid.wrapper.find('.grid-select-row').hide();
         frm.refresh_field("tranche_table");  // Refresh the child table
-        frm.trigger("tranche_status");
-        frm.events.show_progress_bar(frm); // Show progress bar
+        frm.events.progress_bar(frm);// Show progress bar
+    },
+    before_save: function(frm) {
+        frm.trigger("calculate_tranche_progress");
+        
     },
     number_of_tranche: function(frm) {
         let count = frm.doc.total_number_of_tranches || 0;  // Get the number of tranches
@@ -26,7 +32,7 @@ frappe.ui.form.on('Grant Agreement', {
                 if (child_table.length > 0) {
                     new_row.tranche_amount = child_table[0].tranche_amount;  // Copy amount from first row
                     new_row.tranche_status = child_table[0].tranche_status;  // Copy status from first row
-                    new_row.tranche_status = child_table[0].tranche_financial_year;  // Copy status from first row
+                    new_row.tranche_financial_year = child_table[0].tranche_financial_year;  // Copy status from first row
                 } else {
                     new_row.tranche_amount = 0;  // Default amount
                     new_row.tranche_status = "Pending";  // Default status
@@ -61,6 +67,34 @@ frappe.ui.form.on('Grant Agreement', {
         }
         frm.set_value('financial_year_of_grant_agreement', financial_year_of_grant_agreement);
     },
+    calculate_tranche_progress:function(frm){
+        console.log("calculate_tranche_progress");
+        let total_tranches = frm.doc.tranche_table ? frm.doc.tranche_table.length : 0;
+        let completed_tranches = 0;
+        if (total_tranches > 0) {
+            completed_tranches = frm.doc.tranche_table.filter(row => row.tranche_status === "Received - On Time").length + frm.doc.tranche_table.filter(row => row.tranche_status === "Received - Delayed").length;
+        }
+        let progress = total_tranches > 0 ? (completed_tranches / total_tranches) * 100 : 0;
+        frm.set_value("tranche_progress", progress);
+    },
+    progress_bar: function(frm) {
+        // fetch value from tranche_progress field
+        let progress = frm.doc.tranche_progress || 0;
+        frm.dashboard.clear_headline();
+        console.log(progress);
+       
+        //frm.dashboard.add_progress("Tranche Progress", progress, "Received Tranche Amount Progress "+progress+"%");
+        //let progress = frm.doc.tranche_progress || 0; // Get progress value
+        let html = `
+            <div class="progress" style="height: 10px;">
+                <div class="progress-bar" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">
+                </div>
+            </div>
+            <p style="margin-top:5px;">Progress: ${progress}%</p>
+        `;
+        frm.fields_dict["tranche_progress"].$wrapper.html(html);
+    }
+
 });
 
 function getFinancialYear(dateString) {
@@ -75,38 +109,6 @@ function getFinancialYear(dateString) {
     }
     return `${year}-${String(year + 1).slice(2, 4)}`;
 }
-
-frappe.ui.form.on('Grant Agreement', {
-    tranche: function(frm) {  // Update progress when child table changes
-        frm.events.show_progress_bar(frm);
-    },
-    calculate_tranche_progress:function(frm){
-        let total_tranches = frm.doc.tranche_table ? frm.doc.tranche_table.length : 0;
-        let completed_tranches = 0;
-        if (total_tranches > 0) {
-            completed_tranches = frm.doc.tranche_table.filter(row => row.tranche_status === "Received - On Time").length + frm.doc.tranche_table.filter(row => row.tranche_status === "Received - Delayed").length;
-        }
-        let progress = total_tranches > 0 ? (completed_tranches / total_tranches) * 100 : 0;
-        frm.set_value("tranche_progress", progress);
-    },
-    show_progress_bar: function(frm) {
-        // fetch value from tranche_progress field
-        let progress = frm.doc.tranche_progress || 0;
-        frm.dashboard.clear_headline();
-        frm.refresh_field("tranche_progress");
-        frm.dashboard.add_progress("Tranche Progress", progress, "Received Tranche Amount Progress "+progress+"%");
-    }
-
-});
-
-
-frappe.ui.form.on("Tranche Details", {
-    tranche_status: function(frm) {
-        frm.trigger("calculate_tranche_progress");
-        
-    }
-});
-
 
 
 
