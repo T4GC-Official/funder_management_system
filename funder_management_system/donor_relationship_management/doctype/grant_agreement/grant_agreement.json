@@ -27,6 +27,8 @@
   "column_break_kofh",
   "total_grant_amount",
   "financial_year_of_grant_agreement",
+  "section_break_hipx",
+  "tranche_progress_bar",
   "section_break_sdna",
   "tranche_table"
  ],
@@ -140,17 +142,27 @@
   {
    "fieldname": "tranche_progress",
    "fieldtype": "Percent",
+   "hidden": 1,
    "in_filter": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Tranche Progress",
    "search_index": 1,
    "show_on_timeline": 1
+  },
+  {
+   "fieldname": "section_break_hipx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "tranche_progress_bar",
+   "fieldtype": "Data",
+   "label": "Tranche Progress"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-21 08:56:02.350463",
+ "modified": "2025-02-21 09:35:48.111580",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Grant Agreement",
