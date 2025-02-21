@@ -6,17 +6,22 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "tranche_name",
   "tranche_amount",
   "tranche_status",
   "tranche_financial_year",
-  "received_on"
+  "received_on",
+  "total_tranche_expenditure"
  ],
  "fields": [
   {
+   "default": "0",
    "fieldname": "tranche_amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Tranche Amount"
+   "label": "Total Tranche Amount",
+   "non_negative": 1,
+   "reqd": 1
   },
   {
    "default": "Pending",
@@ -32,18 +37,37 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Tranche Financial Year",
-   "options": "Financial Year"
+   "options": "Financial Year",
+   "reqd": 1
   },
   {
    "fieldname": "received_on",
    "fieldtype": "Date",
-   "label": "Received On"
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Received On",
+   "mandatory_depends_on": "eval: doc.tranche_status == \"Received - On Time\" || doc.tranche_status == \"Received - Delayed\""
+  },
+  {
+   "fieldname": "tranche_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Tranche Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_tranche_expenditure",
+   "fieldtype": "Currency",
+   "label": "Total Tranche Expenditure"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-05 17:34:05.308313",
+ "modified": "2025-02-21 15:58:46.293130",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Tranche Details",

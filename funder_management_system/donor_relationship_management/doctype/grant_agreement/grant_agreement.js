@@ -20,8 +20,11 @@ frappe.ui.form.on('Grant Agreement', {
     },
     before_save: function(frm) {
         frm.trigger("calculate_tranche_progress");
+        frm.trigger("check_total_tranche_amount");
+        frm.trigger("check_tranche_amount_type");
         
     },
+
     number_of_tranche: function(frm) {
         let count = frm.doc.total_number_of_tranches || 0;  // Get the number of tranches
         let child_table = frm.doc.tranche_table || [];  // Get existing child table data
@@ -30,10 +33,12 @@ frappe.ui.form.on('Grant Agreement', {
             for (let i = child_table.length; i < count; i++) {
                 let new_row = frm.add_child("tranche_table");
                 if (child_table.length > 0) {
+                    new_row.tranche_name = `Tranche-${i + 1}`;  // Copy tranche name from first row
                     new_row.tranche_amount = child_table[0].tranche_amount;  // Copy amount from first row
                     new_row.tranche_status = child_table[0].tranche_status;  // Copy status from first row
                     new_row.tranche_financial_year = child_table[0].tranche_financial_year;  // Copy status from first row
                 } else {
+                    new_row.tranche_name = `Tranche ${i + 1}`;  // Default name
                     new_row.tranche_amount = 0;  // Default amount
                     new_row.tranche_status = "Pending";  // Default status
                 }
@@ -78,13 +83,8 @@ frappe.ui.form.on('Grant Agreement', {
         frm.set_value("tranche_progress", progress);
     },
     progress_bar: function(frm) {
-        // fetch value from tranche_progress field
         let progress = frm.doc.tranche_progress || 0;
         frm.dashboard.clear_headline();
-        console.log(progress);
-       
-        //frm.dashboard.add_progress("Tranche Progress", progress, "Received Tranche Amount Progress "+progress+"%");
-        //let progress = frm.doc.tranche_progress || 0; // Get progress value
         let html = `
             <div class="progress" style="height: 10px;">
                 <div class="progress-bar bg-success" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">
@@ -98,7 +98,22 @@ frappe.ui.form.on('Grant Agreement', {
             <p style="margin-top:5px;">Total Tranche Money Utilized: ${0}%</p>
         `;
         frm.fields_dict["tranche_progress_bar"].$wrapper.html(html);
-    }
+    },
+
+      check_total_tranche_amount: function(frm) {
+        let total_tranche_amount = 0;
+        frm.doc.tranche_table.forEach(row => {
+            total_tranche_amount += row.tranche_amount;
+        });
+        if (total_tranche_amount > frm.doc.total_grant_amount) {
+            // prevent saving the from
+            frappe.validated = false;
+            frappe.msgprint("Total Tranche Amount cannot be greater than Total Grant Amount");
+        }
+        //focus the cursor on the total grant amount field
+        frm.fields_dict["total_grant_amount"].set_focus();
+    },
+
 
 });
 
@@ -115,6 +130,21 @@ function getFinancialYear(dateString) {
     return `${year}-${String(year + 1).slice(2, 4)}`;
 }
 
+
+frappe.ui.form.on('Tranche Details', {
+    tranche_status: function(frm, cdt, cdn) {
+       // if tranche_status is Received - On Time or Received - Delayed,  the Tranche_amount for that row should not be zero
+         // and show a message if the amount is zero
+        let row = locals[cdt][cdn];
+        const allowedStatuses = ["Received - On Time", "Received - Delayed"];
+        if (allowedStatuses.includes(row.tranche_status) && row.tranche_amount === 0) {
+            frappe.validated = false;
+            frappe.msgprint("Tranche Amount cannot be zero for Received - On Time or Received - Delayed status");
+        }
+          
+    }
+
+});
 
 
 
