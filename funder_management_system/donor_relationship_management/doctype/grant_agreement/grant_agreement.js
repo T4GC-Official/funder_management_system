@@ -90,7 +90,7 @@ frappe.ui.form.on('Grant Agreement', {
                 <div class="progress-bar bg-success" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">
                 </div>
             </div>
-            <p style="margin-top:5px;">Tranche Received Progress: ${progress}%</p>
+            <p style="margin-top:5px;">Tranche Received: ${progress}%</p>
             <div class="progress" style="height: 10px;">
                 <div class="progress-bar bg-warning" role="progressbar" style="width: ${0}%;" aria-valuenow="${100}" aria-valuemin="0" aria-valuemax="100">
                 </div>
