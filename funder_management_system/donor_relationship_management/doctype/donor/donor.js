@@ -3,7 +3,12 @@
 
 frappe.ui.form.on("Donor", {
     refresh: function(frm) {
+        frm.get_field("table_donor_history").grid.cannot_add_rows = true;
         frm.trigger("item_frequency");
+        frm.trigger("save_donor_history");
+    },
+    before_save: function (frm) {
+        frm.trigger("save_donor_history");
     },
 	pan_card: function(frm) {
         let pan = frm.doc.pan_card;
@@ -30,6 +35,28 @@ frappe.ui.form.on("Donor", {
                 }
             };
         });
+    },
+    save_donor_history: function (frm) {
+        console.log("save_donor_history");
+        let { donor_status } = frm.doc;
+        if (frm.doc.table_donor_history.length === 0) {
+
+            let donor_history = frm.add_child("table_donor_history");
+            donor_history.donor_status = donor_status;
+            frm.save();
+            return;
+        }
+        // if child table is not empty then check the lead stage and financial year and lead category if there is any change then add a new row with data
+        else {
+            let last_donor_history = frm.doc.table_donor_history[frm.doc.table_donor_history.length - 1];
+            if (donor_status !== last_donor_history.donor_status) 
+                {
+                    let donor_history = frm.add_child("table_donor_history");
+                    donor_history.donor_status = donor_status;
+            }
+        }
+        
+        
     }
 });
 

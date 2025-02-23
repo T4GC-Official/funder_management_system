@@ -14,9 +14,11 @@
   "official_email_id",
   "pan_card",
   "section_break_qwig",
-  "donor_type",
+  "donor_status",
   "engagement_check_list_section",
-  "engagement_checklist_table"
+  "engagement_checklist_table",
+  "donor_history_section",
+  "table_donor_history"
  ],
  "fields": [
   {
@@ -54,13 +56,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "donor_type",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Donor Status",
-   "options": "New Donor\nRenewed Donor\nDropped"
-  },
-  {
    "fieldname": "donor_name_section",
    "fieldtype": "Section Break",
    "label": "Donor Details"
@@ -91,6 +86,23 @@
    "fieldtype": "Table",
    "label": "Engagement Checklist",
    "options": "Engagement Checklist"
+  },
+  {
+   "fieldname": "donor_history_section",
+   "fieldtype": "Section Break",
+   "label": "Donor History"
+  },
+  {
+   "fieldname": "donor_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Donor Status",
+   "options": "New Donor\nRenewed Donor\nDropped"
+  },
+  {
+   "fieldname": "table_donor_history",
+   "fieldtype": "Table",
+   "options": "Donor History"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -100,7 +112,7 @@
    "link_fieldname": "donor"
   }
  ],
- "modified": "2025-02-19 14:51:56.510514",
+ "modified": "2025-02-24 02:44:00.077392",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Donor",
