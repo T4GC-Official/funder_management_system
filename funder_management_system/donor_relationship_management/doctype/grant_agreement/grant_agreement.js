@@ -360,7 +360,7 @@ frappe.ui.form.on('Tranche Details', {
             frappe.validated = false;
         } 
         frappe.call({
-            method: "funder_management_system.donor_acquisition_management.doctype.organisation_lead.organisation_lead.save_financial_year",
+            method: "funder_management_system.funder_management_system.doctype.financial_year.financial_year.save_financial_year",
             args: {
                 fiscal_year: "2027-28"
             },
