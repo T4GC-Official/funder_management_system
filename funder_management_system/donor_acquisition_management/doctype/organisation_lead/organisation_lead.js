@@ -1,9 +1,16 @@
 frappe.ui.form.on("Organisation Lead", {
     onload_post_render: function(frm) {
         frm.trigger("lead_description");
+        
+    },
+
+    before_save: function (frm) {
+        frm.trigger("save_lead_history");
     },
     refresh: function (frm) {
+        frm.get_field("table_lead_history").grid.cannot_add_rows = true;
         frm.trigger("load_compliance_checklist");
+        
     },
 
     organisation_name: function (frm) {
@@ -107,5 +114,32 @@ frappe.ui.form.on("Organisation Lead", {
                 }
             });
         }
+    },
+    save_lead_history: function (frm) {
+        // fetch the source_of_connection, thematic_areas lead_stage, financial_year and lead_category and save it to the Lead History child table
+        let { lead_stage, financial_year, lead_category, disposition_note } = frm.doc;
+
+        // if the child table is empty then add a new row with data
+        if (frm.doc.table_lead_history.length === 0) {
+            let lead_history = frm.add_child("table_lead_history");
+            lead_history.lead_stage = lead_stage;
+            lead_history.financial_year = financial_year;
+            lead_history.lead_category = lead_category;
+            lead_history.note = disposition_note;   
+        }
+        // if child table is not empty then check the lead stage and financial year and lead category if there is any change then add a new row with data
+        else {
+            let last_lead_history = frm.doc.table_lead_history[frm.doc.table_lead_history.length - 1];
+            if (lead_stage !== last_lead_history.lead_stage || financial_year !== last_lead_history.financial_year || lead_category !== last_lead_history.lead_category || disposition_note !== last_lead_history.note) 
+                {
+                let lead_history = frm.add_child("table_lead_history");
+                lead_history.lead_stage = lead_stage;
+                lead_history.financial_year = financial_year;
+                lead_history.lead_category = lead_category;
+                lead_history.note = disposition_note;
+            }
+        }
+        
+        
     }
 });
