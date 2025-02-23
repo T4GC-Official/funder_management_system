@@ -167,6 +167,8 @@ scheduler_events = {
 	# ],
 	"daily": [
 		"funder_management_system.donor_relationship_management.doctype.donor.donor.send_engagement_checklist_item_reminders"
+		"funder_management_system.donor_relationship_management.doctype.tranche_details.tranche_details.check_tranche_due_date_and_change_tranche_status"
+
 	]}
 # 	"hourly": [
 # 		"funder_management_system.tasks.hourly"
