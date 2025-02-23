@@ -1,9 +1,7 @@
+
+import frappe # type: ignore
+from frappe.model.document import Document # type: ignore
 # Copyright (c) 2025, Tech4Good Community and contributors
-# For license information, please see license.txt
-
-import frappe
-from frappe.model.document import Document
-
 
 class OrganisationLead(Document):
 	pass
@@ -11,24 +9,25 @@ class OrganisationLead(Document):
 
 @frappe.whitelist()
 def create_donor_from_lead(lead_name):
+    logger = frappe.logger("organisation_lead")  # Make sure the logger is defined
+    logger.info(f"Creating Donor Entry for Lead: {lead_name}")
+
     try:
-        frappe.logger().info(f"Creating Donor Entry for Lead: {lead_name}")
-
-        # Fetch the lead document
         lead_doc = frappe.get_doc("Organisation Lead", lead_name)
-
-        # Create a new Donor document
-        donor_doc = frappe.new_doc("Donor")
-        donor_doc.lead_name = lead_doc.name  # Ensure correct field mapping
-        donor_doc.organisation_name = lead_doc.organisation_name  # Add other necessary fields
-        donor_doc.insert(ignore_permissions=True)
-
-        frappe.db.commit()  # Commit changes to the database
-
-        return True  # Success
+        logger.info(f"Lead Document: {lead_doc}")
+        doc = frappe.new_doc("Donor")
+        doc.lead_name = lead_name
+        doc.donor_name = lead_doc.lead_name
+        doc.insert(ignore_permissions=True)
+        frappe.db.commit()
+        logger.info(f"Donor Entry Created for Lead: {lead_name}")
+        return True
+        
 
     except Exception as e:
-        frappe.log_error(title="Error Creating Donor", message=str(e))
-        return False  # Failure
+        logger.error(f"Error creating donor: {str(e)}")
+        frappe.log_error(f"Error creating donor: {str(e)}", "Donor Creation Error")
+        return str(e)  # Failure
+
 
 	
