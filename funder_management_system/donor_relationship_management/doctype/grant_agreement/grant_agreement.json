@@ -13,7 +13,11 @@
   "column_break_idvi",
   "donor",
   "donor_name",
-  "tranche_progress",
+  "total_tranche_progress",
+  "total_tranche_amount_received",
+  "total_tranche_utilised",
+  "over_utilised",
+  "total_tranche_progress_percentage",
   "grant_agreement_grant_period_section",
   "grant_agreement_start_date",
   "column_break_asip",
@@ -26,9 +30,10 @@
   "grant_agreement_type",
   "column_break_kofh",
   "total_grant_amount",
-  "financial_year_of_grant_agreement",
   "section_break_hipx",
   "tranche_progress_bar",
+  "column_break_accj",
+  "purpose_of_donation",
   "section_break_sdna",
   "tranche_table"
  ],
@@ -126,13 +131,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "financial_year_of_grant_agreement",
-   "fieldtype": "Link",
-   "label": "Financial Year of Grant Agreement",
-   "options": "Financial Year",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_sdna",
    "fieldtype": "Section Break",
    "label": "Tranche Details"
@@ -149,17 +147,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "tranche_progress",
-   "fieldtype": "Percent",
-   "hidden": 1,
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Tranche Progress",
-   "search_index": 1,
-   "show_on_timeline": 1
-  },
-  {
    "fieldname": "section_break_hipx",
    "fieldtype": "Section Break"
   },
@@ -167,11 +154,67 @@
    "fieldname": "tranche_progress_bar",
    "fieldtype": "Data",
    "label": "Tranche Progress"
+  },
+  {
+   "fieldname": "column_break_accj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purpose_of_donation",
+   "fieldtype": "Small Text",
+   "label": "Purpose of Donation",
+   "placeholder": "Mention the purpose of the donation. Eg. Program X or Operation Y etc."
+  },
+  {
+   "fieldname": "total_tranche_progress",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Total Tranche Received",
+   "read_only": 1,
+   "search_index": 1,
+   "show_on_timeline": 1
+  },
+  {
+   "fieldname": "over_utilised",
+   "fieldtype": "Percent",
+   "label": "Over Utilised"
+  },
+  {
+   "fieldname": "total_tranche_utilised",
+   "fieldtype": "Percent",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Total Tranche Utilised",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_tranche_progress_percentage",
+   "fieldtype": "Percent",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Tranche Progress",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_tranche_amount_received",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Total Tranche Amount Received",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-21 15:21:41.667467",
+ "modified": "2025-02-23 10:07:16.765629",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Grant Agreement",

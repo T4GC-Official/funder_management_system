@@ -1,14 +1,38 @@
 frappe.ui.form.on('Grant Agreement', {
-    onload: function(frm) {
-        frm.fields_dict["tranche_table"].grid.get_field("tranche_financial_year").get_query = function(doc) {
-            return {
-                filters: [
-                    ["Financial Year", "year_start_date", ">=", frm.doc.grant_agreement_start_date],
-                    ["Financial Year", "year_end_date", "<=", frm.doc.grant_agreement_end_date]
-                ]
-            };
-        };
-    },
+        onload: function(frm) {
+            // frm.fields_dict["tranche_table"].grid.get_field("tranche_financial_year").get_query = function(doc) {
+            //     if (!frm.doc.grant_agreement_start_date || !frm.doc.grant_agreement_end_date) {
+            //         return { filters: [] };  // Return an empty filter if dates are missing
+            //     }
+    
+            //     let start_date = new Date(frm.doc.grant_agreement_start_date);
+            //     let end_date = new Date(frm.doc.grant_agreement_end_date);
+    
+            //     let start_year = start_date.getFullYear();
+            //     let end_year = end_date.getFullYear();
+    
+            //     // If start date is Jan-March, it belongs to the previous financial year
+            //     if (start_date.getMonth() < 3) {
+            //         start_year -= 1;
+            //     }
+    
+            //     // If end date is Jan-March, it belongs to the previous financial year
+            //     if (end_date.getMonth() < 3) {
+            //         end_year -= 1;
+            //     }
+    
+            //     let financial_years = [];
+            //     for (let year = start_year; year <= end_year; year++) {
+            //         financial_years.push(`${year}-${String(year + 1).slice(-2)}`);
+            //     }
+    
+            //     return {
+            //         filters: [
+            //             ["Financial Year", "financial_year", "in", financial_years]
+            //         ]
+            //     };
+            // };
+        },
     refresh: function(frm) {
         frm.get_field("tranche_table").grid.cannot_add_rows = true;  // Disable add row button
         // disable delete row button
@@ -19,6 +43,45 @@ frappe.ui.form.on('Grant Agreement', {
         frm.events.progress_bar(frm);// Show progress bar
     },
     before_save: function(frm) {
+        console.log("Before Save");
+        if (frm.doc.total_number_of_tranches <= 0) {
+            frappe.show_alert({
+                message: "Total Number of Tranches should be greater than 0",
+                indicator: 'yellow',
+                delay: 3000
+            });
+            frappe.validated = false;
+            frm.fields_dict["total_number_of_tranches"].set_focus();
+            return;
+        }
+
+         if (frm.doc.total_grant_amount <= 0) {
+            frappe.msgprint({
+                message: "Total Grant Amount should be greater than 0",
+                title: __('Alert'),
+                indicator: 'yellow',
+                alert: true,
+                position: 'top-center'
+            });
+            frappe.validated = false;
+            frm.fields_dict["total_grant_amount"].set_focus();
+            return;
+        }
+
+        // write a logic to change the Grant Agreement Type to multi year if start date and end date difference is greater than 1 year
+        if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_end_date) {
+            let start_date = new Date(frm.doc.grant_agreement_start_date);
+            let end_date = new Date(frm.doc.grant_agreement_end_date);
+            let start_year = start_date.getFullYear();
+            let end_year = end_date.getFullYear();
+            if (end_year - start_year > 1) {
+                frm.set_value("grant_agreement_type", "Multi Year");
+            }
+        } 
+
+
+        frm.trigger("calculate_utilisation_of_tranche");
+        frm.trigger("calculate_total_tranche_amount");
         frm.trigger("calculate_tranche_progress");
         frm.trigger("check_total_tranche_amount");
         frm.trigger("check_tranche_amount_type");
@@ -38,9 +101,9 @@ frappe.ui.form.on('Grant Agreement', {
                     new_row.tranche_status = child_table[0].tranche_status;  // Copy status from first row
                     new_row.tranche_financial_year = child_table[0].tranche_financial_year;  // Copy status from first row
                 } else {
-                    new_row.tranche_name = `Tranche ${i + 1}`;  // Default name
+                    new_row.tranche_name = `Tranche-${i + 1}`;  // Default name
                     new_row.tranche_amount = 0;  // Default amount
-                    new_row.tranche_status = "Pending";  // Default status
+                    new_row.tranche_status = "Pending - On Time";  // Default status
                 }
             }
         } 
@@ -54,65 +117,170 @@ frappe.ui.form.on('Grant Agreement', {
     },
     
     total_number_of_tranches: function(frm) {
-        frappe.msgprint("You are changing the 'Total Number of Tranches' this will regenerate the Tranche Table rows. Please review the Tranche Table after saving the document.");
+        frappe.show_alert({
+            message: "You are changing the 'Total Number of Tranches' this will regenerate the Tranche Table rows. Please review the Tranche Table after saving the document.",
+            indicator: 'yellow',
+            delay: 3000
+        });
         frm.trigger("number_of_tranche");
     },
     grant_agreement_end_date: function(frm) {
         if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_end_date < frm.doc.grant_agreement_start_date) {
             frappe.msgprint(__('Grant Agreement End Date cannot be before Start Date'));
             frm.set_value('grant_agreement_end_date', null);
+            frm.fields_dict["grant_agreement_end_date"].set_focus();
+            return;
         }
     },
     grant_agreement_start_date: function(frm) {
-        const financial_year_of_grant_agreement = getFinancialYear(frm.doc.grant_agreement_start_date);
         if (frm.doc.grant_agreement_end_date && frm.doc.grant_agreement_end_date < frm.doc.grant_agreement_start_date) {
             frappe.msgprint(__('Grant Agreement Start Date cannot be after End Date'));
             frm.set_value('grant_agreement_end_date', null);
             frm.set_value('grant_agreement_start_date', null);
+            frm.fields_dict["grant_agreement_end_date"].set_focus();
+            return;
         }
-        frm.set_value('financial_year_of_grant_agreement', financial_year_of_grant_agreement);
     },
     calculate_tranche_progress:function(frm){
-        console.log("calculate_tranche_progress");
         let total_tranches = frm.doc.tranche_table ? frm.doc.tranche_table.length : 0;
         let completed_tranches = 0;
         if (total_tranches > 0) {
             completed_tranches = frm.doc.tranche_table.filter(row => row.tranche_status === "Received - On Time").length + frm.doc.tranche_table.filter(row => row.tranche_status === "Received - Delayed").length;
         }
-        let progress = total_tranches > 0 ? (completed_tranches / total_tranches) * 100 : 0;
-        frm.set_value("tranche_progress", progress);
+        let tranche_progress_percentage = total_tranches > 0 ? (completed_tranches / total_tranches) * 100 : 0;
+        let progress_p_q_format = total_tranches > 0 ? `${completed_tranches}/${total_tranches}` : 0;
+        frm.set_value("total_tranche_progress", progress_p_q_format);
+        frm.set_value("total_tranche_progress_percentage", tranche_progress_percentage);
     },
+    calculate_utilisation_of_tranche:function(frm){
+        let total_tranches = frm.doc.tranche_table ? frm.doc.tranche_table.length : 0;
+        console.log("Total Tranches", total_tranches);
+
+        let total_tranche_utilised = 0;
+        let total_grant_amount = frm.doc.total_grant_amount || 0;
+        console.log("Total Grant Amount", total_grant_amount);
+        if (total_tranches > 0) {
+
+             total_tranche_utilised = frm.doc.tranche_table.reduce((sum, row) => sum + (row.total_tranche_expenditure || 0), 0);
+             console.log("Total Tranche Utilised", total_tranche_utilised);
+        }
+        frm.set_value("total_tranche_utilised", total_tranches > 0 ? (total_tranche_utilised / total_grant_amount) * 100 : 0);
+    },
+
+    calculate_total_tranche_amount:function(frm){
+        let total_tranches = frm.doc.tranche_table ? frm.doc.tranche_table.length : 0;
+        let total_tranche_amount_received = 0;
+        let total_grant_amount = frm.doc.total_grant_amount || 0;
+        if (total_tranches > 0) {
+            total_tranche_amount_received = frm.doc.tranche_table.reduce((sum, row) => {
+                if (row.tranche_status === "Received - On Time" || row.tranche_status === "Received - Delayed") {
+                    return sum + (row.tranche_amount || 0);
+                }
+                return sum;
+            }, 0);
+        }
+        frm.set_value("total_tranche_amount_received", total_tranches > 0 ? total_tranche_amount_received : 0);
+    },
+
     progress_bar: function(frm) {
-        let progress = frm.doc.tranche_progress || 0;
+        let tranche_expenditure = frm.doc.total_tranche_utilised || 0;
+        if (!frm.doc.total_tranche_amount_received || !frm.doc.total_grant_amount) {
+            return ;
+        }
+
+        let total_tranche_amount_received = frm.doc.total_tranche_amount_received || 0;
+        let total_grant_amount = frm.doc.total_grant_amount || 0;
+        let total_grant_received_percentage = total_grant_amount > 0 ? (total_tranche_amount_received / total_grant_amount) * 100 : 0;
         frm.dashboard.clear_headline();
+        let excessProgress = total_grant_received_percentage > 100 ? total_grant_received_percentage - 100 : 0;
+        let excessExpenditure = tranche_expenditure > 100 ? tranche_expenditure - 100 : 0;
+        
         let html = `
             <div class="progress" style="height: 10px;">
-                <div class="progress-bar bg-success" role="progressbar" style="width: ${progress}%;" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar bg-success" role="progressbar" 
+                     style="width: ${Math.min(total_grant_received_percentage, 100)}%;" 
+                     aria-valuenow="${total_grant_received_percentage}" aria-valuemin="0" aria-valuemax="100">
                 </div>
+                ${excessProgress > 0 ? `
+                <div class="progress-bar bg-danger" role="progressbar" 
+                     style="width: ${excessProgress}%; "> 
+                </div>` : ''}
             </div>
-            <p style="margin-top:5px;">Total Tranche Money Received: ${progress}%</p>
+            <p style="margin-top:5px;">
+                <strong>Total Grant Received:</strong> 
+                <span style="color: ${total_grant_received_percentage > 100 ? 'red' : 'black'};">${Math.round(total_grant_received_percentage)}%</span>
+            </p>
+            
             <div class="progress" style="height: 10px;">
-                <div class="progress-bar bg-warning" role="progressbar" style="width: ${0}%;" aria-valuenow="${100}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar bg-warning" role="progressbar" 
+                     style="width: ${Math.min(tranche_expenditure, 100)}%;" 
+                     aria-valuenow="${tranche_expenditure}" aria-valuemin="0" aria-valuemax="100">
                 </div>
+                ${excessExpenditure > 0 ? `
+                <div class="progress-bar bg-danger" role="progressbar" 
+                     style="width: ${excessExpenditure}%; ">
+                </div>` : ''}
             </div>
-            <p style="margin-top:5px;">Total Tranche Money Utilized: ${0}%</p>
+            <p style="margin-top:5px;">
+        <strong>Total Grant Utilised:</strong> 
+        <span style="color: ${tranche_expenditure <= 100 ? 'Green' : 'red'};">
+            ${Math.round(tranche_expenditure)}%
+        </span>
+         ${excessExpenditure > 0 ? `<strong>Over Utilisation:</strong> 
+        <span style="color: ${tranche_expenditure > 100 ? 'red' : 'black'};">
+            ${Math.round(tranche_expenditure-100)}%
+        </span>` : ''}
+        
+    </p>
+    <p>
+        <strong>Calculation Formula:</strong><br>
+        <span class="text-muted">
+            Total Grant Received % = (Total Tranche Amount Received / Total Grant Amount) * 100
+        </span>
+        <br>
+        <span class="text-muted">
+            Total Grant Utilised % = (Total Tranche wise expense / Total Grant Amount) * 100
+        </span>
+    </p>
         `;
+
+        
+
+        
         frm.fields_dict["tranche_progress_bar"].$wrapper.html(html);
     },
 
-      check_total_tranche_amount: function(frm) {
+    check_total_tranche_amount: function(frm) {
         let total_tranche_amount = 0;
+
         frm.doc.tranche_table.forEach(row => {
             total_tranche_amount += row.tranche_amount;
         });
+
         if (total_tranche_amount > frm.doc.total_grant_amount) {
-            // prevent saving the from
+            // Show alert message
+            frappe.msgprint({
+                message: "Total Tranche Amount cannot be greater than Total Grant Amount",
+                title: __('Alert'),
+                indicator: 'yellow',
+                alert: true,
+                position: 'top-center'
+            });
+
+            // Prevent form submission
             frappe.validated = false;
-            frappe.msgprint("Total Tranche Amount cannot be greater than Total Grant Amount");
+
+            // Set error message in description
+            frm.set_df_property("total_grant_amount", "description", 
+                `<span style="color:red;">⚠ Total Tranche Amount exceeds the Total Grant Amount.</span>`);
+
+            // Focus cursor on the total_grant_amount field
+            frm.fields_dict["total_grant_amount"].set_focus();
+        } else {
+            // Clear error message if values are correct
+            frm.set_df_property("total_grant_amount", "description", "");
         }
-        //focus the cursor on the total grant amount field
-        frm.fields_dict["total_grant_amount"].set_focus();
-    },
+    }
 
 
 });
@@ -142,7 +310,54 @@ frappe.ui.form.on('Tranche Details', {
             frappe.msgprint("Tranche Amount cannot be zero for Received - On Time or Received - Delayed status");
         }
           
-    }
+    },
+
+    due_date: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        // return error if start date and end date are not set
+        if (!frm.doc.grant_agreement_start_date ) {
+            console.log("grant_agreement_start_date not set");
+            
+            //clear the due_date filed in the child table
+            row.due_date = null;
+            //prevent saving the form
+            frappe.validated = false;
+            //focus the cursor on the grant agreement start date field
+            frm.fields_dict["grant_agreement_start_date"].set_focus();
+        }
+        else if (!frm.doc.grant_agreement_end_date ) {
+            console.log("grant_agreement_end_date not set");
+            
+            //clear the due_date filed in the child table
+            row.due_date = null;
+            //prevent saving the form
+            frappe.validated = false;
+            //focus the cursor on the grant agreement start date field
+            frm.fields_dict["grant_agreement_end_date"].set_focus();
+        }
+        // Due Date should not be before Grant Agreement Start Date and it should not be after Grant Agreement End Date
+        
+        else if (row.due_date < frm.doc.grant_agreement_start_date) {
+            console.log("grant_agreement_start_date issue");
+            //clear the due_date filed in the child table
+            row.due_date = null;
+            frappe.validated = false;
+            frappe.msgprint("Due Date cannot be before Grant Agreement Start Date");
+            //focus the cursor on the due date field in the child table
+            frm.fields_dict["due_date"].set_focus();
+        }
+        else if (row.due_date > frm.doc.grant_agreement_end_date) {
+            row.due_date = null;
+            frappe.msgprint("Due Date cannot be after Grant Agreement End Date");
+            frm.fields_dict["due_date"].set_focus();
+            frappe.validated = false;
+        }
+    
+            //set the financial year based on the due date in child table
+            row.tranche_financial_year = getFinancialYear(row.due_date);
+            
+            
+    },
 
 });
 
