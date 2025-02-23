@@ -3,20 +3,23 @@
 
 
 frappe.ui.form.on("Organisation Details", {
-    pan_card: function(frm) {
+    before_save: function(frm) {
         let pan = frm.doc.pan_card;
 
         if (pan) {
             let pan_regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
             if (!pan_regex.test(pan)) {
-                frappe.msgprint({
-                    title: __("Invalid PAN Number"),
-                    message: __("PAN Number must follow the format: ABCDE1234F"),
-                    indicator: "red"
+                frappe.show_alert({
+                    message: __("Invalid PAN Number. Please enter a valid PAN Number in format: ABCDE1234F"),
+                    indicator: 'red'
                 });
 
                 frm.set_value("pan_card", "");  // Reset invalid PAN
+                // prevent from from saving 
+                frappe.validated = false
+                // focus on pan card field
+                frm.fields_dict["pan_card"].set_focus();
             }
         }
     }
