@@ -174,17 +174,15 @@ frappe.ui.form.on('Grant Agreement', {
     },
     calculate_utilisation_of_tranche:function(frm){
         let total_tranches = frm.doc.tranche_table ? frm.doc.tranche_table.length : 0;
-        console.log("Total Tranches", total_tranches);
-
-        let total_tranche_utilised = 0;
+        let total_tranche_amount_utilised = 0;
         let total_grant_amount = frm.doc.total_grant_amount || 0;
-        console.log("Total Grant Amount", total_grant_amount);
         if (total_tranches > 0) {
 
-             total_tranche_utilised = frm.doc.tranche_table.reduce((sum, row) => sum + (row.total_tranche_expenditure || 0), 0);
-             console.log("Total Tranche Utilised", total_tranche_utilised);
+            total_tranche_amount_utilised = frm.doc.tranche_table.reduce((sum, row) => sum + (row.total_tranche_expenditure || 0), 0);
+             
         }
-        frm.set_value("total_tranche_utilised", total_tranches > 0 ? (total_tranche_utilised / total_grant_amount) * 100 : 0);
+        frm.set_value("total_grant_amount_utilised", total_tranches > 0 ? total_tranche_amount_utilised : 0);
+        frm.set_value("total_tranche_amount_utilised", total_tranches > 0 ? (total_tranche_amount_utilised / total_grant_amount) * 100 : 0);
     },
 
     calculate_total_tranche_amount:function(frm){
@@ -203,7 +201,7 @@ frappe.ui.form.on('Grant Agreement', {
     },
 
     progress_bar: function(frm) {
-        let tranche_expenditure = frm.doc.total_tranche_utilised || 0;
+        let tranche_expenditure = frm.doc.total_tranche_amount_utilised || 0;
         let total_tranche_amount_received = frm.doc.total_tranche_amount_received || 0;
         let total_grant_amount = frm.doc.total_grant_amount || 0;
         let total_grant_received_percentage = total_grant_amount > 0 ? (total_tranche_amount_received / total_grant_amount) * 100 : 0;
