@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Relationship Management\",\"col\":6}}]",
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Relationship Management\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":4}}]",
  "creation": "2025-01-28 12:24:00.611386",
  "custom_blocks": [],
  "docstatus": 0,
@@ -173,9 +173,29 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "description": "In this module, you can set reminders for all document renewals and create various document lists. Additionally, users can choose to receive reminders a certain number of days in advance.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Toolkit",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Document List",
+   "link_count": 0,
+   "link_to": "Document List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-02-17 17:40:19.938518",
+ "modified": "2025-02-24 03:43:32.240587",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Funder Management",
