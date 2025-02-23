@@ -11,7 +11,9 @@
   "tranche_status",
   "tranche_financial_year",
   "received_on",
-  "total_tranche_expenditure"
+  "total_tranche_expenditure",
+  "due_date",
+  "over_utilisation"
  ],
  "fields": [
   {
@@ -19,26 +21,26 @@
    "fieldname": "tranche_amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Total Tranche Amount",
+   "label": "Tranche Amount",
    "non_negative": 1,
    "reqd": 1
   },
   {
-   "default": "Pending",
+   "default": "Pending - On Time",
    "fieldname": "tranche_status",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Tranche Status",
-   "options": "Pending\nDelayed\nReceived - On Time\nReceived - Delayed",
+   "label": "Status",
+   "options": "Pending - On Time\nPending - Delayed\nReceived - On Time\nReceived - Delayed",
    "reqd": 1
   },
   {
    "fieldname": "tranche_financial_year",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Tranche Financial Year",
-   "options": "Financial Year",
-   "reqd": 1
+   "label": "Financial Year",
+   "mandatory_depends_on": "eval: doc.tranche_status == \"Received - On Time\" || doc.tranche_status == \"Received - Delayed\"\n",
+   "options": "Financial Year"
   },
   {
    "fieldname": "received_on",
@@ -46,8 +48,7 @@
    "in_filter": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Received On",
-   "mandatory_depends_on": "eval: doc.tranche_status == \"Received - On Time\" || doc.tranche_status == \"Received - Delayed\""
+   "label": "Received On"
   },
   {
    "fieldname": "tranche_name",
@@ -59,15 +60,30 @@
    "reqd": 1
   },
   {
+   "default": "10",
    "fieldname": "total_tranche_expenditure",
    "fieldtype": "Currency",
-   "label": "Total Tranche Expenditure"
+   "label": "Expenditure",
+   "read_only": 1
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Due Date"
+  },
+  {
+   "fieldname": "over_utilisation",
+   "fieldtype": "Currency",
+   "label": "Over Utilisation",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-21 15:58:46.293130",
+ "modified": "2025-02-23 01:48:15.339578",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Tranche Details",

@@ -184,10 +184,6 @@
   {
    "fieldname": "total_tranche_utilised",
    "fieldtype": "Percent",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_preview": 1,
-   "in_standard_filter": 1,
    "label": "Total Tranche Utilised",
    "read_only": 1
   },
@@ -204,17 +200,18 @@
   {
    "fieldname": "total_tranche_amount_received",
    "fieldtype": "Currency",
+   "hidden": 1,
    "in_filter": 1,
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Total Tranche Amount Received",
+   "label": "Grant Received",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-23 10:07:16.765629",
+ "modified": "2025-02-23 17:38:48.569219",
  "modified_by": "Administrator",
  "module": "Donor Relationship Management",
  "name": "Grant Agreement",

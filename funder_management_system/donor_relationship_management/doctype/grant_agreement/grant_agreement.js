@@ -43,7 +43,27 @@ frappe.ui.form.on('Grant Agreement', {
         frm.events.progress_bar(frm);// Show progress bar
     },
     before_save: function(frm) {
-        console.log("Before Save");
+        // write logic to check the tranch_table filed received_on is filled with date if the tranche_status is ""Received - On Time" and "Received - Delayed"
+        if (frm.doc.tranche_table) {
+            for (let i = 0; i < frm.doc.tranche_table.length; i++) {
+                let row = frm.doc.tranche_table[i];
+                if ((row.tranche_status === "Received - On Time" || row.tranche_status === "Received - Delayed") && !row.received_on) {
+                   
+                    frappe.show_alert({
+                        message: "Received On date is required for Received - On Time and Received - Delayed",
+                        indicator: 'yellow',
+                        delay: 3000
+                    })
+                    frm.fields_dict["received_on"].set_focus();
+                    frappe.validated = false;
+                    return;
+                }
+            }
+        }
+
+        
+        
+        
         if (frm.doc.total_number_of_tranches <= 0) {
             frappe.show_alert({
                 message: "Total Number of Tranches should be greater than 0",
@@ -184,10 +204,6 @@ frappe.ui.form.on('Grant Agreement', {
 
     progress_bar: function(frm) {
         let tranche_expenditure = frm.doc.total_tranche_utilised || 0;
-        if (!frm.doc.total_tranche_amount_received || !frm.doc.total_grant_amount) {
-            return ;
-        }
-
         let total_tranche_amount_received = frm.doc.total_tranche_amount_received || 0;
         let total_grant_amount = frm.doc.total_grant_amount || 0;
         let total_grant_received_percentage = total_grant_amount > 0 ? (total_tranche_amount_received / total_grant_amount) * 100 : 0;
@@ -198,37 +214,37 @@ frappe.ui.form.on('Grant Agreement', {
         let html = `
             <div class="progress" style="height: 10px;">
                 <div class="progress-bar bg-success" role="progressbar" 
-                     style="width: ${Math.min(total_grant_received_percentage, 100)}%;" 
+                     style="width:${parseFloat((total_grant_received_percentage).toFixed(2))}%;" 
                      aria-valuenow="${total_grant_received_percentage}" aria-valuemin="0" aria-valuemax="100">
                 </div>
                 ${excessProgress > 0 ? `
                 <div class="progress-bar bg-danger" role="progressbar" 
-                     style="width: ${excessProgress}%; "> 
+                     style="width: ${parseFloat((excessProgress).toFixed(2))}%; "> 
                 </div>` : ''}
             </div>
             <p style="margin-top:5px;">
                 <strong>Total Grant Received:</strong> 
-                <span style="color: ${total_grant_received_percentage > 100 ? 'red' : 'black'};">${Math.round(total_grant_received_percentage)}%</span>
+                <span style="color: ${total_grant_received_percentage > 100 ? 'red' : 'black'};"> ${parseFloat((total_grant_received_percentage).toFixed(2))}%</span>
             </p>
             
             <div class="progress" style="height: 10px;">
                 <div class="progress-bar bg-warning" role="progressbar" 
-                     style="width: ${Math.min(tranche_expenditure, 100)}%;" 
-                     aria-valuenow="${tranche_expenditure}" aria-valuemin="0" aria-valuemax="100">
+                     style="width: ${parseFloat((tranche_expenditure).toFixed(2))}%;" 
+                     aria-valuenow="${parseFloat((tranche_expenditure).toFixed(2))}" aria-valuemin="0" aria-valuemax="100">
                 </div>
                 ${excessExpenditure > 0 ? `
                 <div class="progress-bar bg-danger" role="progressbar" 
-                     style="width: ${excessExpenditure}%; ">
+                     style="width: ${parseFloat((excessExpenditure).toFixed(2))}%; ">
                 </div>` : ''}
             </div>
             <p style="margin-top:5px;">
         <strong>Total Grant Utilised:</strong> 
         <span style="color: ${tranche_expenditure <= 100 ? 'Green' : 'red'};">
-            ${Math.round(tranche_expenditure)}%
+             ${parseFloat((tranche_expenditure).toFixed(2))}%
         </span>
          ${excessExpenditure > 0 ? `<strong>Over Utilisation:</strong> 
         <span style="color: ${tranche_expenditure > 100 ? 'red' : 'black'};">
-            ${Math.round(tranche_expenditure-100)}%
+            ${parseFloat((tranche_expenditure-100).toFixed(2))}%
         </span>` : ''}
         
     </p>
@@ -263,8 +279,6 @@ frappe.ui.form.on('Grant Agreement', {
                 message: "Total Tranche Amount cannot be greater than Total Grant Amount",
                 title: __('Alert'),
                 indicator: 'yellow',
-                alert: true,
-                position: 'top-center'
             });
 
             // Prevent form submission
@@ -316,8 +330,6 @@ frappe.ui.form.on('Tranche Details', {
         let row = locals[cdt][cdn];
         // return error if start date and end date are not set
         if (!frm.doc.grant_agreement_start_date ) {
-            console.log("grant_agreement_start_date not set");
-            
             //clear the due_date filed in the child table
             row.due_date = null;
             //prevent saving the form
@@ -326,8 +338,6 @@ frappe.ui.form.on('Tranche Details', {
             frm.fields_dict["grant_agreement_start_date"].set_focus();
         }
         else if (!frm.doc.grant_agreement_end_date ) {
-            console.log("grant_agreement_end_date not set");
-            
             //clear the due_date filed in the child table
             row.due_date = null;
             //prevent saving the form
@@ -338,7 +348,6 @@ frappe.ui.form.on('Tranche Details', {
         // Due Date should not be before Grant Agreement Start Date and it should not be after Grant Agreement End Date
         
         else if (row.due_date < frm.doc.grant_agreement_start_date) {
-            console.log("grant_agreement_start_date issue");
             //clear the due_date filed in the child table
             row.due_date = null;
             frappe.validated = false;
@@ -351,12 +360,18 @@ frappe.ui.form.on('Tranche Details', {
             frappe.msgprint("Due Date cannot be after Grant Agreement End Date");
             frm.fields_dict["due_date"].set_focus();
             frappe.validated = false;
-        }
-    
-            //set the financial year based on the due date in child table
-            row.tranche_financial_year = getFinancialYear(row.due_date);
-            
-            
+        } 
+        frappe.call({
+            method: "funder_management_system.donor_acquisition_management.doctype.organisation_lead.organisation_lead.save_financial_year",
+            args: {
+                fiscal_year: "2027-28"
+            },
+            callback: function (r) {
+                if (r.message) {
+                    row.tranche_financial_year = r.message;
+                }
+            }
+        });
     },
 
 });
