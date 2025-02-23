@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:name1",
  "creation": "2025-01-31 13:32:28.134376",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -26,13 +27,15 @@
    "in_global_search": 1,
    "in_list_view": 1,
    "label": "Name",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "phone",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Phone"
+   "label": "Phone",
+   "placeholder": "+91 555 666 4343"
   },
   {
    "fieldname": "designation",
@@ -44,7 +47,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Active\nInactive"
+   "options": "Active\nIn-Active"
   },
   {
    "fieldname": "email",
@@ -56,11 +59,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-04 15:46:34.217754",
+ "modified": "2025-02-24 04:19:50.442193",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",
- "naming_rule": "By script",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -79,5 +82,5 @@
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
- "title_field": "name1"
+ "title_field": "organisation"
 }

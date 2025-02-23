@@ -10,7 +10,8 @@
   "naming_series",
   "website_url",
   "official_email_id",
-  "pan_card"
+  "pan_card",
+  "official_address"
  ],
  "fields": [
   {
@@ -55,12 +56,19 @@
    "print_hide": 1,
    "read_only": 1,
    "reqd": 1,
+   "search_index": 1,
    "set_only_once": 1
+  },
+  {
+   "fieldname": "official_address",
+   "fieldtype": "Small Text",
+   "label": "Official Address",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-19 19:38:49.869268",
+ "modified": "2025-02-24 04:02:52.652953",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation Details",
