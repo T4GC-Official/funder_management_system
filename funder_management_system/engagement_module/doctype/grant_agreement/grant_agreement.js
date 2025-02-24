@@ -34,13 +34,15 @@ frappe.ui.form.on('Grant Agreement', {
         // };
     },
 refresh: function(frm) {
+    
     frm.get_field("tranche_table").grid.cannot_add_rows = true;  // Disable add row button
     // disable delete row button
     frm.get_field("tranche_table").grid.wrapper.find('.grid-remove-rows').hide();
     // remove check box column from child table
     frm.get_field("tranche_table").grid.wrapper.find('.grid-select-row').hide();
     frm.refresh_field("tranche_table");  // Refresh the child table
-    frm.events.progress_bar(frm);// Show progress bar
+    frm.events.progress_bar(frm);
+    frm.set_df_property("donor", "only_select", 1);
 },
 before_save: function(frm) {
     // write logic to check the tranch_table filed received_on is filled with date if the tranche_status is ""Received - On Time" and "Received - Delayed"
