@@ -15,7 +15,6 @@
   "column_break_fxvu",
   "official_email",
   "pan_card",
-  "financial_year",
   "other_details_section",
   "thematic_area",
   "lead_category",
@@ -25,7 +24,6 @@
   "progress_status_section",
   "lead_stage",
   "column_break_owrr",
-  "section_break_oxql",
   "disposition_note",
   "compliance_checklist_section",
   "compliance_checklist",
@@ -167,13 +165,6 @@
    "reqd": 1
   },
   {
-   "fetch_from": "financial_year_of_reachout.financial_year",
-   "fieldname": "financial_year",
-   "fieldtype": "Data",
-   "label": "Financial Year",
-   "read_only": 1
-  },
-  {
    "fieldname": "column_break_owrr",
    "fieldtype": "Column Break"
   },
@@ -188,19 +179,14 @@
    "options": "Lead History"
   },
   {
-   "default": "1. Interested but needs follow-up: The prospect has shown interest but requires more information or time before making a decision. Follow up within [timeframe].",
    "fieldname": "disposition_note",
-   "fieldtype": "Text Editor",
-   "label": "Disposition Note"
-  },
-  {
-   "fieldname": "section_break_oxql",
-   "fieldtype": "Section Break"
+   "fieldtype": "Small Text",
+   "label": "Lead Stage Note"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-24 13:41:06.581223",
+ "modified": "2025-02-24 18:47:58.707296",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "Organisation Lead",
