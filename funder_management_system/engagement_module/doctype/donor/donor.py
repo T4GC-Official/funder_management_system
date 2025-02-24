@@ -9,26 +9,30 @@ class Donor(Document):
     pass
 
 def send_engagement_checklist_item_reminders():
+    """Send reminders for engagement checklist items due today and update next reminder dates."""
     today_date = getdate(today())
 
-    # Fetch all Donors where at least one checklist item has today's reminder date
-    donors = frappe.get_all("Donor", fields=["name", "owner"])
+    query = """
+        SELECT d.name AS donor_name, d.owner, e.name AS item_name, e.item, e.next_reminder_date, e.item_frequency
+        FROM `tabDonor` d
+        JOIN `tabEngagement Checklist` e ON e.parent = d.name
+        WHERE e.next_reminder_date = %s
+    """
 
-    for donor in donors:
-        donor_doc = frappe.get_doc("Donor", donor.name)
+    due_items = frappe.db.sql(query, (today_date,), as_dict=True)
 
-        for item in donor_doc.get("engagement_checklist_table", []):
-            if item.next_reminder_date == today_date:
-                # Ensure next_reminder_date is always set
-                next_reminder_date = calculate_next_reminder_date(item.next_reminder_date, item.item_frequency)
+    # Process due items
+    for item in due_items:
+        next_reminder_date = calculate_next_reminder_date(item["next_reminder_date"], item["item_frequency"])
 
-                # Create System Notification
-                create_system_notification(donor_doc.owner, item.item, donor_doc.name)
+        # Create system notification
+        create_system_notification(item["owner"], item["item"], item["donor_name"])
 
-                # Update the next reminder date in the child table
-                frappe.db.set_value(
-                    "Engagement Checklist", item.name, "next_reminder_date", next_reminder_date
-                )
+        # Update the next reminder date in the child table (Batch Update)
+        frappe.db.set_value("Engagement Checklist", item["item_name"], "next_reminder_date", next_reminder_date)
+
+    frappe.db.commit()  # Commit once to improve performance
+
 
 def create_system_notification(recipient, item, donor_name):
     """Create a system notification for the recipient."""
