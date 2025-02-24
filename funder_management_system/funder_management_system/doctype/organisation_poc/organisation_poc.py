@@ -15,4 +15,4 @@ def autoname(doc):
 	
 	org_name = frappe.db.get_value("Organisation Details", doc.organisation, "organisation_name")
 	existing_count = frappe.db.count("Organisation POC", {"organisation": doc.organisation})
-	doc.name = f"{org_name}-{existing_count + 1}"
+	doc.id = f"{org_name}-{existing_count + 1}"

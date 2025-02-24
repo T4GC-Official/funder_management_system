@@ -146,6 +146,26 @@
    "type": "Link"
   },
   {
+   "description": "In this module, you can set reminders for all document renewals and create various document lists. Additionally, users can choose to receive reminders a certain number of days in advance.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Toolkit",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Document List",
+   "link_count": 0,
+   "link_to": "Document List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
    "hidden": 0,
    "is_query_report": 0,
    "label": "Donor Relationship Management",
@@ -173,29 +193,9 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
-  },
-  {
-   "description": "In this module, you can set reminders for all document renewals and create various document lists. Additionally, users can choose to receive reminders a certain number of days in advance.",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation Toolkit",
-   "link_count": 1,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Document List",
-   "link_count": 0,
-   "link_to": "Document List",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   }
  ],
- "modified": "2025-02-24 03:43:32.240587",
+ "modified": "2025-02-24 07:43:51.113261",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Funder Management",

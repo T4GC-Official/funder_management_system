@@ -37,7 +37,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Phone",
-   "placeholder": "+91 777 666 4545"
+   "placeholder": "+91 ___ ___ ____"
   },
   {
    "fieldname": "preferrend_means_of_communication",
@@ -68,7 +68,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-24 04:15:26.155460",
+ "modified": "2025-02-24 13:53:05.592820",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "POC Assigned",
