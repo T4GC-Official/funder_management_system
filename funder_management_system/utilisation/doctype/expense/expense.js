@@ -1,78 +1,231 @@
 frappe.ui.form.on("Expense", {
     refresh: function(frm) {
-        // Ensure budget UI is added only once
-        if (!frm.custom_budget_section_added) {
-            render_budget_status(frm);
-            frm.custom_budget_section_added = true;
+        if (!frm.fields_dict["expense_details_section"]) {
+            return;
         }
-
-        // Add Submit Button in the form actions
-        frm.add_custom_button("Submit Expenses", function() {
-            frappe.confirm(
-                "Are you sure you want to submit these expenses?",
-                () => {
-                    frm.save();
-                    frappe.msgprint("Expenses submitted successfully.");
-                }
-            );
-        }, "Actions");
+        render_expense_entry_ui(frm);
     }
 });
 
-function render_budget_status(frm) {
-    // Locate the Expense Details section
-    if (!frm.fields_dict.expense_details_section) {
-        console.warn("Field expense_details_section is missing in the form.");
-        return;
-    }
+function render_expense_entry_ui(frm) {
+    let wrapper = $(frm.fields_dict.expense_details_section.wrapper);
+    wrapper.empty(); // Clear existing UI
 
-    let budget_section = $(frm.fields_dict.expense_details_section.wrapper);
-    budget_section.empty(); // Clear existing content
+    let expense_html = `
+    <div class="frappe-control" style="padding: 15px; border: 1px solid #d1d8dd; border-radius: 5px; background: #f8f9fa;">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Sub-Category</th>
+                    <th>Donor</th>
+                    <th>Grant Agreement</th>
+                    <th>Tranche</th>
+                    <th>Available Amount</th>
+                    <th>Utilised Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><div class="category"></div></td>
+                    <td><div class="sub_category"></div></td>
+                    <td><div class="donor"></div></td>
+                    <td><div class="grant_agreement"></div></td>
+                    <td><div class="tranche"></div></td>
+                    <td><div class="available_amount"></div></td>
+                    <td><div class="utilised_amount"></div></td>
+                    <td>
+                        <button class="btn btn-primary add-expense">Add Expense</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+`;
 
-    // Budget UI HTML
-    let budget_html = `
-        <div style="padding: 10px; background: #f8f9fa; border-radius: 5px; margin-top: 10px;">
-            <h4 style="margin-bottom: 10px;">Budget Utilization</h4>
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <strong>Utilization Source:</strong>
-                <span>${frm.doc.utilisation_source || "Single Donor Fund"}</span>
-                <strong>Total Utilized:</strong>
-                <span style="font-weight: bold;">₹ ${frm.doc.total_utilised_amount || "0.00"}</span>
-                <input type="range" min="0" max="100" value="0" class="expense-slider" style="width: 150px;">
-                <button class="btn btn-primary btn-xs add-expense">Add Expense</button>
-            </div>
-        </div>
-    `;
+wrapper.append(expense_html);
 
-    budget_section.append(budget_html);
 
-    // Attach Event Handlers
-    budget_section.find(".add-expense").click(function() {
-        frm.trigger("add_expense");
+    let category_control = frappe.ui.form.make_control({
+        parent: wrapper.find(".category"),
+        df: { fieldtype: "Link", options: "Budget Category", label: "Category" },
+        only_input: true
+    });
+    category_control.refresh();
+
+    let sub_category_control = frappe.ui.form.make_control({
+        parent: wrapper.find(".sub_category"),
+        df: { fieldtype: "Select", label: "Sub-Category", options: [] },
+        only_input: true
+    });
+    sub_category_control.refresh();
+
+    let donor_control = frappe.ui.form.make_control({
+        parent: wrapper.find(".donor"),
+        df: {
+            fieldtype: "Link",
+            options: "Donor",
+            label: "Donor",
+            onchange: function () {
+                load_grant_agreements(donor_control.get_value(), grant_agreement_control);
+            }
+        },
+        only_input: true
+    });
+    donor_control.refresh();
+
+    let grant_agreement_control = frappe.ui.form.make_control({
+        parent: wrapper.find(".grant_agreement"),
+        df: { fieldtype: "Select", label: "Grant Agreement", options: [] },
+        only_input: true
+    });
+    grant_agreement_control.refresh();
+
+    let tranche_control = frappe.ui.form.make_control({
+        parent: wrapper.find(".tranche"),
+        df: { fieldtype: "Select", label: "Tranche", options: [] },
+        only_input: true
+    });
+    tranche_control.refresh();
+
+    let available_amount_control = frappe.ui.form.make_control({
+        parent: wrapper.find(".available_amount"),
+        df: { fieldtype: "Currency", label: "Available Amount", read_only: 1 },
+        only_input: true
+    });
+    available_amount_control.refresh();
+
+    let utilised_amount_control = frappe.ui.form.make_control({
+        parent: wrapper.find(".utilised_amount"),
+        df: { fieldtype: "Currency", label: "Utilised Amount" },
+        only_input: true
+    });
+    utilised_amount_control.refresh();
+
+    // Add Expense Button Click
+    wrapper.find(".add-expense").click(function () {
+        let category = category_control.get_value();
+        let sub_category = sub_category_control.get_value();
+        let donor = donor_control.get_value();
+        let grant_agreement = grant_agreement_control.get_value();
+        let tranche = tranche_control.get_value();
+        let available_amount = available_amount_control.get_value();
+        let utilised_amount = utilised_amount_control.get_value();
+
+        if (!category || !sub_category || !donor || !grant_agreement || !tranche || !utilised_amount) {
+            frappe.msgprint("Please fill all fields before adding an expense.");
+            return;
+        }
+
+        frappe.call({
+            method: "frappe.client.insert",
+            args: {
+                doc: {
+                    doctype: "Expense Entry",
+                    category: category,
+                    sub_category: sub_category,
+                    donor: donor,
+                    grant_agreement: grant_agreement,
+                    tranche: tranche,
+                    available_amount: available_amount,
+                    utilised_amount: utilised_amount
+                }
+            },
+            callback: function (response) {
+                if (!response.exc) {
+                    frappe.msgprint("Expense added successfully!");
+                }
+            }
+        });
+    });
+
+    // Load sub-categories when category is selected
+    category_control.$input.on("change", function () {
+        load_sub_categories(category_control.get_value(), sub_category_control);
+    });
+
+    // Load grant agreements when donor is selected
+    donor_control.$input.on("change", function () {
+        load_grant_agreements(donor_control.get_value(), grant_agreement_control);
+    });
+
+    // Load tranches when grant agreement is selected
+    grant_agreement_control.$input.on("change", function () {
+        load_tranches(grant_agreement_control.get_value(), tranche_control, available_amount_control);
     });
 }
 
-frappe.ui.form.on("Expenditure Detail", {
-    utilised_amount: function(frm, cdt, cdn) {
-        let row = frappe.get_doc(cdt, cdn);
-        let slider = $(`.expense-slider`);
-        slider.val(row.utilised_amount);
-    },
+// Load sub-categories based on category selection
+function load_sub_categories(category, sub_category_control) {
+    frappe.call({
+        method: "frappe.client.get_list",
+        args: {
+            doctype: "Budget Sub-Category",
+            filters: { budget_category: category },
+            fields: ["name"]
+        },
+        callback: function (response) {
+            console.log("Inside load sub category ",response);
+            let sub_categories = response.message || [];
+            let options = sub_categories.map(sub => sub.name);
+            sub_category_control.df.options = options;
+            sub_category_control.refresh();
+        }
+    });
+}
 
-    move_expense: function(frm, cdt, cdn) {
-        let row = frappe.get_doc(cdt, cdn);
-        frappe.prompt(
-            [
-                { label: "New Category", fieldname: "new_category", fieldtype: "Link", options: "Category" },
-                { label: "New Sub-Category", fieldname: "new_sub_category", fieldtype: "Data" }
-            ],
-            function(values) {
-                frappe.model.set_value(cdt, cdn, "category", values.new_category);
-                frappe.model.set_value(cdt, cdn, "sub_category", values.new_sub_category);
-                frappe.msgprint("Expense moved successfully.");
-            },
-            "Move Expense",
-            "Move"
-        );
-    }
-});
+// Load grant agreements based on donor selection
+function load_grant_agreements(donor, grant_agreement_control) {
+    frappe.call({
+        method: "frappe.client.get_list",
+        args: {
+            doctype: "Grant Agreement",
+            filters: { donor: donor },
+            fields: ["name"]
+        },
+        callback: function (response) {
+            console.log("Inside GA ",response);
+            let agreements = response.message || [];
+            let options = agreements.map(ga => ga.name);
+            grant_agreement_control.df.options = options;
+            grant_agreement_control.refresh();
+        }
+    });
+}
+
+function load_tranches(grant_agreement, tranche_control, available_amount_control) {
+    frappe.call({
+        method: "frappe.client.get",
+        args: { doctype: "Grant Agreement", name: grant_agreement },
+        callback: function (response) {
+            console.log("Inside GA Tranche ", response);
+            let agreement = response.message;
+            let tranches = agreement.tranche_table || []; // Ensure this matches your child table name
+            
+            // Store tranche data for reference
+            let tranche_map = {};
+            let options = tranches.map(tr => {
+                tranche_map[tr.tranche_name] = tr.tranche_amount;
+                return tr.tranche_name;
+            });
+
+            tranche_control.df.options = options;
+            tranche_control.refresh();
+
+            // Set available amount based on the first tranche
+            if (tranches.length > 0) {
+                available_amount_control.set_value(tranches[0].tranche_amount);
+            }
+
+            // Update available amount when tranche selection changes
+            tranche_control.$input.on("change", function () {
+                let selected_tranche = tranche_control.get_value();
+                if (tranche_map[selected_tranche]) {
+                    available_amount_control.set_value(tranche_map[selected_tranche]);
+                }
+            });
+        }
+    });
+}
+
