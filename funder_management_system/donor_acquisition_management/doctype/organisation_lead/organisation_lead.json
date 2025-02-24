@@ -188,7 +188,7 @@
    "options": "Lead History"
   },
   {
-   "default": "1. Interested but needs follow-up: The prospect has shown interest but requires more information or time before making a decision. Follow up within [timeframe].  \n\n2. **Engaged but evaluating options:** The lead is actively considering our product/service but is also looking at competitors. Maintain contact and address any objections.  \n\n3. **Budget/timing constraints:** The lead is interested but is waiting for budget approval or a better timeline. Check back on [date].  \n\n4. **Positive response, needs nurturing:** The prospect responded well but isn't ready to commit. Continue nurturing with relevant content and check in periodically.  \n\n5. **Requires decision-maker approval:** The lead is engaged but needs approval from higher-ups. Offer additional resources and follow up with decision-makers.  ",
+   "default": "1. Interested but needs follow-up: The prospect has shown interest but requires more information or time before making a decision. Follow up within [timeframe].",
    "fieldname": "disposition_note",
    "fieldtype": "Text Editor",
    "label": "Disposition Note"
@@ -200,7 +200,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-24 04:00:59.504533",
+ "modified": "2025-02-24 13:41:06.581223",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "Organisation Lead",
