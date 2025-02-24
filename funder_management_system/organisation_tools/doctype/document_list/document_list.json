@@ -9,14 +9,9 @@
  "field_order": [
   "list_name",
   "section_break_jffz",
-  "table_debo"
+  "organisation_docs"
  ],
  "fields": [
-  {
-   "fieldname": "table_debo",
-   "fieldtype": "Table",
-   "options": "Organisation Toolkit"
-  },
   {
    "default": "Sample List",
    "fieldname": "list_name",
@@ -30,11 +25,17 @@
   {
    "fieldname": "section_break_jffz",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "organisation_docs",
+   "fieldtype": "Table",
+   "label": "Organisation Documents",
+   "options": "Organisation Toolkit"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-24 03:36:17.295278",
+ "modified": "2025-02-24 16:18:18.199333",
  "modified_by": "Administrator",
  "module": "Organisation Tools",
  "name": "Document List",

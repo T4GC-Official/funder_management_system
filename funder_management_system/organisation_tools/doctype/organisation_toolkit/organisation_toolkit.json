@@ -10,7 +10,8 @@
   "attachement_if_needed",
   "renewal_frequency",
   "renewal_date",
-  "notify_me_before"
+  "notify_me_before",
+  "notification_trigger_date"
  ],
  "fields": [
   {
@@ -48,16 +49,24 @@
   },
   {
    "fieldname": "notify_me_before",
-   "fieldtype": "Duration",
+   "fieldtype": "Int",
+   "hide_seconds": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Notify Me before"
+   "label": "Notify Me before",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "notification_trigger_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Notification Trigger Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-24 13:02:20.941989",
+ "modified": "2025-02-24 16:59:18.273722",
  "modified_by": "Administrator",
  "module": "Organisation Tools",
  "name": "Organisation Toolkit",

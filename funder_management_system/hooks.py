@@ -167,7 +167,7 @@ after_install = "funder_management_system.utils.create_financial_year"
 
 scheduler_events = {
 	"all": [
-	 	"funder_management_system.task.daily.grant_agreement_daily",
+	 	"funder_management_system.task.daily.grant_agreement_daily", "funder_management_system.task.daily.organisation_toolkit_daily"
 	 ],
 	"daily": [
 		
