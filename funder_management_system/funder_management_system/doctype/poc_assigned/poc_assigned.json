@@ -37,6 +37,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Phone",
+   "length": 13,
+   "options": "Phone",
    "placeholder": "+91 ___ ___ ____"
   },
   {
@@ -68,7 +70,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-24 13:53:05.592820",
+ "modified": "2025-02-24 18:51:54.358098",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "POC Assigned",
