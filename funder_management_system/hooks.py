@@ -32,6 +32,9 @@ fixtures = [{
 },
 {
     "dt": "Compliance Checklist"
+},
+{
+	"dt": "Engagement Checklist Master"
 }]
 # Includes in <head>
 # ------------------
@@ -160,13 +163,14 @@ after_install = "funder_management_system.utils.create_financial_year"
 # Scheduled Tasks
 # ---------------
 
+#to-do change the all to daily for funder_management_system.task.daily.grant_agreement_daily
 
 scheduler_events = {
-	# "all": [
-	# 	"funder_management_system.tasks.all"
-	# ],
+	"all": [
+	 	"funder_management_system.task.daily.grant_agreement_daily",
+	 ],
 	"daily": [
-		"funder_management_system.task.daily.grant_agreement_daily",
+		
 		"funder_management_system.task.daily.donor_daily",
 
 	]}
