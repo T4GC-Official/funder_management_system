@@ -94,12 +94,18 @@ before_save: function(frm) {
     if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_end_date) {
         let start_date = new Date(frm.doc.grant_agreement_start_date);
         let end_date = new Date(frm.doc.grant_agreement_end_date);
-        let start_year = start_date.getFullYear();
-        let end_year = end_date.getFullYear();
-        if (end_year - start_year > 1) {
+        
+        // Calculate the difference in months
+        let months_diff = (end_date.getFullYear() - start_date.getFullYear()) * 12 + (end_date.getMonth() - start_date.getMonth());
+    
+        // Check if the difference is more than 12 months
+        if (months_diff > 12) {
             frm.set_value("grant_agreement_type", "Multi Year");
+        } else {
+            frm.set_value("grant_agreement_type", "Single Year");
         }
-    } 
+    }
+    
 
 
     frm.trigger("calculate_utilisation_of_tranche");
@@ -147,9 +153,15 @@ total_number_of_tranches: function(frm) {
     frm.trigger("number_of_tranche");
 },
 grant_agreement_end_date: function(frm) {
-    if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_end_date < frm.doc.grant_agreement_start_date) {
+    if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_end_date < frm.doc.grant_agreement_start_date || frm.doc.grant_agreement_start_date == frm.doc.grant_agreement_end_date) {
         frappe.msgprint(__('Grant Agreement End Date cannot be before Start Date'));
         frm.set_value('grant_agreement_end_date', null);
+        frm.fields_dict["grant_agreement_end_date"].set_focus();
+        return;
+    }
+
+    if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_start_date == frm.doc.grant_agreement_end_date) {
+        frappe.msgprint(__('Grant Agreement Start Date & End Date cannot be same'));
         frm.fields_dict["grant_agreement_end_date"].set_focus();
         return;
     }
