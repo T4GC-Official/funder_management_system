@@ -122,13 +122,14 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
         }
     },
     grant_agreement: function (frm) {
-        if (frm.doc.select_budget) {
-            frappe.db.get_doc("Budget Plan", frm.doc.select_budget).then(budget => {
-                if (budget) {
+        if (frm.doc.grant_agreement) {
+            console.log("grant_agreement",frm.doc.grant_agreement);
+            frappe.db.get_doc("Grant Agreement", frm.doc.grant_agreement).then(grant => {
+                if (grant) {
                     console.log("grant_agreement");
-                    console.log(budget);
+                    console.log(grant);
                     frm.dashboard.clear_headline();
-                    render_grant_info(frm, budget);
+                    render_grant_info(frm, grant);
                 }
             });
         }
@@ -201,11 +202,119 @@ function render_budget_info(frm, budget) {
 }
 
 function render_grant_info(frm, grant) {
+        // let grant_html = `
+        // <div class="frappe-control" style="margin-top: 10px; width: 100%;">
+        //         <label class="control-label" style="font-weight: bold;">Budget Details</label>
+        //         <div class="control-value">
+        //             <table class="table table-bordered table-hover" style="width: 100%;">
+        //                 <thead class="table-light">
+        //                     <tr>
+        //                         <th style="width: 14%;">Budget</th>
+        //                         <th style="width: 14%;">FY</th>
+        //                         <th style="width: 14%;">1st Quarter</th>
+        //                         <th style="width: 14%;">2nd Quarter</th>
+        //                         <th style="width: 14%;">3rd Quarter</th>
+        //                         <th style="width: 14%;">4th Quarter</th>
+        //                         <th style="width: 16%;">Total Grant Amount</th>
+        //                     </tr>
+        //                 </thead>
+        //                 <tbody>
+        //                          <tr>
+        //                             <td style="width: 14%; white-space: nowrap;">hello${grant.name}</td>
+        //                             <td style="width: 14%; white-space: nowrap;">${grant.total_tranche_amount_received}</td>
+        //                             <td style="width: 14%; white-space: nowrap;">${formatCurrency(grant.total_grant_amount, currency_symbol)}</td>
+        //                        </tr>
+        //                    </tbody>
+        //                    <tfoot>
+        //                     <tr>
+        //                         <td colspan="7" style="text-align: left; font-style: italic;">
+        //                             Note: All budget values are displayed in ${currency_symbol}. FY = Financial Year
+        //                         </td>
+        //                     </tr>
+        //                 </tfoot>
+        //             </table>
+        //         </div>
+        //     </div>
+        
+        
+        // `;  // Add grant-related HTML here
+        render_tranche_table(frm, grant);
+        frm.fields_dict["grant_table_view_section"].$wrapper.html(grant_html);
+    }
+
+
+function render_tranche_table(frm, grant) {
+    if (!frm.fields_dict["grant_table_view_section"]) {
+        console.error("donor_table_view_section is not found in form fields.");
+        return;
+    }
+
+    let tranche_data = grant.tranche_table;
+
+    if (!tranche_data || tranche_data.length === 0) {
+        console.warn("No tranche data available.");
+        return;
+    }
+
+    // Get currency symbol
     getCurrencySymbol(function (currency_symbol) {
-        let grant_html = `<div>Hello</div>`;  // Add grant-related HTML here
-        frm.fields_dict["donor_table_view_section"].$wrapper.html(grant_html);
+        let table_html = `
+        <div class="frappe-control" style="margin-top: 10px; width: 100%;">
+            <label class="control-label" style="font-weight: bold;">Tranche Details</label>
+            <div class="control-value">
+                <table class="table table-bordered table-hover" style="width: 100%; text-align: center;">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 20%;">Tranche Info</th>`;
+
+        // Create column headers dynamically
+        tranche_data.forEach(tranche => {
+            table_html += `<th style="width: ${80 / tranche_data.length}%; white-space: nowrap;">${tranche.tranche_name}</th>`;
+        });
+
+        table_html += `</tr></thead><tbody>`;
+
+        // Row 1: Tranche Amounts
+        table_html += `<tr><td><b>Amount</b></td>`;
+        tranche_data.forEach(tranche => {
+            table_html += `<td>${formatCurrency(tranche.tranche_amount, currency_symbol)}</td>`;
+        });
+        table_html += `</tr>`;
+
+        //Row 2: Status
+        table_html += `<tr><td><b>Status</b></td>`;
+        tranche_data.forEach(tranche => {
+            table_html += `<td>${tranche.tranche_status}</td>`;
+        });
+        table_html += `</tr>`;
+
+        // // Row 3: Financial Year
+        // table_html += `<tr><td><b>Financial Year</b></td>`;
+        // tranche_data.forEach(tranche => {
+        //     table_html += `<td>${tranche.tranche_financial_year}</td>`;
+        // });
+        // table_html += `</tr>`;
+
+        // // Row 4: Received On
+        // table_html += `<tr><td><b>Received On</b></td>`;
+        // tranche_data.forEach(tranche => {
+        //     table_html += `<td>${tranche.received_on || "-"}</td>`;
+        // });
+        // table_html += `</tr>`;
+
+        // // Row 5: Expenditure
+        // table_html += `<tr><td><b>Expenditure</b></td>`;
+        // tranche_data.forEach(tranche => {
+        //     table_html += `<td>${formatCurrency(tranche.total_tranche_expenditure, currency_symbol)}</td>`;
+        // });
+        // table_html += `</tr>`;
+
+        table_html += `</tbody></table></div></div>`;
+        console.log("Updating donor_table_view_section with tranche table...");
+        frm.fields_dict["grant_table_view_section"].$wrapper.html(table_html);
     });
 }
+
 
 
 

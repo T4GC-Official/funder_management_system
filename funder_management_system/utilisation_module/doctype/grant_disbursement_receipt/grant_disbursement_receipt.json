@@ -20,9 +20,8 @@
   "section_break_yriv",
   "info_budget_col",
   "budget_table_view_section",
-  "section_break_wwjt",
-  "column_break_kjdu",
-  "donor_table_view_section",
+  "section_break_atrq",
+  "grant_table_view_section",
   "section_break_pacm",
   "column_break_hmtc",
   "budget_category",
@@ -184,23 +183,19 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "section_break_wwjt",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_kjdu",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "donor_table_view_section",
+   "depends_on": "eval:doc.grant_agreement",
+   "fieldname": "grant_table_view_section",
    "fieldtype": "Data",
-   "label": "Grant Info",
-   "read_only": 1
+   "label": "Grant Info"
+  },
+  {
+   "fieldname": "section_break_atrq",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-25 17:54:41.219978",
+ "modified": "2025-02-25 19:48:05.877529",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Grant Disbursement Receipt",
