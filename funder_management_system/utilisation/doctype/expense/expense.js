@@ -3,6 +3,7 @@ frappe.ui.form.on("Expense", {
         if (!frm.fields_dict["expense_details_section"]) {
             return;
         }
+        
         render_expense_entry_ui(frm);
     }
 });
@@ -228,4 +229,3 @@ function load_tranches(grant_agreement, tranche_control, available_amount_contro
         }
     });
 }
-

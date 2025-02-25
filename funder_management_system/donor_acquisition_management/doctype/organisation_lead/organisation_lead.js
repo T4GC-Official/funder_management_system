@@ -38,8 +38,6 @@ frappe.ui.form.on("Organisation Lead", {
     },
 
     lead_stage: function (frm) {
-
-        
          if (!frm.doc.lead_name) {
 
             if (frm.doc.lead_stage == "Confirmed Lead") {
@@ -56,7 +54,6 @@ frappe.ui.form.on("Organisation Lead", {
         frm.trigger("lead_description");
         //check if organisation field is empty 
         if (frm.doc.lead_stage === "Confirmed Lead") {
-            
             frappe.confirm(
                 'Changing the Lead Status to "Confirmed Lead" for <strong>' + frm.doc.lead_name + `</strong> will create a new Donor record. <br> Do you want to proceed with this step? <br><hr> Click <strong>Yes</strong>: Create Donor <br><hr> Click <strong>No</strong>: Cancel and review the lead details.`,
                 () => {

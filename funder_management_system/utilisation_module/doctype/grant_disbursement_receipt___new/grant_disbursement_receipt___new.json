@@ -1,0 +1,110 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "prompt",
+ "creation": "2025-02-25 13:47:01.975850",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "donor",
+  "grant_agreement",
+  "tranche_name",
+  "column_break_wytb",
+  "budget_category",
+  "budget_sub_category",
+  "tranche_amount",
+  "column_break_txcb",
+  "expenditure",
+  "create_expense_record",
+  "section_break_ppmd",
+  "table_lbka"
+ ],
+ "fields": [
+  {
+   "fieldname": "donor",
+   "fieldtype": "Link",
+   "label": "Donor",
+   "options": "Donor"
+  },
+  {
+   "depends_on": "eval:doc.donor",
+   "fieldname": "grant_agreement",
+   "fieldtype": "Link",
+   "label": "Grant Agreement",
+   "options": "Grant Agreement"
+  },
+  {
+   "fieldname": "tranche_name",
+   "fieldtype": "Select",
+   "label": "Tranche"
+  },
+  {
+   "fieldname": "column_break_wytb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "budget_category",
+   "fieldtype": "Link",
+   "label": "Budget Category",
+   "options": "Budget Category"
+  },
+  {
+   "fieldname": "budget_sub_category",
+   "fieldtype": "Link",
+   "label": "Budget Sub Category",
+   "options": "Budget Sub-Category"
+  },
+  {
+   "fieldname": "tranche_amount",
+   "fieldtype": "Currency",
+   "label": "Tranche Amount"
+  },
+  {
+   "fieldname": "column_break_txcb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expenditure",
+   "fieldtype": "Currency",
+   "label": "Expenditure"
+  },
+  {
+   "fieldname": "create_expense_record",
+   "fieldtype": "Button",
+   "label": "Create Expense Record",
+   "max_height": "3 em"
+  },
+  {
+   "fieldname": "section_break_ppmd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_lbka",
+   "fieldtype": "Table",
+   "options": "Expenditure Detail"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-25 13:47:46.659191",
+ "modified_by": "Administrator",
+ "module": "Utilisation Module",
+ "name": "Grant Disbursement Receipt - New",
+ "naming_rule": "Set by user",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

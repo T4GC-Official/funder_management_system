@@ -10,8 +10,8 @@
   "tranche",
   "category",
   "sub_category",
-  "available_amount",
-  "utilised_amount"
+  "utilised_amount",
+  "utilisation_record_created"
  ],
  "fields": [
   {
@@ -49,22 +49,23 @@
    "options": "Budget Sub-Category"
   },
   {
-   "fieldname": "available_amount",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Available Amount"
-  },
-  {
    "fieldname": "utilised_amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
    "label": "Utilised Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "utilisation_record_created",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Utilisation Record Created"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-19 18:01:22.291100",
+ "modified": "2025-02-25 16:38:23.755811",
  "modified_by": "Administrator",
  "module": "Utilisation",
  "name": "Expenditure Detail",
