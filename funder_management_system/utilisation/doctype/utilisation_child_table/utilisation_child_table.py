@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class ExpenditureDetail(Document):
+class UtilisationChildTable(Document):
 	pass

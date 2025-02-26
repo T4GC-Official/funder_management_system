@@ -9,6 +9,7 @@
   "donor",
   "grant_agreement",
   "tranche_name",
+  "budget_plan",
   "column_break_wytb",
   "budget_category",
   "budget_sub_category",
@@ -16,6 +17,8 @@
   "column_break_txcb",
   "expenditure",
   "create_expense_record",
+  "section_break_afvf",
+  "budget_and_tranche_summary",
   "section_break_ppmd",
   "table_lbka"
  ],
@@ -81,12 +84,28 @@
   {
    "fieldname": "table_lbka",
    "fieldtype": "Table",
-   "options": "Expenditure Detail"
+   "options": "Utilisation Child Table"
+  },
+  {
+   "fieldname": "budget_plan",
+   "fieldtype": "Link",
+   "label": "Budget Plan",
+   "options": "Budget Plan"
+  },
+  {
+   "fieldname": "section_break_afvf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "budget_and_tranche_summary",
+   "fieldtype": "HTML",
+   "label": "Budget and Tranche Summary",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-25 13:47:46.659191",
+ "modified": "2025-02-27 01:49:08.335148",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Grant Disbursement Receipt - New",

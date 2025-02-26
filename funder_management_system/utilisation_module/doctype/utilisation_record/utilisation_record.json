@@ -7,20 +7,22 @@
  "engine": "InnoDB",
  "field_order": [
   "expense_details_section",
-  "grant_receipt",
-  "budget_plan",
+  "donor_details_column",
   "donor",
-  "grant",
-  "tranche_name",
+  "grant_agreement",
+  "tranche",
   "column_break_fkev",
-  "category",
-  "sub_category",
+  "budget_plan",
+  "quarters",
   "financial_year",
   "section_break_pzfy",
   "utilised_amount",
-  "utilisation_status",
   "column_break_eaqn",
-  "budget_remaining"
+  "utilisation_status",
+  "column_break_noba",
+  "category",
+  "column_break_qtxl",
+  "sub_category"
  ],
  "fields": [
   {
@@ -66,24 +68,8 @@
   },
   {
    "fieldname": "column_break_fkev",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "grant_receipt",
-   "fieldtype": "Link",
-   "label": "Grant Receipt",
-   "options": "Grant Disbursement Receipt"
-  },
-  {
-   "fieldname": "budget_remaining",
-   "fieldtype": "Currency",
-   "label": "Budget Remaining"
-  },
-  {
-   "fieldname": "grant",
-   "fieldtype": "Link",
-   "label": "Grant",
-   "options": "Grant Agreement"
+   "fieldtype": "Column Break",
+   "label": "Budget Pan Details"
   },
   {
    "fieldname": "section_break_pzfy",
@@ -92,22 +78,46 @@
   },
   {
    "fieldname": "expense_details_section",
-   "fieldtype": "Section Break",
-   "label": "Expense Details"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "column_break_eaqn",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "tranche_name",
+   "fieldname": "grant_agreement",
+   "fieldtype": "Link",
+   "label": "Grant",
+   "options": "Grant Agreement"
+  },
+  {
+   "fieldname": "quarters",
+   "fieldtype": "Select",
+   "label": "Quarters",
+   "options": "Q1\nQ2\nQ3\nQ4"
+  },
+  {
+   "fieldname": "column_break_noba",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qtxl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "donor_details_column",
+   "fieldtype": "Column Break",
+   "label": "Donor Details"
+  },
+  {
+   "fieldname": "tranche",
    "fieldtype": "Data",
    "label": "Tranche Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-25 16:01:43.295512",
+ "modified": "2025-02-27 03:13:44.129373",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",

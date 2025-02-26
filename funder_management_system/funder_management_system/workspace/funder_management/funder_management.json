@@ -199,7 +199,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Grant Utilisation",
-   "link_count": 1,
+   "link_count": 2,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -213,9 +213,19 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Utilisation Record",
+   "link_count": 0,
+   "link_to": "Utilisation Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-02-25 15:01:55.296952",
+ "modified": "2025-02-26 16:51:52.170190",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Funder Management",

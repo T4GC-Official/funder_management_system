@@ -65,7 +65,7 @@
    "fieldname": "expenditure_detail",
    "fieldtype": "Link",
    "label": "Expenditure Detail",
-   "options": "Expenditure Detail"
+   "options": "Utilisation Child Table"
   },
   {
    "fieldname": "utilised_amount",
@@ -93,7 +93,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-25 18:27:07.038467",
+ "modified": "2025-02-27 01:49:08.468662",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Ledger",

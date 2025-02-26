@@ -3,46 +3,67 @@
 
 frappe.ui.form.on("Grant Disbursement Receipt", {
     refresh: function(frm) {
-        frm.set_df_property('select_budget', 'read_only', 1);
         frm.set_df_property("financial_year", "only_select", 1);
-        frm.set_df_property("select_budget", "only_select", 1);
-        if (!frm.doc.financial_year) {
-            frm.set_df_property("select_budget", "hidden", 1);
+        frm.set_df_property("budget", "only_select", 1);
+        if (frm.is_new()) {
+            // frm.disable_save();
+            // frm.set_df_property("budget_info_section", "hidden", 1);
+            // frm.set_df_property("section_break_plea", "hidden", 1);
+            // frm.set_df_property("section_break_yriv", "hidden", 1);
+            // frm.set_df_property("section_break_atrq", "hidden", 1);
+            // frm.set_df_property("section_break_pacm", "hidden", 1);
+            // frm.set_df_property("section_break_bkqb", "hidden", 1);
         }
     },
+
+    after_save: function (frm) {
+        // frm.set_value('budget', null);
+        // frm.set_value('grant_agreement', null);
+        // frm.set_value('tranche_name', null);
+        // frm.set_value('tranche_amount', null);
+        // frm.set_value("financial_year", null);
+        // frm.set_value("donor", null);
+        // frm.set_value("budget_category", null);
+        // frm.set_value("budget_sub_category", null);
+        // frm.set_value("expenditure", null);
+    
+        frappe.call({
+            method: "funder_management_system.utilisation_module.doctype.grant_disbursement_receipt.grant_disbursement_receipt.create_utilisation_entries",
+            args: {
+                document_name: frm.doc.name
+            },
+            callback: function (r) {
+               
+                    console.log("Expenditure records created successfully.",r.message);
+
+                
+                frm.reload_doc();  // Reloads the entire document to reflect changes
+            }
+        });
+    },
+
+    update_child_table: function (frm) {
+        frm.refresh_field('utilisation_child_table');
+    },
+    
+    
     donor: function(frm) {
         frm.set_query('grant_agreement', () => {
             return frm.doc.donor ? { filters: { donor: frm.doc.donor } } : {};
         });
         frm.set_value('grant_agreement', null);
-        frm.set_value('tranche_name', null);
+        frm.set_value('grant_tranche_name', null);
     },
 
     grant_agreement: function(frm) {
-        frm.set_query('tranche_name', () => {
+        frm.set_query('grant_tranche_name', () => {
             return frm.doc.grant_agreement ? { filters: { parent: frm.doc.grant_agreement } } : {};
         });
-        frm.set_value('tranche_name', null);
+        frm.set_value('grant_tranche_name', null);
         load_tranches(frm);
     },
 
-    // tranche_name: function(frm) {
-    //     if (frm.doc.tranche_name && frm.tranche_map) {
-    //         frm.set_value("tranche_amount", frm.tranche_map[frm.doc.tranche_name] || null);
-    //         // render the grant details
-    //         frappe.db.get_doc("Budget Plan", frm.doc.select_budget).then(budget => {
-    //             if (budget) {
-    //                 frm.dashboard.clear_headline();
-    //                 render_grant_info(frm, budget);
-    //             }
-    //         });
 
-
-
-    //     } else {
-    //         frm.set_value("tranche_amount", null);
-    //     }
-    // },
 
     budget_category: function(frm) {
         frm.set_query('budget_sub_category', () => {
@@ -71,7 +92,7 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
 
 function load_tranches(frm) {
     if (!frm.doc.grant_agreement) {
-        frm.set_value("tranche_name", null);
+        frm.set_value("grant_tranche_name", null);
         frm.set_value("tranche_amount", null);
         frm.tranche_map = {};
         return;
@@ -91,13 +112,13 @@ function load_tranches(frm) {
                     return tr.tranche_name;
                 });
 
-                if (frm.fields_dict.tranche_name) {
-                    frm.fields_dict.tranche_name.df.options = options.join("\n");
-                    frm.fields_dict.tranche_name.refresh();
+                if (frm.fields_dict.grant_tranche_name) {
+                    frm.fields_dict.grant_tranche_name.df.options = options.join("\n");
+                    frm.fields_dict.grant_tranche_name.refresh();
                 }
 
                 if (tranches.length > 0) {
-                    frm.set_value("tranche_name", tranches[0].tranche_name);
+                    frm.set_value("grant_tranche_name", tranches[0].tranche_name);
                     frm.set_value("tranche_amount", tranches[0].tranche_amount);
                 }
             }
@@ -111,9 +132,9 @@ function load_tranches(frm) {
 
 
 frappe.ui.form.on('Grant Disbursement Receipt', {
-    select_budget: function (frm) {
-        if (frm.doc.select_budget) {
-            frappe.db.get_doc("Budget Plan", frm.doc.select_budget).then(budget => {
+    budget: function (frm) {
+        if (frm.doc.budget) {
+            frappe.db.get_doc("Budget Plan", frm.doc.budget).then(budget => {
                 if (budget) {
                     frm.dashboard.clear_headline();
                     render_budget_info(frm, budget);
@@ -126,14 +147,69 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
             console.log("grant_agreement",frm.doc.grant_agreement);
             frappe.db.get_doc("Grant Agreement", frm.doc.grant_agreement).then(grant => {
                 if (grant) {
-                    console.log("grant_agreement");
-                    console.log(grant);
                     frm.dashboard.clear_headline();
-                    render_grant_info(frm, grant);
+                    render_tranche_table(frm, grant);
                 }
             });
         }
-    }
+    },
+    create_expense_record: function (frm) {
+
+
+
+        if(frm.doc.financial_year && frm.doc.budget && frm.doc.donor && frm.doc.grant_agreement && frm.doc.grant_tranche_name && frm.doc.quarters && frm.doc.budget_category && frm.doc.budget_sub_category && frm.doc.expenditure){
+        
+       
+            let data = {
+                financial_year: frm.doc.financial_year,
+                budget_plan: frm.doc.budget,
+                quarters:frm.doc.quarters,
+                donor: frm.doc.donor,
+                grant_agreement: frm.doc.grant_agreement,
+                tranche: frm.doc.grant_tranche_name,
+                category: frm.doc.budget_category,
+                sub_category: frm.doc.budget_sub_category,
+                utilised_amount: frm.doc.expenditure
+              };
+              frm.add_child("utilisation_child_table", data);
+              frm.refresh_field('utilisation_child_table');  
+
+              // clear the field values
+              frm.set_value("grant_tranche_name", null);
+              frm.set_value("budget_category", null);
+              frm.set_value("budget_sub_category", null);
+              frm.set_value("expenditure", null);
+              frm.save();
+
+
+        }
+        else{
+            // set focus on the first empty field
+            if (!frm.doc.financial_year) {
+                frm.fields_dict.financial_year.set_focus();
+            } else if (!frm.doc.budget) {
+                frm.fields_dict.budget.set_focus();
+            } else if (!frm.doc.donor) {
+                frm.fields_dict.donor.set_focus();
+            } else if (!frm.doc.grant_agreement) {
+                frm.fields_dict.grant_agreement.set_focus();
+            } else if (!frm.doc.grant_tranche_name) {
+                frm.fields_dict.grant_tranche_name.set_focus();
+            } else if (!frm.doc.budget_category) {
+                frm.fields_dict.budget_category.set_focus();
+            } else if (!frm.doc.budget_sub_category) {
+                frm.fields_dict.budget_sub_category.set_focus();
+            } else if (!frm.doc.expenditure) {
+                frm.fields_dict.expenditure.set_focus();
+            } else {
+                frappe.throw("Please fill in all the required fields.");
+            }
+        }
+      // fetch Financial Year, Budget_Name, Donor , Grant Agreement, Tranche Name a, Budget Category, Sub category and expenditure from Grant Disbursement Receipt doctype and add it to the utilisation_details child table without savind it to the child table 
+    
+      
+    },
+
 });
 
 
@@ -197,51 +273,15 @@ function render_budget_info(frm, budget) {
                 </div>
             </div>
         `;
+        console.log("rendering the budget info");
+        if (!frm.fields_dict["budget_table_view_section"]) {
+            console.error("donor_table_view_section is not found in form fields.");
+            return;
+        }
+
         frm.fields_dict["budget_table_view_section"].$wrapper.html(budget_html);
     });
 }
-
-function render_grant_info(frm, grant) {
-        // let grant_html = `
-        // <div class="frappe-control" style="margin-top: 10px; width: 100%;">
-        //         <label class="control-label" style="font-weight: bold;">Budget Details</label>
-        //         <div class="control-value">
-        //             <table class="table table-bordered table-hover" style="width: 100%;">
-        //                 <thead class="table-light">
-        //                     <tr>
-        //                         <th style="width: 14%;">Budget</th>
-        //                         <th style="width: 14%;">FY</th>
-        //                         <th style="width: 14%;">1st Quarter</th>
-        //                         <th style="width: 14%;">2nd Quarter</th>
-        //                         <th style="width: 14%;">3rd Quarter</th>
-        //                         <th style="width: 14%;">4th Quarter</th>
-        //                         <th style="width: 16%;">Total Grant Amount</th>
-        //                     </tr>
-        //                 </thead>
-        //                 <tbody>
-        //                          <tr>
-        //                             <td style="width: 14%; white-space: nowrap;">hello${grant.name}</td>
-        //                             <td style="width: 14%; white-space: nowrap;">${grant.total_tranche_amount_received}</td>
-        //                             <td style="width: 14%; white-space: nowrap;">${formatCurrency(grant.total_grant_amount, currency_symbol)}</td>
-        //                        </tr>
-        //                    </tbody>
-        //                    <tfoot>
-        //                     <tr>
-        //                         <td colspan="7" style="text-align: left; font-style: italic;">
-        //                             Note: All budget values are displayed in ${currency_symbol}. FY = Financial Year
-        //                         </td>
-        //                     </tr>
-        //                 </tfoot>
-        //             </table>
-        //         </div>
-        //     </div>
-        
-        
-        // `;  // Add grant-related HTML here
-        render_tranche_table(frm, grant);
-        frm.fields_dict["grant_table_view_section"].$wrapper.html(grant_html);
-    }
-
 
 function render_tranche_table(frm, grant) {
     if (!frm.fields_dict["grant_table_view_section"]) {
@@ -314,6 +354,7 @@ function render_tranche_table(frm, grant) {
         frm.fields_dict["grant_table_view_section"].$wrapper.html(table_html);
     });
 }
+
 
 
 
