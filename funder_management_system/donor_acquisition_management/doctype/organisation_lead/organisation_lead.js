@@ -1,7 +1,6 @@
 frappe.ui.form.on("Organisation Lead", {
     onload_post_render: function(frm) {
         frm.trigger("lead_description");
-        
     },
 
     before_save: function (frm) {
@@ -9,6 +8,7 @@ frappe.ui.form.on("Organisation Lead", {
     },
     refresh: function (frm) {
         frm.get_field("table_lead_history").grid.cannot_add_rows = true;
+        frm.refresh_field('table_lead_history');
         frm.trigger("load_compliance_checklist");
         
     },
