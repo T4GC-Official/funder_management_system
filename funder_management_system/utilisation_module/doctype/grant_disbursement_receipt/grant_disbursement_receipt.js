@@ -2,30 +2,29 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Grant Disbursement Receipt", {
+    onload_post_render: function(frm) {
+    
+    },
+
+
     refresh: function(frm) {
-        frm.set_df_property("financial_year", "only_select", 1);
-        frm.set_df_property("budget", "only_select", 1);
-        if (frm.is_new()) {
-            // frm.disable_save();
-            // frm.set_df_property("budget_info_section", "hidden", 1);
-            // frm.set_df_property("section_break_plea", "hidden", 1);
-            // frm.set_df_property("section_break_yriv", "hidden", 1);
-            // frm.set_df_property("section_break_atrq", "hidden", 1);
-            // frm.set_df_property("section_break_pacm", "hidden", 1);
-            // frm.set_df_property("section_break_bkqb", "hidden", 1);
-        }
+       
+        frm.get_field("utilisation_child_table").grid.cannot_add_rows = true;
+        frm.refresh_field('utilisation_child_table');
+        frm.set_df_property("donor", "only_select", 1);
+        frm.set_df_property("grant_tranche_name", "only_select", 1);
     },
 
     after_save: function (frm) {
-        // frm.set_value('budget', null);
-        // frm.set_value('grant_agreement', null);
-        // frm.set_value('tranche_name', null);
-        // frm.set_value('tranche_amount', null);
-        // frm.set_value("financial_year", null);
-        // frm.set_value("donor", null);
-        // frm.set_value("budget_category", null);
-        // frm.set_value("budget_sub_category", null);
-        // frm.set_value("expenditure", null);
+        frm.set_value('budget', null);
+        frm.set_value('grant_agreement', null);
+        frm.set_value('tranche_name', null);
+        frm.set_value('tranche_amount', null);
+        frm.set_value("financial_year", null);
+        frm.set_value("donor", null);
+        frm.set_value("budget_category", null);
+        frm.set_value("budget_sub_category", null);
+        frm.set_value("expenditure", null);
     
         frappe.call({
             method: "funder_management_system.utilisation_module.doctype.grant_disbursement_receipt.grant_disbursement_receipt.create_utilisation_entries",
@@ -33,11 +32,7 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
                 document_name: frm.doc.name
             },
             callback: function (r) {
-               
-                    console.log("Expenditure records created successfully.",r.message);
-
-                
-                frm.reload_doc();  // Reloads the entire document to reflect changes
+               frm.reload_doc();  // Reloads the entire document to reflect changes
             }
         });
     },
@@ -166,7 +161,7 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
                 quarters:frm.doc.quarters,
                 donor: frm.doc.donor,
                 grant_agreement: frm.doc.grant_agreement,
-                tranche: frm.doc.grant_tranche_name,
+                grant_agreement_tranche: frm.doc.grant_tranche_name,
                 category: frm.doc.budget_category,
                 sub_category: frm.doc.budget_sub_category,
                 utilised_amount: frm.doc.expenditure
@@ -350,7 +345,6 @@ function render_tranche_table(frm, grant) {
         // table_html += `</tr>`;
 
         table_html += `</tbody></table></div></div>`;
-        console.log("Updating donor_table_view_section with tranche table...");
         frm.fields_dict["grant_table_view_section"].$wrapper.html(table_html);
     });
 }

@@ -10,6 +10,7 @@ class GrantDisbursementReceipt(Document):
 
 @frappe.whitelist()
 def create_utilisation_entries(document_name):
+    ga_doc = frappe.get_doc("Grant Disbursement Receipt", document_name)
     try:
         user = frappe.session.user
         logger.info(f"{user} requested to create expenditure records for Grant Disbursement Receipt: {document_name}")
@@ -18,14 +19,14 @@ def create_utilisation_entries(document_name):
         logger.info(f"Creating utilisation records for Grant Disbursement Receipt: {document_name}")
         count = 0
         for row in ga_doc.utilisation_child_table:
-            count += 1
             if row.utilisation_record_created:
                 continue
             utilisation_doc = frappe.get_doc({
                 "doctype": "Utilisation Record",
                 "donor": row.donor,
-                "grant_agreement": ga_doc.grant_agreement,
+                "grant_agreement": row.grant_agreement,
                 "category": row.category,
+                "grant_agreement_tranche": row.grant_agreement_tranche,
                 "sub_category": row.sub_category,
                 "utilised_amount": row.utilised_amount,
                 "quarters": row.quarters,
@@ -33,7 +34,7 @@ def create_utilisation_entries(document_name):
                 "financial_year": row.financial_year,
                 "utilisation_record_created": True
             })
-            logger.info(f"{count} Latest log for utilisation record for grant agreement-> {ga_doc.grant_agreement} | donor name-> {row.donor}  | category-> {row.category} | sub category-> {row.sub_category} | utilised amount-> {row.utilised_amount} | financial year-> {row.financial_year} | for utilisation record: {document_name}")
+            logger.info(f" Latest log for utilisation record for grant agreement-> {ga_doc.grant_agreement} | donor name-> {row.donor}  | category-> {row.category} | sub category-> {row.sub_category} | utilised amount-> {row.utilised_amount} | financial year-> {row.financial_year} | for utilisation record: {document_name}")
             utilisation_doc.insert(ignore_permissions=True)
             utilisation_entries.append(utilisation_doc.name)
             row.db_set("expenditure_record_name", utilisation_doc.name)
