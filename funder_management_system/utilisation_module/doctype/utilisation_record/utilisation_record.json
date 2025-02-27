@@ -23,7 +23,8 @@
   "column_break_noba",
   "category",
   "column_break_qtxl",
-  "sub_category"
+  "sub_category",
+  "amended_from"
  ],
  "fields": [
   {
@@ -120,11 +121,22 @@
    "fieldtype": "Link",
    "label": "GDR",
    "options": "Grant Disbursement Receipt"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Utilisation Record",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2025-02-27 14:39:58.742166",
+ "modified": "2025-02-27 16:22:39.104684",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
@@ -132,6 +144,7 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -140,9 +153,11 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
+   "cancel": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -151,6 +166,7 @@
    "report": 1,
    "role": "Administrator",
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],

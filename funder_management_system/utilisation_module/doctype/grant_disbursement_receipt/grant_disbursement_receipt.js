@@ -19,9 +19,29 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
             }
         }
     },
+    // write logic to detect the delete button of the child table and fetch the current child table row
+    utilisation_child_table_onboard: function(frm, cdt, cdn) {
+        var childTable = frm.get_field("utilisation_child_table");
+        var row = frappe.get_doc(cdt, cdn);
+        if (row.expenditure_record_name) {
+            frappe.msgprint("Cannot delete this row. Utilisation Record exists in child table.");
+            return;
+        }
+
+        if (cdn) {
+            var childTable = frm.get_field("utilisation_child_table");
+            var row = frappe.get_doc(cdt, cdn);
+            if (row.doctype === "Utilisation Child Table" && row.__deleted) {
+                frm.trigger("utilisation_child_table_onboard", frm, cdt, cdn);
+            }
+        }// trigger utilisation_child_table_onboard event when user clicks on the delete button
+        
+    }, 
     refresh: function(frm) {
 
-        frm.get_field("utilisation_child_table").grid.cannot_add_rows = true;
+        frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
+        frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
+        frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
         frm.refresh_field('utilisation_child_table');
         frm.set_df_property("donor", "only_select", 1);
         frm.set_df_property("grant_tranche_name", "only_select", 1);
@@ -359,7 +379,14 @@ function render_tranche_table(frm, grant) {
         frm.fields_dict["grant_table_view_section"].$wrapper.html(table_html);
     });
 }
-
+frappe.ui.form.on('Utilisation Table', {
+    delete_rows: function(frm, grid) {
+        console.log("delete rows");
+        // Your custom implementation here
+        // You can call the original method if needed
+        // grid.delete_rows.call(grid);
+      }
+});
 
 
 

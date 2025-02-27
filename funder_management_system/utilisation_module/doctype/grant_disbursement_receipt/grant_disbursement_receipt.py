@@ -5,22 +5,26 @@ frappe.utils.logger.set_log_level("DEBUG")  # Ensure debug logs are captured
 logger = frappe.logger("grant_disbursement_receipt", allow_site=True, file_count=50)
 
 class GrantDisbursementReceipt(Document):
+
      pass
 
 
 @frappe.whitelist()
 def create_utilisation_entries(document_name):
-    ga_doc = frappe.get_doc("Grant Disbursement Receipt", document_name)
     try:
         user = frappe.session.user
         logger.info(f"{user} requested to create expenditure records for Grant Disbursement Receipt: {document_name}")
+
         ga_doc = frappe.get_doc("Grant Disbursement Receipt", document_name)
-        utilisation_entries = []
-        logger.info(f"Creating utilisation records for Grant Disbursement Receipt: {document_name}")
         count = 0
+        utilisation_entries = []
+
+        logger.info(f"Creating utilisation records for Grant Disbursement Receipt: {document_name}")
+
         for row in ga_doc.utilisation_child_table:
             if row.utilisation_record_created:
                 continue
+
             utilisation_doc = frappe.get_doc({
                 "doctype": "Utilisation Record",
                 "donor": row.donor,
@@ -32,19 +36,32 @@ def create_utilisation_entries(document_name):
                 "quarters": row.quarters,
                 "budget_plan": row.budget_plan,
                 "financial_year": row.financial_year,
-                "gdr":ga_doc.gdr,
-                "utilisation_record_created": True
+                "gdr": ga_doc.gdr,
+                "utilisation_record_created": True,
+                "docstatus":1
             })
-            logger.info(f" Latest log for utilisation record for grant agreement-> {ga_doc.grant_agreement} |grd->{ga_doc.gdr} |donor name-> {row.donor}  | category-> {row.category} | sub category-> {row.sub_category} | utilised amount-> {row.utilised_amount} | financial year-> {row.financial_year} | for utilisation record: {document_name}")
+
             utilisation_doc.insert(ignore_permissions=True)
+            #utilisation_doc.submit(ignore_permissions=True)
+
+            # Update the child table row
             row.db_set("expenditure_record_name", utilisation_doc.name)
             row.db_set("utilisation_record_created", True)
+
             count += 1
+            utilisation_entries.append(utilisation_doc.name)
+
+            logger.info(f"Created Utilisation Record: {utilisation_doc.name} for Grant Agreement {ga_doc.grant_agreement}")
+
         if count > 0:
             frappe.db.commit()
-            logger.info(f"Successfully processed {len(utilisation_entries)} records for {document_name}")
+            logger.info(f"Successfully created {count} utilisation records for {document_name}")
             frappe.msgprint(f"{count} Utilisation Entries Created", alert=True)
             return utilisation_entries
+        else:
+            logger.info(f"No new utilisation records were created for {document_name}")
+            frappe.msgprint("No new Utilisation Entries were created (Already Processed)", alert=True)
+            return None
     except Exception as e:
         logger.error(f"Error creating utilisation records: {str(e)}")
         frappe.log_error(f"Error creating utilisation records: {str(e)}", "Utilisation Creation Error")
