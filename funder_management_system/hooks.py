@@ -21,6 +21,21 @@ app_license = "mit"
 # 	}
 # ]
 
+fixtures = [{
+    "dt": "Thematic Area"
+},
+{
+    "dt": "Category"
+},
+{
+    "dt": "Source of Connection"
+},
+{
+    "dt": "Compliance Checklist"
+},
+{
+	"dt": "Engagement Checklist Master"
+}]
 # Includes in <head>
 # ------------------
 
@@ -83,7 +98,7 @@ app_license = "mit"
 # ------------
 
 # before_install = "funder_management_system.install.before_install"
-# after_install = "funder_management_system.install.after_install"
+after_install = "funder_management_system.utils.create_financial_year"
 
 # Uninstallation
 # ------------
@@ -148,13 +163,17 @@ app_license = "mit"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"funder_management_system.tasks.all"
-# 	],
-# 	"daily": [
-# 		"funder_management_system.tasks.daily"
-# 	],
+#to-do change the all to daily for funder_management_system.task.daily.grant_agreement_daily
+
+scheduler_events = {
+	"all": [
+	 	"funder_management_system.task.daily.grant_agreement_daily", "funder_management_system.task.daily.organisation_toolkit_daily"
+	 ],
+	"daily": [
+
+		"funder_management_system.task.daily.donor_daily",
+
+	]}
 # 	"hourly": [
 # 		"funder_management_system.tasks.hourly"
 # 	],

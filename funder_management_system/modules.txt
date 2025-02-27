@@ -1,2 +1,8 @@
 Funder Management System
 Budget Planning
+Donor Acquisition Management
+Utilisation
+Organisation Tools
+History
+Engagement Module
+Utilisation Module

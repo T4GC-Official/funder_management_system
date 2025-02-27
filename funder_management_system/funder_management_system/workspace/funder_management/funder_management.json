@@ -1,0 +1,242 @@
+{
+ "app": "funder_management_system",
+ "charts": [],
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":4}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":4}}]",
+ "creation": "2025-01-28 12:24:00.611386",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "heart-active",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Funder Management",
+ "link_type": "DocType",
+ "links": [
+  {
+   "description": "This module allows Fundraising Admins to efficiently create and manage budget plans for a given financial year.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Budget Allocation Module",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Budget Category",
+   "link_count": 0,
+   "link_to": "Budget Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Budget Sub-Category",
+   "link_count": 0,
+   "link_to": "Budget Sub-Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Budget Plan",
+   "link_count": 0,
+   "link_to": "Budget Plan",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Budget Plan Template",
+   "link_count": 0,
+   "link_to": "Budget Plan Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "This module allows members of the fundraising team to create a new organisation lead, track their relevant details and stages till conversion to a confirmed Donor.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Donor Acquisition Module",
+   "link_count": 7,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Details",
+   "link_count": 0,
+   "link_to": "Organisation Details",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Lead",
+   "link_count": 0,
+   "link_to": "Organisation Lead",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation POC",
+   "link_count": 0,
+   "link_to": "Organisation POC",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Category",
+   "link_count": 0,
+   "link_to": "Category",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Thematic Area",
+   "link_count": 0,
+   "link_to": "Thematic Area",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Source of Connection",
+   "link_count": 0,
+   "link_to": "Source of Connection",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Compliance Checklist",
+   "link_count": 0,
+   "link_to": "Compliance Checklist",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "In this module, you can set reminders for all document renewals and create various document lists. Additionally, users can choose to receive reminders a certain number of days in advance.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Toolkit",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Document List",
+   "link_count": 0,
+   "link_to": "Document List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "This module will manage and track Donor Status from New , Renewed and Dropped with grant agreement and tranches.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Donor Engagement Module",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Donor List",
+   "link_count": 0,
+   "link_to": "Donor",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Grant Agreement",
+   "link_count": 0,
+   "link_to": "Grant Agreement",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Grant Utilisation",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Grant Disbursement Receipt",
+   "link_count": 0,
+   "link_to": "Grant Disbursement Receipt",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Utilisation Record",
+   "link_count": 0,
+   "link_to": "Utilisation Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-02-26 16:51:52.170190",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Funder Management",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [],
+ "title": "Funder Management",
+ "type": "Workspace"
+}

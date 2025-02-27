@@ -1,0 +1,114 @@
+[
+ {
+  "compliance_name": "Registration Certificate",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:32:37.418879",
+  "name": "Registration Certificate"
+ },
+ {
+  "compliance_name": "12A Certificate",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:33:03.688357",
+  "name": "12A Certificate"
+ },
+ {
+  "compliance_name": "80G Certificate",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:33:20.927572",
+  "name": "80G Certificate"
+ },
+ {
+  "compliance_name": "FCRA Certificate (if applicable)",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:33:38.109424",
+  "name": "FCRA Certificate (if applicable)"
+ },
+ {
+  "compliance_name": "CSR Form1",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:33:47.425935",
+  "name": "CSR Form1"
+ },
+ {
+  "compliance_name": "Audited Financial Reports",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:34:04.071460",
+  "name": "Audited Financial Reports"
+ },
+ {
+  "compliance_name": "10BD",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:34:18.075558",
+  "name": "10BD"
+ },
+ {
+  "compliance_name": "10BE",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:34:30.438322",
+  "name": "10BE"
+ },
+ {
+  "compliance_name": "PAN",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:34:37.001090",
+  "name": "PAN"
+ },
+ {
+  "compliance_name": "TAN",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:34:42.515827",
+  "name": "TAN"
+ },
+ {
+  "compliance_name": "GST Certificate",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:34:53.233817",
+  "name": "GST Certificate"
+ },
+ {
+  "compliance_name": "Cancelled Cheque",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:35:03.823603",
+  "name": "Cancelled Cheque"
+ },
+ {
+  "compliance_name": "Annual Reports",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:35:14.105803",
+  "name": "Annual Reports"
+ },
+ {
+  "compliance_name": "ITR Filings",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:35:24.946855",
+  "name": "ITR Filings"
+ },
+ {
+  "compliance_name": "Donation Receipts",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:35:40.027691",
+  "name": "Donation Receipts"
+ },
+ {
+  "compliance_name": "Details of the Board",
+  "docstatus": 0,
+  "doctype": "Compliance Checklist",
+  "modified": "2025-01-31 18:35:49.751103",
+  "name": "Details of the Board"
+ }
+]

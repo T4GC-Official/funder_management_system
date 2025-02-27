@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-01-31 13:06:33.302793",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "organisation_name",
+  "naming_series",
+  "website_url",
+  "official_email_id",
+  "pan_card",
+  "official_address"
+ ],
+ "fields": [
+  {
+   "fieldname": "organisation_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Organisation Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "description": "URL Format: https://www.example.com",
+   "fieldname": "website_url",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Website URL",
+   "options": "URL",
+   "reqd": 1
+  },
+  {
+   "fieldname": "official_email_id",
+   "fieldtype": "Data",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Official Email ID",
+   "options": "Email"
+  },
+  {
+   "fieldname": "pan_card",
+   "fieldtype": "Data",
+   "label": "PAN Card",
+   "length": 10,
+   "placeholder": "AAAPA1234A"
+  },
+  {
+   "bold": 1,
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Organisation ID",
+   "no_copy": 1,
+   "options": "ORG-",
+   "print_hide": 1,
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "official_address",
+   "fieldtype": "Small Text",
+   "label": "Official Address",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-24 04:02:52.652953",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Organisation Details",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "organisation_name",
+ "track_changes": 1,
+ "translated_doctype": 1
+}

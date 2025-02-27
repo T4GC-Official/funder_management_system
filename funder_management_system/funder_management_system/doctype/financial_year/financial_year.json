@@ -7,7 +7,9 @@
  "engine": "InnoDB",
  "field_order": [
   "section_break_mzcx",
-  "financial_year"
+  "financial_year",
+  "year_start_date",
+  "year_end_date"
  ],
  "fields": [
   {
@@ -23,11 +25,21 @@
    "fieldname": "section_break_mzcx",
    "fieldtype": "Section Break",
    "placeholder": "2023-24"
+  },
+  {
+   "fieldname": "year_start_date",
+   "fieldtype": "Date",
+   "label": "Year Start Date"
+  },
+  {
+   "fieldname": "year_end_date",
+   "fieldtype": "Date",
+   "label": "Year End Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-24 16:30:10.844704",
+ "modified": "2025-02-18 19:55:36.912286",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Financial Year",
@@ -43,6 +55,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Budget Planner",
    "share": 1,
    "write": 1
   }

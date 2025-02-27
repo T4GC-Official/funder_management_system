@@ -6,7 +6,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "budget_head",
+  "budget_category",
   "budget_sub_category",
   "quarter_1_budget",
   "quarter_2_budget",
@@ -16,43 +16,39 @@
  ],
  "fields": [
   {
-   "fieldname": "budget_head",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Category",
-   "options": "Budget Category",
-   "reqd": 1
-  },
-  {
    "fieldname": "quarter_1_budget",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Quarter 1",
+   "label": "Q1",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
    "fieldname": "quarter_2_budget",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Quarter 2",
+   "label": "Q2",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
    "fieldname": "quarter_3_budget",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Quarter 3",
+   "label": "Q3",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
    "fieldname": "quarter_4_budget",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Quarter 4",
+   "label": "Q4",
    "non_negative": 1,
+   "placeholder": "0",
    "precision": "2"
   },
   {
@@ -61,7 +57,9 @@
    "in_list_view": 1,
    "label": "Sub Total",
    "non_negative": 1,
-   "precision": "2"
+   "placeholder": "0",
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "budget_sub_category",
@@ -70,12 +68,20 @@
    "label": "Sub-Category",
    "options": "Budget Sub-Category",
    "reqd": 1
+  },
+  {
+   "fieldname": "budget_category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Category",
+   "options": "Budget Category",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-01-24 16:37:16.989129",
+ "modified": "2025-01-29 14:48:38.809873",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Breakdown",

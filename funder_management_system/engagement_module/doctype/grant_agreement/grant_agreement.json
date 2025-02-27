@@ -1,0 +1,263 @@
+{
+ "actions": [],
+ "allow_events_in_timeline": 1,
+ "allow_rename": 1,
+ "autoname": "format:GA-{YYYY}-{####}-{donor_name}",
+ "creation": "2025-02-18 15:41:17.182019",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "grant_details_section",
+  "column_break_idvi",
+  "donor",
+  "donor_name",
+  "total_tranche_progress",
+  "total_tranche_amount_received",
+  "total_tranche_amount_utilised",
+  "total_grant_amount_utilised",
+  "total_tranche_progress_percentage",
+  "column_break_jzzg",
+  "grant_name",
+  "grant_agreement_grant_period_section",
+  "grant_agreement_start_date",
+  "column_break_asip",
+  "grant_agreement_end_date",
+  "column_break_zycf",
+  "grant_agreement_type",
+  "section_break_tsvg",
+  "grant_agreement_signed_on",
+  "total_number_of_tranches",
+  "column_break_oktb",
+  "type_of_funding",
+  "column_break_kofh",
+  "total_grant_amount",
+  "section_break_hipx",
+  "tranche_progress_bar",
+  "column_break_accj",
+  "purpose_of_donation",
+  "section_break_sdna",
+  "tranche_table"
+ ],
+ "fields": [
+  {
+   "fieldname": "grant_details_section",
+   "fieldtype": "Section Break",
+   "label": "Grant Agreement Details"
+  },
+  {
+   "fieldname": "column_break_idvi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "donor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Donor",
+   "options": "Donor",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "donor.donor_name",
+   "fieldname": "donor_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Donor Name"
+  },
+  {
+   "fieldname": "total_tranche_progress",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Total Tranche Received",
+   "read_only": 1,
+   "search_index": 1,
+   "show_on_timeline": 1
+  },
+  {
+   "fieldname": "total_tranche_amount_received",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Grant Received",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_tranche_amount_utilised",
+   "fieldtype": "Percent",
+   "hidden": 1,
+   "label": "Total Grant Utilised %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_grant_amount_utilised",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Total Grant Amount Utilised"
+  },
+  {
+   "fieldname": "total_tranche_progress_percentage",
+   "fieldtype": "Percent",
+   "hidden": 1,
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Tranche Progress",
+   "read_only": 1
+  },
+  {
+   "description": "Grant Agreement Period",
+   "fieldname": "grant_agreement_grant_period_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "grant_agreement_start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_asip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "grant_agreement_end_date",
+   "fieldtype": "Date",
+   "label": "End Date",
+   "reqd": 1
+  },
+  {
+   "description": "Other Grant Agreement Details",
+   "fieldname": "section_break_tsvg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "grant_agreement_signed_on",
+   "fieldtype": "Date",
+   "label": "Grant Agreement Signed On"
+  },
+  {
+   "bold": 1,
+   "default": "0",
+   "fieldname": "total_number_of_tranches",
+   "fieldtype": "Int",
+   "label": "Total Number of Tranches",
+   "length": 1,
+   "non_negative": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_oktb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type_of_funding",
+   "fieldtype": "Select",
+   "label": "Type of Funding",
+   "options": "Restricted\nUnrestricted"
+  },
+  {
+   "default": "Single Year",
+   "fieldname": "grant_agreement_type",
+   "fieldtype": "Select",
+   "label": "Grant Agreement Type",
+   "options": "Single Year\nMulti Year"
+  },
+  {
+   "fieldname": "column_break_kofh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_grant_amount",
+   "fieldtype": "Currency",
+   "label": "Total Grant Amount",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_hipx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "tranche_progress_bar",
+   "fieldtype": "Data",
+   "label": "Tranche Progress"
+  },
+  {
+   "fieldname": "column_break_accj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purpose_of_donation",
+   "fieldtype": "Small Text",
+   "label": "Purpose of Donation",
+   "placeholder": "Mention the purpose of the donation. Eg. Program X or Operation Y etc."
+  },
+  {
+   "fieldname": "section_break_sdna",
+   "fieldtype": "Section Break",
+   "label": "Tranche Details"
+  },
+  {
+   "fieldname": "tranche_table",
+   "fieldtype": "Table",
+   "label": "Tranche Table",
+   "options": "Tranche Details"
+  },
+  {
+   "fieldname": "column_break_zycf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "grant_name",
+   "fieldtype": "Data",
+   "label": "Grant Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_jzzg",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-25 13:29:45.435941",
+ "modified_by": "Administrator",
+ "module": "Engagement Module",
+ "name": "Grant Agreement",
+ "naming_rule": "Expression",
+ "nsm_parent_field": "parent_grant_agreement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "grant_name",
+ "track_changes": 1,
+ "track_seen": 1,
+ "translated_doctype": 1
+}

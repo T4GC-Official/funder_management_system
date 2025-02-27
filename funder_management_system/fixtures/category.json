@@ -1,0 +1,44 @@
+[
+ {
+  "category": "Foundation",
+  "docstatus": 0,
+  "doctype": "Category",
+  "modified": "2025-01-31 14:19:01.647412",
+  "name": "Foundation"
+ },
+ {
+  "category": "CSR",
+  "docstatus": 0,
+  "doctype": "Category",
+  "modified": "2025-01-31 14:19:10.140778",
+  "name": "CSR"
+ },
+ {
+  "category": "Awards",
+  "docstatus": 0,
+  "doctype": "Category",
+  "modified": "2025-01-31 14:19:19.358470",
+  "name": "Awards"
+ },
+ {
+  "category": "Fellowships",
+  "docstatus": 0,
+  "doctype": "Category",
+  "modified": "2025-01-31 14:19:30.187848",
+  "name": "Fellowships"
+ },
+ {
+  "category": "HNIs",
+  "docstatus": 0,
+  "doctype": "Category",
+  "modified": "2025-01-31 14:19:37.516620",
+  "name": "HNIs"
+ },
+ {
+  "category": "Institutional",
+  "docstatus": 0,
+  "doctype": "Category",
+  "modified": "2025-01-31 14:19:47.989117",
+  "name": "Institutional"
+ }
+]

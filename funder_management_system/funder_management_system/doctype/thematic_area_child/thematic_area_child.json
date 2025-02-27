@@ -1,0 +1,44 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-31 14:00:30.814563",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "thematic_area",
+  "description",
+  "sub_thematic_area"
+ ],
+ "fields": [
+  {
+   "fieldname": "thematic_area",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Thematic Area",
+   "options": "Thematic Area",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "sub_thematic_area",
+   "fieldtype": "Data",
+   "label": "Sub - Thematic Area"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-31 14:02:43.386055",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Thematic Area Child",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,220 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "prompt",
+ "creation": "2025-02-25 13:47:01.975850",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "budget_info_section",
+  "financial_year",
+  "budget_info_column",
+  "budget",
+  "column_break_imsc",
+  "donor",
+  "column_break_cxll",
+  "grant_agreement",
+  "column_break_eaex",
+  "grant_tranche_name",
+  "section_break_plea",
+  "tranche_amount",
+  "column_break_oejh",
+  "column_break_xkpl",
+  "section_break_pacm",
+  "column_break_hmtc",
+  "quarters",
+  "column_break_wytb",
+  "budget_category",
+  "column_break_txcb",
+  "budget_sub_category",
+  "column_break_yrjw",
+  "expenditure",
+  "column_break_cffu",
+  "create_expense_record",
+  "section_break_ppmd",
+  "utilisation_child_table",
+  "section_break_yriv",
+  "info_budget_col",
+  "grant_table_view_section",
+  "budget_table_view_section"
+ ],
+ "fields": [
+  {
+   "fieldname": "grant_agreement",
+   "fieldtype": "Link",
+   "label": "Grant Agreement",
+   "options": "Grant Agreement"
+  },
+  {
+   "fieldname": "column_break_wytb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tranche_amount",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Tranche Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_txcb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expenditure",
+   "fieldtype": "Currency",
+   "label": "Expenditure"
+  },
+  {
+   "fieldname": "create_expense_record",
+   "fieldtype": "Button",
+   "label": "Create Expense Record",
+   "max_height": "3 em"
+  },
+  {
+   "fieldname": "section_break_ppmd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "financial_year",
+   "fieldtype": "Link",
+   "label": "Financial Year",
+   "options": "Financial Year"
+  },
+  {
+   "fieldname": "section_break_pacm",
+   "fieldtype": "Section Break",
+   "label": "Expense Details"
+  },
+  {
+   "fieldname": "section_break_plea",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_hmtc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "budget_info_section",
+   "fieldtype": "Section Break",
+   "label": "Select Filters &nbsp;"
+  },
+  {
+   "fieldname": "budget_info_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_yriv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "info_budget_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "budget_table_view_section",
+   "fieldtype": "Data",
+   "label": "Budget Info"
+  },
+  {
+   "fieldname": "column_break_oejh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_xkpl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.grant_agreement",
+   "fieldname": "grant_table_view_section",
+   "fieldtype": "Data",
+   "label": "Grant Info"
+  },
+  {
+   "fieldname": "column_break_imsc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_cxll",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_eaex",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_yrjw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "quarters",
+   "fieldtype": "Select",
+   "label": "Quarters",
+   "options": "Q1\nQ2\nQ3\nQ4"
+  },
+  {
+   "fieldname": "column_break_cffu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "donor",
+   "fieldtype": "Link",
+   "label": "Donor",
+   "options": "Donor"
+  },
+  {
+   "fieldname": "budget",
+   "fieldtype": "Link",
+   "label": "Select Budget",
+   "options": "Budget Plan"
+  },
+  {
+   "fieldname": "budget_sub_category",
+   "fieldtype": "Link",
+   "label": "Budget Sub Category",
+   "options": "Budget Sub-Category"
+  },
+  {
+   "fieldname": "budget_category",
+   "fieldtype": "Link",
+   "label": "Budget Category",
+   "options": "Budget Category"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "utilisation_child_table",
+   "fieldtype": "Table",
+   "label": "Expenditure Details",
+   "options": "Utilisation Child Table"
+  },
+  {
+   "fieldname": "grant_tranche_name",
+   "fieldtype": "Select",
+   "label": "Tranche"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-02-27 08:49:18.616398",
+ "modified_by": "Administrator",
+ "module": "Utilisation Module",
+ "name": "Grant Disbursement Receipt",
+ "naming_rule": "Set by user",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
