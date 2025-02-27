@@ -63,7 +63,7 @@ def create_utilisation_entries(document_name):
 # #             continue
 # #         utilisation_doc = frappe.get_doc({
 # # 		"doctype": "Utilisation Record",
-# #         "donor": row.donor,   
+# #         "donor": row.donor,
 # # 		"grant_name": doc.grant_agreement,
 # #         "tranche": doc.tranche,
 # #         "category": doc.category,
@@ -75,9 +75,9 @@ def create_utilisation_entries(document_name):
 # #         "budget_plan": row.budget_plan
 # #         "utilisation_record_created": True
 # # 		})
-        
+
 # #         utilisation_doc.insert(ignore_permissions=True)
-        
+
 # #         # Create Utilisation Ledger Entry
 # #         create_utilisation_ledger_entry(
 # #             doc.select_budget,
@@ -88,9 +88,9 @@ def create_utilisation_entries(document_name):
 # #             row.tranche,
 # #             row.utilised_amount,
 # #             doc.name,
-# #             row.name 
+# #             row.name
 # #         )
-        
+
 # #         created_count += 1
 
 # #     if created_count > 0:

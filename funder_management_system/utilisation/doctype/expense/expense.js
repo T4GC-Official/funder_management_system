@@ -3,7 +3,7 @@ frappe.ui.form.on("Expense", {
         if (!frm.fields_dict["expense_details_section"]) {
             return;
         }
-        
+
         render_expense_entry_ui(frm);
     }
 });
@@ -203,7 +203,7 @@ function load_tranches(grant_agreement, tranche_control, available_amount_contro
             console.log("Inside GA Tranche ", response);
             let agreement = response.message;
             let tranches = agreement.tranche_table || []; // Ensure this matches your child table name
-            
+
             // Store tranche data for reference
             let tranche_map = {};
             let options = tranches.map(tr => {

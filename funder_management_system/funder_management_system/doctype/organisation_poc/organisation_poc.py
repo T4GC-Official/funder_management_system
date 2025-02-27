@@ -12,7 +12,7 @@ class OrganisationPOC(Document):
 def autoname(doc):
 	if not doc.organisation:
 		frappe.throw("Please select an Organisation")
-	
+
 	org_name = frappe.db.get_value("Organisation Details", doc.organisation, "organisation_name")
 	existing_count = frappe.db.count("Organisation POC", {"organisation": doc.organisation})
 	doc.id = f"{org_name}-{existing_count + 1}"

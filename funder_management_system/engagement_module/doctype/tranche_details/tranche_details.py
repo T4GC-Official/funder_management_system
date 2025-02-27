@@ -10,9 +10,9 @@ class TrancheDetails(Document):
 
 def check_tranche_due_date_and_change_tranche_status():
     """Check due dates in tranche_table and update status if overdue."""
-    
-    tranche_details = frappe.get_all("Tranche Details", 
-                                     fields=["name", "parent", "due_date", "tranche_status"], 
+
+    tranche_details = frappe.get_all("Tranche Details",
+                                     fields=["name", "parent", "due_date", "tranche_status"],
                                      filters={"parenttype": "Grant Agreement", "tranche_status": "Pending - On Time"})
 
     for tranche in tranche_details:

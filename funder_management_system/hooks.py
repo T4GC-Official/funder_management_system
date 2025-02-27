@@ -22,7 +22,7 @@ app_license = "mit"
 # ]
 
 fixtures = [{
-    "dt": "Thematic Area" 
+    "dt": "Thematic Area"
 },
 {
     "dt": "Category"
@@ -170,7 +170,7 @@ scheduler_events = {
 	 	"funder_management_system.task.daily.grant_agreement_daily", "funder_management_system.task.daily.organisation_toolkit_daily"
 	 ],
 	"daily": [
-		
+
 		"funder_management_system.task.daily.donor_daily",
 
 	]}

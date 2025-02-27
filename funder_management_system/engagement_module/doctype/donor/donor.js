@@ -49,14 +49,14 @@ frappe.ui.form.on("Donor", {
         // if child table is not empty then check the lead stage and financial year and lead category if there is any change then add a new row with data
         else {
             let last_donor_history = frm.doc.table_donor_history[frm.doc.table_donor_history.length - 1];
-            if (donor_status !== last_donor_history.donor_status) 
+            if (donor_status !== last_donor_history.donor_status)
                 {
                     let donor_history = frm.add_child("table_donor_history");
                     donor_history.donor_status = donor_status;
             }
         }
-        
-        
+
+
     },
     load_engagement_checklist: function(frm) {
         if (!frm.is_new() && frm.doc.engagement_checklist_table.length === 0){

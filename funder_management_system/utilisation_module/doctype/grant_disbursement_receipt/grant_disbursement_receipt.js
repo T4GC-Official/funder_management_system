@@ -3,12 +3,12 @@
 
 frappe.ui.form.on("Grant Disbursement Receipt", {
     onload_post_render: function(frm) {
-    
+
     },
 
 
     refresh: function(frm) {
-       
+
         frm.get_field("utilisation_child_table").grid.cannot_add_rows = true;
         frm.refresh_field('utilisation_child_table');
         frm.set_df_property("donor", "only_select", 1);
@@ -25,7 +25,7 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
         frm.set_value("budget_category", null);
         frm.set_value("budget_sub_category", null);
         frm.set_value("expenditure", null);
-    
+
         frappe.call({
             method: "funder_management_system.utilisation_module.doctype.grant_disbursement_receipt.grant_disbursement_receipt.create_utilisation_entries",
             args: {
@@ -40,8 +40,8 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
     update_child_table: function (frm) {
         frm.refresh_field('utilisation_child_table');
     },
-    
-    
+
+
     donor: function(frm) {
         frm.set_query('grant_agreement', () => {
             return frm.doc.donor ? { filters: { donor: frm.doc.donor } } : {};
@@ -67,9 +67,9 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
         frm.set_value('budget_sub_category', null);
     },
     financial_year: function(frm) {
-        
+
             frm.set_df_property("select_budget", "hidden", 0);
-        
+
         if (frm.doc.financial_year) {
             frm.set_query("select_budget", function() {
                 return {
@@ -153,8 +153,8 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
 
 
         if(frm.doc.financial_year && frm.doc.budget && frm.doc.donor && frm.doc.grant_agreement && frm.doc.grant_tranche_name && frm.doc.quarters && frm.doc.budget_category && frm.doc.budget_sub_category && frm.doc.expenditure){
-        
-       
+
+
             let data = {
                 financial_year: frm.doc.financial_year,
                 budget_plan: frm.doc.budget,
@@ -167,7 +167,7 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
                 utilised_amount: frm.doc.expenditure
               };
               frm.add_child("utilisation_child_table", data);
-              frm.refresh_field('utilisation_child_table');  
+              frm.refresh_field('utilisation_child_table');
 
               // clear the field values
               frm.set_value("grant_tranche_name", null);
@@ -200,9 +200,9 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
                 frappe.throw("Please fill in all the required fields.");
             }
         }
-      // fetch Financial Year, Budget_Name, Donor , Grant Agreement, Tranche Name a, Budget Category, Sub category and expenditure from Grant Disbursement Receipt doctype and add it to the utilisation_details child table without savind it to the child table 
-    
-      
+      // fetch Financial Year, Budget_Name, Donor , Grant Agreement, Tranche Name a, Budget Category, Sub category and expenditure from Grant Disbursement Receipt doctype and add it to the utilisation_details child table without savind it to the child table
+
+
     },
 
 });

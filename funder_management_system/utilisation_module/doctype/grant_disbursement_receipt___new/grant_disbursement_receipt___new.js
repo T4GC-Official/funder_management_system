@@ -45,7 +45,7 @@ frappe.ui.form.on("Grant Disbursement Receipt - New", {
 
     fetch_budget_and_tranche_details: function (frm) {
     if (!frm.doc.budget_plan || !frm.doc.grant_agreement) {
-        frm.set_df_property("budget_and_tranche_summary", "options", 
+        frm.set_df_property("budget_and_tranche_summary", "options",
             "<p style='color: red;'>Please select Budget Plan and Grant Agreement.</p>");
         return;
     }
@@ -58,7 +58,7 @@ frappe.ui.form.on("Grant Disbursement Receipt - New", {
         },
         callback: function (r) {
             if (!r.message) {
-                frm.set_df_property("budget_and_tranche_summary", "options", 
+                frm.set_df_property("budget_and_tranche_summary", "options",
                     "<p style='color: red;'>No data available.</p>");
                 return;
             }
@@ -107,7 +107,7 @@ frappe.ui.form.on("Grant Disbursement Receipt - New", {
 
     // Filter category data based on selection
     if (selected_category || selected_sub_category) {
-        category_list = category_list.filter(c => 
+        category_list = category_list.filter(c =>
             (!selected_category || c.category === selected_category) &&
             (!selected_sub_category || c.sub_category === selected_sub_category)
         );
@@ -141,7 +141,7 @@ frappe.ui.form.on("Grant Disbursement Receipt - New", {
     budget_category: function(frm) { frm.trigger("update_budget_summary"); },
     budget_sub_category: function(frm) { frm.trigger("update_budget_summary"); },
 
-    
+
     load_tranches: function(frm) {
         if (!frm.doc.grant_agreement) return;
 

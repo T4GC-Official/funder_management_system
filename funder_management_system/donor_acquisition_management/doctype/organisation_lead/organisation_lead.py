@@ -22,7 +22,7 @@ def create_donor_from_lead(lead_name):
         frappe.db.commit()
         logger.info(f"Donor Entry Created for Lead: {lead_name}")
         return True
-        
+
 
     except Exception as e:
         logger.error(f"Error creating donor: {str(e)}")
@@ -30,4 +30,3 @@ def create_donor_from_lead(lead_name):
         return str(e)  # Failure
 
 
-	

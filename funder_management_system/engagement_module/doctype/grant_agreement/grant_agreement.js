@@ -34,7 +34,7 @@ frappe.ui.form.on('Grant Agreement', {
         // };
     },
 refresh: function(frm) {
-    
+
     frm.get_field("tranche_table").grid.cannot_add_rows = true;  // Disable add row button
     // disable delete row button
     frm.get_field("tranche_table").grid.wrapper.find('.grid-remove-rows').hide();
@@ -50,7 +50,7 @@ before_save: function(frm) {
         for (let i = 0; i < frm.doc.tranche_table.length; i++) {
             let row = frm.doc.tranche_table[i];
             if ((row.tranche_status === "Received - On Time" || row.tranche_status === "Received - Delayed") && !row.received_on) {
-               
+
                 frappe.show_alert({
                     message: "Received On date is required for Received - On Time and Received - Delayed",
                     indicator: 'yellow',
@@ -63,9 +63,9 @@ before_save: function(frm) {
         }
     }
 
-    
-    
-    
+
+
+
     if (frm.doc.total_number_of_tranches <= 0) {
         frappe.show_alert({
             message: "Total Number of Tranches should be greater than 0",
@@ -94,10 +94,10 @@ before_save: function(frm) {
     if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_end_date) {
         let start_date = new Date(frm.doc.grant_agreement_start_date);
         let end_date = new Date(frm.doc.grant_agreement_end_date);
-        
+
         // Calculate the difference in months
         let months_diff = (end_date.getFullYear() - start_date.getFullYear()) * 12 + (end_date.getMonth() - start_date.getMonth());
-    
+
         // Check if the difference is more than 12 months
         if (months_diff > 12) {
             frm.set_value("grant_agreement_type", "Multi Year");
@@ -105,7 +105,7 @@ before_save: function(frm) {
             frm.set_value("grant_agreement_type", "Single Year");
         }
     }
-    
+
 
 
     frm.trigger("calculate_utilisation_of_tranche");
@@ -113,7 +113,7 @@ before_save: function(frm) {
     frm.trigger("calculate_tranche_progress");
     frm.trigger("check_total_tranche_amount");
     frm.trigger("check_tranche_amount_type");
-    
+
 },
 
 number_of_tranche: function(frm) {
@@ -134,7 +134,7 @@ number_of_tranche: function(frm) {
                 new_row.tranche_status = "Pending - On Time";  // Default status
             }
         }
-    } 
+    }
     // Remove extra rows if needed
     else if (child_table.length > count) {
         frm.doc.tranche_table = frm.doc.tranche_table.slice(0, count);
@@ -193,7 +193,7 @@ calculate_utilisation_of_tranche:function(frm){
     if (total_tranches > 0) {
 
         total_tranche_amount_utilised = frm.doc.tranche_table.reduce((sum, row) => sum + (row.total_tranche_expenditure || 0), 0);
-         
+
     }
     frm.set_value("total_grant_amount_utilised", total_tranches > 0 ? total_tranche_amount_utilised : 0);
     frm.set_value("total_tranche_amount_utilised", total_tranches > 0 ? (total_tranche_amount_utilised / total_grant_amount) * 100 : 0);
@@ -222,43 +222,43 @@ progress_bar: function(frm) {
     frm.dashboard.clear_headline();
     let excessProgress = total_grant_received_percentage > 100 ? total_grant_received_percentage - 100 : 0;
     let excessExpenditure = tranche_expenditure > 100 ? tranche_expenditure - 100 : 0;
-    
+
     let html = `
         <div class="progress" style="height: 10px;">
-            <div class="progress-bar bg-success" role="progressbar" 
-                 style="width:${parseFloat((total_grant_received_percentage).toFixed(2))}%;" 
+            <div class="progress-bar bg-success" role="progressbar"
+                 style="width:${parseFloat((total_grant_received_percentage).toFixed(2))}%;"
                  aria-valuenow="${total_grant_received_percentage}" aria-valuemin="0" aria-valuemax="100">
             </div>
             ${excessProgress > 0 ? `
-            <div class="progress-bar bg-danger" role="progressbar" 
-                 style="width: ${parseFloat((excessProgress).toFixed(2))}%; "> 
+            <div class="progress-bar bg-danger" role="progressbar"
+                 style="width: ${parseFloat((excessProgress).toFixed(2))}%; ">
             </div>` : ''}
         </div>
         <p style="margin-top:5px;">
-            <strong>Total Grant Received:</strong> 
+            <strong>Total Grant Received:</strong>
             <span style="color: ${total_grant_received_percentage > 100 ? 'red' : 'black'};"> ${parseFloat((total_grant_received_percentage).toFixed(2))}%</span>
         </p>
-        
+
         <div class="progress" style="height: 10px;">
-            <div class="progress-bar bg-warning" role="progressbar" 
-                 style="width: ${parseFloat((tranche_expenditure).toFixed(2))}%;" 
+            <div class="progress-bar bg-warning" role="progressbar"
+                 style="width: ${parseFloat((tranche_expenditure).toFixed(2))}%;"
                  aria-valuenow="${parseFloat((tranche_expenditure).toFixed(2))}" aria-valuemin="0" aria-valuemax="100">
             </div>
             ${excessExpenditure > 0 ? `
-            <div class="progress-bar bg-danger" role="progressbar" 
+            <div class="progress-bar bg-danger" role="progressbar"
                  style="width: ${parseFloat((excessExpenditure).toFixed(2))}%; ">
             </div>` : ''}
         </div>
         <p style="margin-top:5px;">
-    <strong>Total Grant Utilised:</strong> 
+    <strong>Total Grant Utilised:</strong>
     <span style="color: ${tranche_expenditure <= 100 ? 'Green' : 'red'};">
          ${parseFloat((tranche_expenditure).toFixed(2))}%
     </span>
-     ${excessExpenditure > 0 ? `<strong>Over Utilisation:</strong> 
+     ${excessExpenditure > 0 ? `<strong>Over Utilisation:</strong>
     <span style="color: ${tranche_expenditure > 100 ? 'red' : 'black'};">
         ${parseFloat((tranche_expenditure-100).toFixed(2))}%
     </span>` : ''}
-    
+
 </p>
 <p>
     <strong>Calculation Formula:</strong><br>
@@ -272,9 +272,9 @@ progress_bar: function(frm) {
 </p>
     `;
 
-    
 
-    
+
+
     frm.fields_dict["tranche_progress_bar"].$wrapper.html(html);
 },
 
@@ -297,7 +297,7 @@ check_total_tranche_amount: function(frm) {
         frappe.validated = false;
 
         // Set error message in description
-        frm.set_df_property("total_grant_amount", "description", 
+        frm.set_df_property("total_grant_amount", "description",
             `<span style="color:red;">⚠ Total Tranche Amount exceeds the Total Grant Amount.</span>`);
 
         // Focus cursor on the total_grant_amount field
@@ -335,7 +335,7 @@ tranche_status: function(frm, cdt, cdn) {
         frappe.validated = false;
         frappe.msgprint("Tranche Amount cannot be zero for Received - On Time or Received - Delayed status");
     }
-      
+
 },
 
 due_date: function(frm, cdt, cdn) {
@@ -358,7 +358,7 @@ due_date: function(frm, cdt, cdn) {
         frm.fields_dict["grant_agreement_end_date"].set_focus();
     }
     // Due Date should not be before Grant Agreement Start Date and it should not be after Grant Agreement End Date
-    
+
     else if (row.due_date < frm.doc.grant_agreement_start_date) {
         //clear the due_date filed in the child table
         row.due_date = null;
@@ -372,7 +372,7 @@ due_date: function(frm, cdt, cdn) {
         frappe.msgprint("Due Date cannot be after Grant Agreement End Date");
         frm.fields_dict["due_date"].set_focus();
         frappe.validated = false;
-    } 
+    }
     frappe.call({
         method: "funder_management_system.funder_management_system.doctype.financial_year.financial_year.save_financial_year",
         args: {

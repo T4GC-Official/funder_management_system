@@ -50,7 +50,7 @@ def create_system_notification(recipient, item, donor_name):
 
 def calculate_next_reminder_date(current_date, frequency):
     """Calculate the next reminder date based on the frequency."""
-    
+
     if not current_date:
         # Default to today's date if current_date is missing
         current_date = getdate(today())

@@ -19,7 +19,7 @@ def send_reminder_for_documents():
 
 	for document in document_list:
 		document_doc = frappe.get_doc("Document List", document.name)
-		
+
 		for doc in document_doc.get("organisation_docs",[]):
 			if doc.notification_trigger_date == today_date:
 				create_system_notification(document_doc.owner, document_doc.list_name, doc.document_name)

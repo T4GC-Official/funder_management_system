@@ -16,7 +16,7 @@ frappe.ui.form.on("Organisation Details", {
                 });
 
                 frm.set_value("pan_card", "");  // Reset invalid PAN
-                // prevent from from saving 
+                // prevent from from saving
                 frappe.validated = false
                 // focus on pan card field
                 frm.fields_dict["pan_card"].set_focus();
