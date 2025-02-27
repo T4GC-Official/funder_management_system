@@ -5,8 +5,20 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
     onload_post_render: function(frm) {
 
     },
-
-
+    validate: function(frm) {
+        if (frm.doc.__islocal === 0) {
+            // Check if Utilisation Record exists in child table
+            var childTable = frm.get_field("utilisation_child_table");
+            var rows = childTable.grid.get_rows();
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].doc.expenditure_record_name) {
+                    frappe.msgprint("Cannot delete this document. Utilisation Record exists in child table.");
+                    frappe.validated = false;
+                    return;
+                }
+            }
+        }
+    },
     refresh: function(frm) {
 
         frm.get_field("utilisation_child_table").grid.cannot_add_rows = true;
@@ -18,7 +30,7 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
     after_save: function (frm) {
         frm.set_value('budget', null);
         frm.set_value('grant_agreement', null);
-        frm.set_value('tranche_name', null);
+        frm.set_value('grant_tranche_name', null);
         frm.set_value('tranche_amount', null);
         frm.set_value("financial_year", null);
         frm.set_value("donor", null);
@@ -32,7 +44,9 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
                 document_name: frm.doc.name
             },
             callback: function (r) {
-               frm.reload_doc();  // Reloads the entire document to reflect changes
+                if (r.message) {
+                    frm.reload_doc(); 
+                }
             }
         });
     },
@@ -174,9 +188,6 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
               frm.set_value("budget_category", null);
               frm.set_value("budget_sub_category", null);
               frm.set_value("expenditure", null);
-              frm.save();
-
-
         }
         else{
             // set focus on the first empty field

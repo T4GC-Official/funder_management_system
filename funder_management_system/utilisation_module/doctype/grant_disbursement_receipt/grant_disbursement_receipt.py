@@ -32,16 +32,19 @@ def create_utilisation_entries(document_name):
                 "quarters": row.quarters,
                 "budget_plan": row.budget_plan,
                 "financial_year": row.financial_year,
+                "gdr":ga_doc.gdr,
                 "utilisation_record_created": True
             })
-            logger.info(f" Latest log for utilisation record for grant agreement-> {ga_doc.grant_agreement} | donor name-> {row.donor}  | category-> {row.category} | sub category-> {row.sub_category} | utilised amount-> {row.utilised_amount} | financial year-> {row.financial_year} | for utilisation record: {document_name}")
+            logger.info(f" Latest log for utilisation record for grant agreement-> {ga_doc.grant_agreement} |grd->{ga_doc.gdr} |donor name-> {row.donor}  | category-> {row.category} | sub category-> {row.sub_category} | utilised amount-> {row.utilised_amount} | financial year-> {row.financial_year} | for utilisation record: {document_name}")
             utilisation_doc.insert(ignore_permissions=True)
-            utilisation_entries.append(utilisation_doc.name)
             row.db_set("expenditure_record_name", utilisation_doc.name)
             row.db_set("utilisation_record_created", True)
-        frappe.db.commit()
-        logger.info(f"Successfully processed {len(utilisation_entries)} records for {document_name}")
-        return utilisation_entries
+            count += 1
+        if count > 0:
+            frappe.db.commit()
+            logger.info(f"Successfully processed {len(utilisation_entries)} records for {document_name}")
+            frappe.msgprint(f"{count} Utilisation Entries Created", alert=True)
+            return utilisation_entries
     except Exception as e:
         logger.error(f"Error creating utilisation records: {str(e)}")
         frappe.log_error(f"Error creating utilisation records: {str(e)}", "Utilisation Creation Error")
