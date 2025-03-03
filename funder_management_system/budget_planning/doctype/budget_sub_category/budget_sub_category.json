@@ -19,19 +19,17 @@
    "reqd": 1
   },
   {
-
    "fieldname": "budget_sub_category",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Budget Sub-Category",
-
    "reqd": 1,
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-28 14:37:32.512548",
+ "modified": "2025-03-03 15:51:22.575618",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Sub-Category",
@@ -61,11 +59,22 @@
    "role": "Budget Planner",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fundraising Admin",
+   "share": 1,
+   "write": 1
   }
  ],
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
  "title_field": "budget_sub_category"
-
 }

@@ -131,7 +131,7 @@
    "link_fieldname": "donor"
   }
  ],
- "modified": "2025-03-03 13:16:49.261674",
+ "modified": "2025-03-03 15:59:02.504659",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Donor",
@@ -147,6 +147,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fundraising Admin",
    "share": 1,
    "write": 1
   }
