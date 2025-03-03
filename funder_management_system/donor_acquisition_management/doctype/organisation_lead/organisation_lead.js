@@ -40,7 +40,7 @@ frappe.ui.form.on("Organisation Lead", {
         frm.set_df_property("lead_stage", "description", descriptions[frm.doc.lead_stage] || "Select a lead stage to see details.");
     },
 
-    // ✅ Lead Stage Logic - Prevents unnecessary execution
+
     lead_stage: function (frm) {
         if (!frm.doc.lead_name && frm.doc.lead_stage === "Confirmed Lead") {
             frappe.msgprint({
@@ -66,21 +66,31 @@ frappe.ui.form.on("Organisation Lead", {
                         args: { lead_name: frm.doc.name },
                         callback: function (r) {
                             if (r.message) {
-                                frappe.msgprint(__('Donor created successfully!'));
-                                frm.reload_doc();
-                            } else {
-                                frappe.msgprint(__('Failed to create donor.'));
-                                frm.reload_doc();
+                                if (r.message.status === "success") {
+                                    frappe.msgprint(__('Donor created successfully!'));
+
+                                    frm.set_value("lead_stage", "Confirmed Lead");
+                                    frm.save();
+                                } 
+                                else if (r.message.status === "duplicate") {
+                                    frappe.msgprint(__('Donor already exists! Reloading...'));
+                                    frm.reload_doc();  
+                                } 
+                                else {
+                                    frappe.msgprint(__('Failed to create donor.'));
+                                    frm.reload_doc();
+                                }
                             }
                         }
                     });
                 },
                 () => {
                     frappe.msgprint(__('Lead confirmation cancelled.'));
-                    frm.reload_doc()
+                    frm.reload_doc();
                 }
             );
         }
+
     },
 
     fetch_compliance_checklist: function (frm) {

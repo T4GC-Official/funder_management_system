@@ -18,6 +18,7 @@
   "other_details_section",
   "thematic_area",
   "lead_category",
+  "purpose_of_funding",
   "column_break_vwez",
   "source_of_connection",
   "financial_year_of_reachout",
@@ -25,10 +26,10 @@
   "lead_stage",
   "column_break_owrr",
   "disposition_note",
-  "compliance_checklist_section",
-  "compliance_checklist",
   "organisation_poc_details_section",
   "assigned_poc",
+  "compliance_checklist_section",
+  "compliance_checklist",
   "section_break_wzuj",
   "table_lead_history"
  ],
@@ -113,6 +114,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "collapsible": 1,
    "fieldname": "compliance_checklist_section",
    "fieldtype": "Section Break",
    "label": "Compliance Checklist"
@@ -182,11 +184,16 @@
    "fieldname": "disposition_note",
    "fieldtype": "Small Text",
    "label": "Lead Stage Note"
+  },
+  {
+   "fieldname": "purpose_of_funding",
+   "fieldtype": "Small Text",
+   "label": "Purpose of Funding"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-27 17:10:15.269028",
+ "modified": "2025-02-28 17:16:52.967646",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "Organisation Lead",

@@ -11,10 +11,13 @@
   "lead_name",
   "donor_name",
   "website_url",
+  "column_break_khnv",
   "official_email_id",
   "pan_card",
   "section_break_qwig",
   "donor_status",
+  "poc_details_section",
+  "assigned_poc",
   "engagement_check_list_section",
   "engagement_checklist_table",
   "donor_history_section",
@@ -84,6 +87,7 @@
    "options": "New Donor\nRenewed Donor\nDropped"
   },
   {
+   "collapsible": 1,
    "fieldname": "engagement_check_list_section",
    "fieldtype": "Section Break",
    "label": "Engagement Check List"
@@ -103,6 +107,21 @@
    "fieldname": "table_donor_history",
    "fieldtype": "Table",
    "options": "Donor History"
+  },
+  {
+   "fieldname": "column_break_khnv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "poc_details_section",
+   "fieldtype": "Section Break",
+   "label": "POC Details"
+  },
+  {
+   "fieldname": "assigned_poc",
+   "fieldtype": "Table",
+   "label": "Donor POC Details",
+   "options": "POC Assigned"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -112,7 +131,7 @@
    "link_fieldname": "donor"
   }
  ],
- "modified": "2025-02-24 13:23:22.873313",
+ "modified": "2025-03-03 13:16:49.261674",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Donor",

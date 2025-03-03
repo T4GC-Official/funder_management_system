@@ -9,8 +9,9 @@
   "tranche_name",
   "tranche_amount",
   "tranche_status",
-  "tranche_financial_year",
+  "mode_of_payment",
   "received_on",
+  "tranche_financial_year",
   "total_tranche_expenditure",
   "due_date",
   "over_utilisation"
@@ -78,12 +79,19 @@
    "fieldtype": "Currency",
    "label": "Over Utilisation",
    "read_only": 1
+  },
+  {
+   "fieldname": "mode_of_payment",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Mode of Payment",
+   "options": "Cheque\nUPI\nNetbanking"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-25 08:31:55.149203",
+ "modified": "2025-02-28 17:10:21.547130",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Tranche Details",
