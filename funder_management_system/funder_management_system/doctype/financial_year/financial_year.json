@@ -71,8 +71,8 @@
    "write": 1
   }
  ],
- "sort_field": "creation",
- "sort_order": "DESC",
+ "sort_field": "financial_year",
+ "sort_order": "ASC",
  "states": [],
  "title_field": "financial_year"
 }

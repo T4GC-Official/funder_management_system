@@ -62,13 +62,12 @@
   {
    "fieldname": "official_address",
    "fieldtype": "Small Text",
-   "label": "Official Address",
-   "reqd": 1
+   "label": "Official Address"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-24 04:02:52.652953",
+ "modified": "2025-02-28 17:12:14.172220",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation Details",
