@@ -1,4 +1,59 @@
 frappe.ui.form.on("Budget Plan", {
+        // setup: function (frm) {
+        //     console.log("setup");
+        // frm.set_query("financial_year", function () {
+        //     console.log("financial_year");
+        //         return {limit_page_length: 1000 }}
+        // )},
+            //         let current_year = new Date().getFullYear(); // Get current year
+        //         let start_year = current_year - 5;  // Previous 5 years
+        //         let end_year = current_year + 3;  // Next 3 years
+    
+        //         let start_fy = start_year + "-" + (start_year + 1).toString().slice(-2); // "2020-21"
+        //         let end_fy = end_year + "-" + (end_year + 1).toString().slice(-2); // "2030-31"
+    
+        //         return {
+        //             filters: [
+        //                 ["financial_year", "between", [start_fy, end_fy]]
+        //             ],
+        //             order_by: "financial_year ASC"
+        //         };
+        //     });
+        // },
+        onload: function (frm) {
+            let grid = frm.fields_dict["budget_breakdown"].grid;
+    
+            // Override only for this specific grid
+            grid.setup_visible_columns = function () {
+                let column_count = 7;  // Total number of columns
+                let column_width = Math.floor(14 / column_count); // Distribute width equally
+    
+                this.visible_columns = [];
+                let fields = this.editable_fields || this.docfields;
+                let total_colsize = 0;
+    
+                for (var ci in fields) {
+                    var df = this.fields_map[fields[ci].fieldname];
+    
+                    if (
+                        df &&
+                        !df.hidden &&
+                        (this.editable_fields || df.in_list_view) &&
+                        ((this.frm && this.frm.get_perm(df.permlevel, "read")) || !this.frm) &&
+                        !frappe.model.layout_fields.includes(df.fieldtype)
+                    ) {
+                        df.colsize = column_width;
+                        total_colsize += df.colsize;
+                        this.visible_columns.push([df, df.colsize]);
+                    }
+                }
+    
+            };
+    
+            // Refresh grid to apply new column sizes
+            grid.refresh();
+        },
+    
     refresh: function(frm) {
         setTimeout(() => {
             let grid_wrapper = frm.fields_dict['budget_breakdown'].grid.wrapper;
