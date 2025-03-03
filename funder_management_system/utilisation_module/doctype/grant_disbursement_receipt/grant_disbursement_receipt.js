@@ -90,7 +90,7 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
                      docstatus: 1,
                     }}:{};
             });
-        }f
+        }
     },
 });
 
@@ -357,12 +357,11 @@ function render_tranche_table(frm, grant) {
     });
 }
 frappe.ui.form.on('Utilisation Table', {
-    delete_rows: function(frm, grid) {
-        console.log("delete rows");
-        // Your custom implementation here
-        // You can call the original method if needed
-        // grid.delete_rows.call(grid);
-      }
+    // detect the child table check box state change
+    utilisation_child_table: function (frm) {
+        console.log("child table checkbox state change");
+        frm.events.progress_bar(frm);
+    }   
 });
 
 

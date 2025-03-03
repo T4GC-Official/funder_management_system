@@ -184,6 +184,7 @@
    "options": "Budget Category"
   },
   {
+   "allow_bulk_edit": 1,
    "fieldname": "utilisation_child_table",
    "fieldtype": "Table",
    "label": "Expenditure Details",
@@ -208,7 +209,7 @@
    "link_fieldname": "gdr"
   }
  ],
- "modified": "2025-03-03 12:13:52.385473",
+ "modified": "2025-03-03 12:59:49.002287",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Grant Disbursement Receipt",
