@@ -12,16 +12,22 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
         if(frm.doc.grant_agreement){
             // trigger the grant_agreement field change event
             frm.trigger("grant_agreement");
-            
         }
-
+        let grid = frm.fields_dict["utilisation_child_table"].grid;
+        // Wait for the DOM to render
+        setTimeout(() => {
+            grid.wrapper.find('.grid-row-check').remove(); // Remove checkboxes from rows
+            grid.wrapper.find('.grid-header-row .grid-row-check').remove(); // Remove from header
+        }, 500);
     },
-    // write logic to detect the delete button of the child table and fetch the current child table row
+
+    
     refresh: function(frm) {
 
         frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
+        //frm.fields_dict["utilisation_child_table"].grid.wrapper.find('.grid-row-check').hide();
         frm.refresh_field('utilisation_child_table');
         frm.set_df_property("donor", "only_select", 1);
         frm.set_df_property("grant_tranche_name", "only_select", 1);
@@ -363,9 +369,3 @@ frappe.ui.form.on('Utilisation Table', {
         frm.events.progress_bar(frm);
     }   
 });
-
-
-
-
-
-
