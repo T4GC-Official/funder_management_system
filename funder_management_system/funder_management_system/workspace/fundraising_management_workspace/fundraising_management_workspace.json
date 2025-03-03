@@ -8,11 +8,11 @@
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "icon": "heart-active",
+ "icon": "",
  "idx": 0,
  "indicator_color": "green",
  "is_hidden": 0,
- "label": "Funder Management",
+ "label": "Fundraising Management Workspace",
  "link_type": "DocType",
  "links": [
   {
@@ -225,10 +225,10 @@
    "type": "Link"
   }
  ],
- "modified": "2025-02-28 16:59:59.242924",
+ "modified": "2025-03-03 15:37:13.732666",
  "modified_by": "Administrator",
  "module": "Funder Management System",
- "name": "Funder Management",
+ "name": "Fundraising Management Workspace",
  "number_cards": [],
  "owner": "Administrator",
  "parent_page": "",
@@ -237,6 +237,6 @@
  "roles": [],
  "sequence_id": 1.0,
  "shortcuts": [],
- "title": "Funder Management",
+ "title": "Fundraising Management Workspace",
  "type": "Workspace"
 }
