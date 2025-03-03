@@ -113,6 +113,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.budget",
    "fieldname": "budget_table_view_section",
    "fieldtype": "Data",
    "label": "Budget Info"
@@ -155,7 +156,8 @@
   },
   {
    "fieldname": "column_break_cffu",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "label": "&nbsp;"
   },
   {
    "fieldname": "donor",
@@ -206,7 +208,7 @@
    "link_fieldname": "gdr"
   }
  ],
- "modified": "2025-02-27 14:07:05.098108",
+ "modified": "2025-03-03 12:13:52.385473",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Grant Disbursement Receipt",

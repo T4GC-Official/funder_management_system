@@ -3,40 +3,20 @@
 
 frappe.ui.form.on("Grant Disbursement Receipt", {
     onload_post_render: function(frm) {
+        if(frm.doc.budget){
+            // trigger the budget field change event
+            frm.trigger("budget");
 
-    },
-    validate: function(frm) {
-        if (frm.doc.__islocal === 0) {
-            // Check if Utilisation Record exists in child table
-            var childTable = frm.get_field("utilisation_child_table");
-            var rows = childTable.grid.get_rows();
-            for (var i = 0; i < rows.length; i++) {
-                if (rows[i].doc.expenditure_record_name) {
-                    frappe.msgprint("Cannot delete this document. Utilisation Record exists in child table.");
-                    frappe.validated = false;
-                    return;
-                }
-            }
         }
+        
+        if(frm.doc.grant_agreement){
+            // trigger the grant_agreement field change event
+            frm.trigger("grant_agreement");
+            
+        }
+
     },
     // write logic to detect the delete button of the child table and fetch the current child table row
-    utilisation_child_table_onboard: function(frm, cdt, cdn) {
-        var childTable = frm.get_field("utilisation_child_table");
-        var row = frappe.get_doc(cdt, cdn);
-        if (row.expenditure_record_name) {
-            frappe.msgprint("Cannot delete this row. Utilisation Record exists in child table.");
-            return;
-        }
-
-        if (cdn) {
-            var childTable = frm.get_field("utilisation_child_table");
-            var row = frappe.get_doc(cdt, cdn);
-            if (row.doctype === "Utilisation Child Table" && row.__deleted) {
-                frm.trigger("utilisation_child_table_onboard", frm, cdt, cdn);
-            }
-        }// trigger utilisation_child_table_onboard event when user clicks on the delete button
-        
-    }, 
     refresh: function(frm) {
 
         frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
@@ -101,19 +81,16 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
         frm.set_value('budget_sub_category', null);
     },
     financial_year: function(frm) {
-
-            frm.set_df_property("select_budget", "hidden", 0);
-
+        frm.set_df_property("budget", "hidden", 0);
         if (frm.doc.financial_year) {
-            frm.set_query("select_budget", function() {
-                return {
-                    filters: {
-                        financial_year: frm.doc.financial_year,
-                        docstatus: 1
-                    }
-                };
+            console.log("Selected Financial Year:",frm.doc.financial_year)
+            frm.set_query("budget", function() {
+                return frm.doc.financial_year ?{ filters: { 
+                    financial_year: frm.doc.financial_year,
+                     docstatus: 1,
+                    }}:{};
             });
-        }
+        }f
     },
 });
 
@@ -268,13 +245,13 @@ function render_budget_info(frm, budget) {
                     <table class="table table-bordered table-hover" style="width: 100%;">
                         <thead class="table-light">
                             <tr>
-                                <th style="width: 14%;">Budget</th>
-                                <th style="width: 14%;">FY</th>
-                                <th style="width: 14%;">1st Quarter</th>
-                                <th style="width: 14%;">2nd Quarter</th>
-                                <th style="width: 14%;">3rd Quarter</th>
-                                <th style="width: 14%;">4th Quarter</th>
-                                <th style="width: 16%;">Total Budget</th>
+                                <th style="width: 14%; white-space: nowrap;">Budget</th>
+                                <th style="width: 14%; white-space: nowrap;">FY</th>
+                                <th style="width: 14%; white-space: nowrap;">1st Quarter</th>
+                                <th style="width: 14%; white-space: nowrap;">2nd Quarter</th>
+                                <th style="width: 14%; white-space: nowrap;">3rd Quarter</th>
+                                <th style="width: 14%; white-space: nowrap;">4th Quarter</th>
+                                <th style="width: 16%; white-space: nowrap;">Total Budget</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -331,7 +308,7 @@ function render_tranche_table(frm, grant) {
                 <table class="table table-bordered table-hover" style="width: 100%; text-align: center;">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 20%;">Tranche Info</th>`;
+                            <th style="width: 14%; white-space: nowrap;">Tranche Info</th>`;
 
         // Create column headers dynamically
         tranche_data.forEach(tranche => {
