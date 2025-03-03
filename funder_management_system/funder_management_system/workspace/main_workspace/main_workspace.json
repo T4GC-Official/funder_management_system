@@ -12,7 +12,7 @@
  "idx": 0,
  "indicator_color": "green",
  "is_hidden": 0,
- "label": "Fundraising Management Workspace",
+ "label": "Main Workspace",
  "link_type": "DocType",
  "links": [
   {
@@ -225,10 +225,10 @@
    "type": "Link"
   }
  ],
- "modified": "2025-03-03 15:47:51.104581",
+ "modified": "2025-03-03 17:31:47.781524",
  "modified_by": "Administrator",
  "module": "Funder Management System",
- "name": "Fundraising Management Workspace",
+ "name": "Main Workspace",
  "number_cards": [],
  "owner": "Administrator",
  "parent_page": "",
@@ -236,7 +236,7 @@
  "quick_lists": [],
  "roles": [
   {
-   "role": "fundraising Admin"
+   "role": "Fundraising Admin"
   },
   {
    "role": "Budget Planner"
@@ -244,6 +244,6 @@
  ],
  "sequence_id": 1.0,
  "shortcuts": [],
- "title": "Fundraising Management Workspace",
+ "title": "Main Workspace",
  "type": "Workspace"
 }
