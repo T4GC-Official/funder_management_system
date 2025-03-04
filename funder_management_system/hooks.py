@@ -35,7 +35,14 @@ fixtures = [{
 },
 {
 	"dt": "Engagement Checklist Master"
-}]
+},
+{
+	"dt": "Designation",
+	"filters": [
+		["designation", "!=", "ENGINEER"]
+	]
+},
+]
 # Includes in <head>
 # ------------------
 
