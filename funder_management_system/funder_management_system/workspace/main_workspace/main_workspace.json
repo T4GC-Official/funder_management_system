@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":4}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":4}}]",
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":4}}]",
  "creation": "2025-01-28 12:24:00.611386",
  "custom_blocks": [],
  "docstatus": 0,
@@ -66,86 +66,6 @@
    "type": "Link"
   },
   {
-   "description": "This module allows members of the fundraising team to create a new organisation lead, track their relevant details and stages till conversion to a confirmed Donor.",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Donor Acquisition Module",
-   "link_count": 7,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation Details",
-   "link_count": 0,
-   "link_to": "Organisation Details",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation Lead",
-   "link_count": 0,
-   "link_to": "Organisation Lead",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation POC",
-   "link_count": 0,
-   "link_to": "Organisation POC",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Category",
-   "link_count": 0,
-   "link_to": "Category",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Thematic Area",
-   "link_count": 0,
-   "link_to": "Thematic Area",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Source of Connection",
-   "link_count": 0,
-   "link_to": "Source of Connection",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Compliance Checklist",
-   "link_count": 0,
-   "link_to": "Compliance Checklist",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "description": "In this module, you can set reminders for all document renewals and create various document lists. Additionally, users can choose to receive reminders a certain number of days in advance.",
    "hidden": 0,
    "is_query_report": 0,
@@ -161,35 +81,6 @@
    "label": "Document List",
    "link_count": 0,
    "link_to": "Document List",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Grant Utilisation",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Grant Disbursement Receipt",
-   "link_count": 0,
-   "link_to": "Grant Disbursement Receipt",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Utilisation Record",
-   "link_count": 0,
-   "link_to": "Utilisation Record",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -223,9 +114,49 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "description": "This module allows members of the fundraising team to create a new organisation lead, track their relevant details and stages till conversion to a confirmed Donor.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Donor Acquisition Module",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Details",
+   "link_count": 0,
+   "link_to": "Organisation Details",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation POC",
+   "link_count": 0,
+   "link_to": "Organisation POC",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Lead",
+   "link_count": 0,
+   "link_to": "Organisation Lead",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-03-03 17:31:47.781524",
+ "modified": "2025-03-04 15:49:59.936510",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
