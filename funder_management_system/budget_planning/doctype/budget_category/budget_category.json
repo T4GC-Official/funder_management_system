@@ -20,7 +20,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-29 14:44:58.302369",
+ "modified": "2025-03-03 15:50:03.228288",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Category",
@@ -48,6 +48,18 @@
    "read": 1,
    "report": 1,
    "role": "Budget Planner",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fundraising Admin",
    "share": 1,
    "write": 1
   }

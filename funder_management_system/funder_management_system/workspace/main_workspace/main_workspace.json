@@ -8,11 +8,11 @@
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "icon": "heart-active",
+ "icon": "",
  "idx": 0,
  "indicator_color": "green",
  "is_hidden": 0,
- "label": "Funder Management",
+ "label": "Main Workspace",
  "link_type": "DocType",
  "links": [
   {
@@ -166,36 +166,6 @@
    "type": "Link"
   },
   {
-   "description": "This module will manage and track Donor Status from New , Renewed and Dropped with grant agreement and tranches.",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Donor Engagement Module",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Donor List",
-   "link_count": 0,
-   "link_to": "Donor",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Grant Agreement",
-   "link_count": 0,
-   "link_to": "Grant Agreement",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "hidden": 0,
    "is_query_report": 0,
    "label": "Grant Utilisation",
@@ -223,20 +193,57 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "description": "This module is designed for fundraising team members to maintain a record of ongoing engagement with confirmed donors, track grant agreements and tranche level details.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Donor Engagement Module",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Donor List",
+   "link_count": 0,
+   "link_to": "Donor",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Grant Agreement",
+   "link_count": 0,
+   "link_to": "Grant Agreement",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-02-26 16:51:52.170190",
+ "modified": "2025-03-03 17:31:47.781524",
  "modified_by": "Administrator",
  "module": "Funder Management System",
- "name": "Funder Management",
+ "name": "Main Workspace",
  "number_cards": [],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "Fundraising Admin"
+  },
+  {
+   "role": "Budget Planner"
+  }
+ ],
  "sequence_id": 1.0,
  "shortcuts": [],
- "title": "Funder Management",
+ "title": "Main Workspace",
  "type": "Workspace"
 }

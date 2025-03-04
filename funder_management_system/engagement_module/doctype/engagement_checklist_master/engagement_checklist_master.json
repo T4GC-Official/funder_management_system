@@ -20,7 +20,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-24 14:28:50.194587",
+ "modified": "2025-03-03 15:58:14.195472",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Engagement Checklist Master",
@@ -36,6 +36,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fundraising Admin",
    "share": 1,
    "write": 1
   }

@@ -40,6 +40,8 @@ fixtures = [{
 # ------------------
 
 # include js, css files in header of desk.html
+app_include_js = "/assets/funder_management_system/js/custom_toolbar.js"
+
 # app_include_css = "/assets/funder_management_system/css/funder_management_system.css"
 # app_include_js = "/assets/funder_management_system/js/funder_management_system.js"
 
@@ -167,7 +169,8 @@ after_install = "funder_management_system.utils.create_financial_year"
 
 scheduler_events = {
 	"all": [
-	 	"funder_management_system.task.daily.grant_agreement_daily", "funder_management_system.task.daily.organisation_toolkit_daily"
+	 	"funder_management_system.task.daily.grant_agreement_daily",
+   		"funder_management_system.task.daily.organisation_toolkit_daily"
 	 ],
 	"daily": [
 

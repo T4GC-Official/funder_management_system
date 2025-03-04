@@ -9,6 +9,7 @@
   "expense_details_section",
   "donor_details_column",
   "donor",
+  "gdr",
   "grant_agreement",
   "grant_agreement_tranche",
   "column_break_fkev",
@@ -18,53 +19,52 @@
   "section_break_pzfy",
   "utilised_amount",
   "column_break_eaqn",
-  "utilisation_status",
-  "column_break_noba",
   "category",
+  "column_break_noba",
+  "sub_category",
   "column_break_qtxl",
-  "sub_category"
+  "amended_from"
  ],
  "fields": [
   {
    "fieldname": "budget_plan",
    "fieldtype": "Link",
    "label": "Budget Plan",
-   "options": "Budget Plan"
+   "options": "Budget Plan",
+   "read_only": 1
   },
   {
    "fieldname": "financial_year",
    "fieldtype": "Link",
    "label": "Financial Year",
-   "options": "Financial Year"
+   "options": "Financial Year",
+   "read_only": 1
   },
   {
    "fieldname": "donor",
    "fieldtype": "Link",
    "label": "Donor",
-   "options": "Donor"
+   "options": "Donor",
+   "read_only": 1
   },
   {
    "fieldname": "category",
    "fieldtype": "Link",
    "label": "Category",
-   "options": "Budget Category"
+   "options": "Budget Category",
+   "read_only": 1
   },
   {
    "fieldname": "sub_category",
    "fieldtype": "Link",
    "label": "Sub Category",
-   "options": "Budget Sub-Category"
+   "options": "Budget Sub-Category",
+   "read_only": 1
   },
   {
    "fieldname": "utilised_amount",
    "fieldtype": "Currency",
    "label": "Utilised Amount"
-  },
-  {
-   "fieldname": "utilisation_status",
-   "fieldtype": "Select",
-   "label": "Utilisation Status",
-   "options": "Pending\nApproved\nCancelled"
   },
   {
    "fieldname": "column_break_fkev",
@@ -88,13 +88,15 @@
    "fieldname": "grant_agreement",
    "fieldtype": "Link",
    "label": "Grant",
-   "options": "Grant Agreement"
+   "options": "Grant Agreement",
+   "read_only": 1
   },
   {
    "fieldname": "quarters",
    "fieldtype": "Select",
    "label": "Quarters",
-   "options": "Q1\nQ2\nQ3\nQ4"
+   "options": "Q1\nQ2\nQ3\nQ4",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_noba",
@@ -112,12 +114,31 @@
   {
    "fieldname": "grant_agreement_tranche",
    "fieldtype": "Data",
-   "label": "Tranche Name"
+   "label": "Tranche Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "gdr",
+   "fieldtype": "Link",
+   "label": "GDR",
+   "options": "Grant Disbursement Receipt",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Utilisation Record",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2025-02-27 07:54:18.055101",
+ "modified": "2025-03-04 11:56:48.591812",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
@@ -125,7 +146,7 @@
  "owner": "Administrator",
  "permissions": [
   {
-   "create": 1,
+   "cancel": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -134,10 +155,36 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fundraising Admin",
+   "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
- "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []

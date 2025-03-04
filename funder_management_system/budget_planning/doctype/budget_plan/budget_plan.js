@@ -1,51 +1,5 @@
 frappe.ui.form.on("Budget Plan", {
-    refresh: function(frm) {
-        setTimeout(() => {
-            let grid_wrapper = frm.fields_dict['budget_breakdown'].grid.wrapper;
-
-            // Function to dynamically set column widths based on the row with the most content
-            function adjustTableWidths() {
-                const table = grid_wrapper.find("table");
-                if (!table.length) return;
-
-                const headerCells = table.find("thead th");
-                const rows = table.find("tbody tr");
-                if (!rows.length || !headerCells.length) return;
-
-                // Find the row with the most content (widest)
-                let widestRow = null;
-                let maxWidth = 0;
-
-                rows.each(function() {
-                    let rowWidth = $(this).outerWidth();
-                    if (rowWidth > maxWidth) {
-                        maxWidth = rowWidth;
-                        widestRow = $(this);
-                    }
-                });
-
-                if (!widestRow) return;
-
-                // Apply column widths from the widest row
-                const widestRowCells = widestRow.find("td");
-                widestRowCells.each(function(index) {
-                    let cellWidth = $(this).outerWidth();
-                    if (headerCells[index]) {
-                        $(headerCells[index]).css("width", cellWidth + "px");
-                    }
-                    rows.each(function() {
-                        $(this).find("td").eq(index).css("width", cellWidth + "px");
-                    });
-                });
-            }
-
-            // Adjust after rendering and on window resize
-            setTimeout(adjustTableWidths, 100);
-            $(window).on("resize", adjustTableWidths);
-            frm.fields_dict['budget_breakdown'].grid.wrapper.on("scroll", adjustTableWidths);
-        }, 500);
-
-        // Set filter for budget_sub_category dynamically
+    refresh: function (frm) {
         if (frm.fields_dict['budget_breakdown'] && frm.fields_dict['budget_breakdown'].grid) {
             let field = frm.fields_dict['budget_breakdown'].grid.get_field('budget_sub_category');
             if (field) {
@@ -63,6 +17,38 @@ frappe.ui.form.on("Budget Plan", {
             }
         }
     },
+        onload: function (frm) {
+            let grid = frm.fields_dict["budget_breakdown"].grid;
+            // Override only for this specific grid
+            grid.setup_visible_columns = function () {
+                let column_count = 7;  // Total number of columns
+                let column_width = Math.floor(14 / column_count); // Distribute width equally
+    
+                this.visible_columns = [];
+                let fields = this.editable_fields || this.docfields;
+                let total_colsize = 0;
+    
+                for (var ci in fields) {
+                    var df = this.fields_map[fields[ci].fieldname];
+    
+                    if (
+                        df &&
+                        !df.hidden &&
+                        (this.editable_fields || df.in_list_view) &&
+                        ((this.frm && this.frm.get_perm(df.permlevel, "read")) || !this.frm) &&
+                        !frappe.model.layout_fields.includes(df.fieldtype)
+                    ) {
+                        df.colsize = column_width;
+                        total_colsize += df.colsize;
+                        this.visible_columns.push([df, df.colsize]);
+                    }
+                }
+    
+            };
+    
+            // Refresh grid to apply new column sizes
+            grid.refresh();
+        },
 
     budget_plan_template: function(frm) {
         if (frm.doc.budget_plan_template) {
@@ -102,33 +88,4 @@ frappe.ui.form.on("Budget Plan", {
     }
 });
 
-frappe.ui.form.on("Budget Breakdown", {
-    budget_sub_category: function(frm, cdt, cdn) {
-        let row = locals[cdt][cdn];
 
-        if (row.budget_category && row.budget_sub_category) {
-            frappe.call({
-                method: "frappe.client.get_list",
-                args: {
-                    doctype: "Budget Sub-Category",
-                    filters: {
-                        budget_category: row.budget_category,
-                        name: row.budget_sub_category
-                    },
-                    fields: ["name"]
-                },
-                callback: function(r) {
-                    if (r.exc) {
-                        frappe.msgprint(__('Error fetching sub-category data.'));
-                        return;
-                    }
-                    if (!r.message || r.message.length === 0) {
-                        frappe.msgprint(__('The selected sub-category is not valid for the chosen category.'));
-                        row.budget_sub_category = "";
-                        frm.refresh_field("budget_breakdown");
-                    }
-                }
-            });
-        }
-    }
-});

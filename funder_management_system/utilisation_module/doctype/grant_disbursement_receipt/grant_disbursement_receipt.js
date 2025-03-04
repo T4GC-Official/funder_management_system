@@ -3,13 +3,31 @@
 
 frappe.ui.form.on("Grant Disbursement Receipt", {
     onload_post_render: function(frm) {
+        if(frm.doc.budget){
+            // trigger the budget field change event
+            frm.trigger("budget");
 
+        }
+        
+        if(frm.doc.grant_agreement){
+            // trigger the grant_agreement field change event
+            frm.trigger("grant_agreement");
+        }
+        let grid = frm.fields_dict["utilisation_child_table"].grid;
+        // Wait for the DOM to render
+        setTimeout(() => {
+            grid.wrapper.find('.grid-row-check').remove(); // Remove checkboxes from rows
+            grid.wrapper.find('.grid-header-row .grid-row-check').remove(); // Remove from header
+        }, 500);
     },
 
-
+    
     refresh: function(frm) {
 
-        frm.get_field("utilisation_child_table").grid.cannot_add_rows = true;
+        frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
+        frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
+        frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
+        //frm.fields_dict["utilisation_child_table"].grid.wrapper.find('.grid-row-check').hide();
         frm.refresh_field('utilisation_child_table');
         frm.set_df_property("donor", "only_select", 1);
         frm.set_df_property("grant_tranche_name", "only_select", 1);
@@ -18,7 +36,7 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
     after_save: function (frm) {
         frm.set_value('budget', null);
         frm.set_value('grant_agreement', null);
-        frm.set_value('tranche_name', null);
+        frm.set_value('grant_tranche_name', null);
         frm.set_value('tranche_amount', null);
         frm.set_value("financial_year", null);
         frm.set_value("donor", null);
@@ -32,7 +50,9 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
                 document_name: frm.doc.name
             },
             callback: function (r) {
-               frm.reload_doc();  // Reloads the entire document to reflect changes
+                if (r.message) {
+                    frm.reload_doc(); 
+                }
             }
         });
     },
@@ -67,17 +87,14 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
         frm.set_value('budget_sub_category', null);
     },
     financial_year: function(frm) {
-
-            frm.set_df_property("select_budget", "hidden", 0);
-
+        frm.set_df_property("budget", "hidden", 0);
         if (frm.doc.financial_year) {
-            frm.set_query("select_budget", function() {
-                return {
-                    filters: {
-                        financial_year: frm.doc.financial_year,
-                        docstatus: 1
-                    }
-                };
+            console.log("Selected Financial Year:",frm.doc.financial_year)
+            frm.set_query("budget", function() {
+                return frm.doc.financial_year ?{ filters: { 
+                    financial_year: frm.doc.financial_year,
+                     docstatus: 1,
+                    }}:{};
             });
         }
     },
@@ -174,9 +191,6 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
               frm.set_value("budget_category", null);
               frm.set_value("budget_sub_category", null);
               frm.set_value("expenditure", null);
-              frm.save();
-
-
         }
         else{
             // set focus on the first empty field
@@ -237,13 +251,13 @@ function render_budget_info(frm, budget) {
                     <table class="table table-bordered table-hover" style="width: 100%;">
                         <thead class="table-light">
                             <tr>
-                                <th style="width: 14%;">Budget</th>
-                                <th style="width: 14%;">FY</th>
-                                <th style="width: 14%;">1st Quarter</th>
-                                <th style="width: 14%;">2nd Quarter</th>
-                                <th style="width: 14%;">3rd Quarter</th>
-                                <th style="width: 14%;">4th Quarter</th>
-                                <th style="width: 16%;">Total Budget</th>
+                                <th style="width: 14%; white-space: nowrap;">Budget</th>
+                                <th style="width: 14%; white-space: nowrap;">FY</th>
+                                <th style="width: 14%; white-space: nowrap;">1st Quarter</th>
+                                <th style="width: 14%; white-space: nowrap;">2nd Quarter</th>
+                                <th style="width: 14%; white-space: nowrap;">3rd Quarter</th>
+                                <th style="width: 14%; white-space: nowrap;">4th Quarter</th>
+                                <th style="width: 16%; white-space: nowrap;">Total Budget</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -300,7 +314,7 @@ function render_tranche_table(frm, grant) {
                 <table class="table table-bordered table-hover" style="width: 100%; text-align: center;">
                     <thead class="table-light">
                         <tr>
-                            <th style="width: 20%;">Tranche Info</th>`;
+                            <th style="width: 14%; white-space: nowrap;">Tranche Info</th>`;
 
         // Create column headers dynamically
         tranche_data.forEach(tranche => {
@@ -348,10 +362,10 @@ function render_tranche_table(frm, grant) {
         frm.fields_dict["grant_table_view_section"].$wrapper.html(table_html);
     });
 }
-
-
-
-
-
-
-
+frappe.ui.form.on('Utilisation Table', {
+    // detect the child table check box state change
+    utilisation_child_table: function (frm) {
+        console.log("child table checkbox state change");
+        frm.events.progress_bar(frm);
+    }   
+});

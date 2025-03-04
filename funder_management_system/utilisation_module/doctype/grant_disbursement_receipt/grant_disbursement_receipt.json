@@ -1,11 +1,12 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "prompt",
+ "autoname": "field:gdr",
  "creation": "2025-02-25 13:47:01.975850",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "gdr",
   "budget_info_section",
   "financial_year",
   "budget_info_column",
@@ -112,6 +113,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.budget",
    "fieldname": "budget_table_view_section",
    "fieldtype": "Data",
    "label": "Budget Info"
@@ -154,7 +156,8 @@
   },
   {
    "fieldname": "column_break_cffu",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "label": "&nbsp;"
   },
   {
    "fieldname": "donor",
@@ -191,15 +194,26 @@
    "fieldname": "grant_tranche_name",
    "fieldtype": "Select",
    "label": "Tranche"
+  },
+  {
+   "fieldname": "gdr",
+   "fieldtype": "Data",
+   "label": "GDR",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2025-02-27 08:49:18.616398",
+ "links": [
+  {
+   "link_doctype": "Utilisation Record",
+   "link_fieldname": "gdr"
+  }
+ ],
+ "modified": "2025-03-03 16:17:33.182134",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Grant Disbursement Receipt",
- "naming_rule": "Set by user",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -211,9 +225,20 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Fundraising Admin",
+   "share": 1,
+   "write": 1
   }
  ],
- "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []
