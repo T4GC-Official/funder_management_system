@@ -1,0 +1,44 @@
+[
+ {
+  "designation": "Partnerships Manager",
+  "docstatus": 0,
+  "doctype": "Designation",
+  "modified": "2025-03-04 16:13:14.402443",
+  "name": "Partnerships Manager"
+ },
+ {
+  "designation": "Partnerships Associate",
+  "docstatus": 0,
+  "doctype": "Designation",
+  "modified": "2025-03-04 16:14:19.897385",
+  "name": "Partnerships Associate"
+ },
+ {
+  "designation": "HR Manager",
+  "docstatus": 0,
+  "doctype": "Designation",
+  "modified": "2025-03-04 16:14:38.146298",
+  "name": "HR Manager"
+ },
+ {
+  "designation": "CSR Coordinator",
+  "docstatus": 0,
+  "doctype": "Designation",
+  "modified": "2025-03-04 16:14:54.896289",
+  "name": "CSR Coordinator"
+ },
+ {
+  "designation": "CSR Manager",
+  "docstatus": 0,
+  "doctype": "Designation",
+  "modified": "2025-03-04 16:15:05.584502",
+  "name": "CSR Manager"
+ },
+ {
+  "designation": "CSR Lead",
+  "docstatus": 0,
+  "doctype": "Designation",
+  "modified": "2025-03-04 16:15:21.308688",
+  "name": "CSR Lead"
+ }
+]
