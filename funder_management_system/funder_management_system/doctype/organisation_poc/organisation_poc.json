@@ -38,7 +38,7 @@
    "in_list_view": 1,
    "label": "Phone",
    "options": "Phone",
-   "placeholder": "+91 ___ ___ ___"
+   "placeholder": " ___ ___ ___"
   },
   {
    "fieldname": "designation",
@@ -76,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-03 19:57:27.183546",
+ "modified": "2025-03-04 16:24:24.967933",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",
@@ -108,6 +108,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],

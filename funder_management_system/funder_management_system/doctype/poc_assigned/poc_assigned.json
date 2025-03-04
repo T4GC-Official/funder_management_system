@@ -9,11 +9,11 @@
   "organisation_poc_name",
   "designation",
   "phone",
+  "email",
   "preferrend_means_of_communication",
   "status",
   "column_break_orfn",
-  "internal_poc_name",
-  "email"
+  "internal_poc_name"
  ],
  "fields": [
   {
@@ -43,6 +43,7 @@
    "placeholder": "+91 ___ ___ ____"
   },
   {
+   "fetch_from": "organisation_poc_name.preferred_means_of_communication",
    "fieldname": "preferrend_means_of_communication",
    "fieldtype": "Link",
    "label": "Preferrend Means of Communication",
@@ -68,6 +69,7 @@
    "options": "User"
   },
   {
+   "fetch_from": "organisation_poc_name.email",
    "fieldname": "email",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -78,12 +80,13 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-03 13:20:23.380847",
+ "modified": "2025-03-04 16:14:29.751798",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "POC Assigned",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []
