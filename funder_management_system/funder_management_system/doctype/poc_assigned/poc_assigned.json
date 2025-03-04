@@ -30,7 +30,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Designation",
-   "options": "Designation"
+   "options": "Designation",
+   "read_only": 1
   },
   {
    "fetch_from": "organisation_poc_name.phone",
@@ -40,14 +41,16 @@
    "label": "Phone",
    "length": 13,
    "options": "Phone",
-   "placeholder": "+91 ___ ___ ____"
+   "placeholder": "+91 ___ ___ ____",
+   "read_only": 1
   },
   {
    "fetch_from": "organisation_poc_name.preferred_means_of_communication",
    "fieldname": "preferrend_means_of_communication",
    "fieldtype": "Link",
    "label": "Preferrend Means of Communication",
-   "options": "Preferred Means of Communication"
+   "options": "Preferred Means of Communication",
+   "read_only": 1
   },
   {
    "fetch_from": "organisation_poc_name.status",
@@ -55,7 +58,8 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Status",
-   "options": "Active\nIn-Active"
+   "options": "Active\nIn-Active",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_orfn",
@@ -74,13 +78,14 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Email",
-   "options": "Email"
+   "options": "Email",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-04 16:14:29.751798",
+ "modified": "2025-03-04 16:29:28.332963",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "POC Assigned",

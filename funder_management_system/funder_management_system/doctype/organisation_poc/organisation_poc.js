@@ -9,7 +9,6 @@ frappe.ui.form.on("Organisation POC", {
                 frappe.msgprint("Phone number is invalid");
                 frappe.validated = false;
             }
-            
         }  
     },
 });
