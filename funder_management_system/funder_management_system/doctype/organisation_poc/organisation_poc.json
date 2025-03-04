@@ -12,7 +12,8 @@
   "designation",
   "status",
   "email",
-  "id"
+  "id",
+  "preferred_means_of_communication"
  ],
  "fields": [
   {
@@ -64,11 +65,18 @@
    "in_list_view": 1,
    "label": "ID",
    "read_only": 1
+  },
+  {
+   "fieldname": "preferred_means_of_communication",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Preferred Means of Communication",
+   "options": "Preferred Means of Communication"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-03 16:01:35.712122",
+ "modified": "2025-03-03 19:57:27.183546",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",

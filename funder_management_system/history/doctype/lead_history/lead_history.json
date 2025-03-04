@@ -31,7 +31,7 @@
   {
    "fieldname": "financial_year",
    "fieldtype": "Data",
-   "label": "Financial Year",
+   "label": "Financial Year of Reachout",
    "read_only": 1
   },
   {
@@ -45,14 +45,15 @@
   {
    "fieldname": "note",
    "fieldtype": "Text Editor",
-   "label": "Disposition",
+   "in_list_view": 1,
+   "label": "Notes",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-02-24 18:42:00.922867",
+ "modified": "2025-03-03 20:00:03.050816",
  "modified_by": "Administrator",
  "module": "History",
  "name": "Lead History",

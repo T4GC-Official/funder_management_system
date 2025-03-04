@@ -22,7 +22,17 @@ def create_utilisation_entries(document_name):
         logger.info(f"Creating utilisation records for Grant Disbursement Receipt: {document_name}")
 
         for row in ga_doc.utilisation_child_table:
-            if row.utilisation_record_created:
+            if row.utilisation_record_created=="Submitted":
+                logger.info(f"Skipping Utilisation Record creation for {row.name} as it was already submitted")
+                continue
+            if row.utilisation_record_created == "Cancelled":
+                logger.info(f"Skipping Utilisation Record creation for {row.name} as it was cancelled")
+                continue
+            if row.utilisation_record_created == "Amended":
+                logger.info(f"Skipping Utilisation Record creation for {row.name} as it was Amended")
+                continue
+            if row.utilisation_record_created == "Draft":
+                logger.info(f"Skipping Utilisation Record creation for {row.name} as it was Draft")
                 continue
 
             utilisation_doc = frappe.get_doc({
@@ -37,16 +47,13 @@ def create_utilisation_entries(document_name):
                 "budget_plan": row.budget_plan,
                 "financial_year": row.financial_year,
                 "gdr": ga_doc.gdr,
-                "utilisation_record_created": True,
                 "docstatus":1
             })
 
             utilisation_doc.insert(ignore_permissions=True)
-            #utilisation_doc.submit(ignore_permissions=True)
-
             # Update the child table row
             row.db_set("expenditure_record_name", utilisation_doc.name)
-            row.db_set("utilisation_record_created", True)
+            row.db_set("utilisation_record_created", "Submitted")
 
             count += 1
             utilisation_entries.append(utilisation_doc.name)
@@ -56,10 +63,13 @@ def create_utilisation_entries(document_name):
         if count > 0:
             frappe.db.commit()
             logger.info(f"Successfully created {count} utilisation records for {document_name}")
-            frappe.msgprint(f"{count} Utilisation Entries Created", alert=True)
+            if count == 1:
+                frappe.msgprint(f"{count} Utilisation Entry Created", alert=True)
+            else:
+                frappe.msgprint(f"{count} Utilisation Entries Created", alert=True)
             return utilisation_entries
         else:
-            logger.info(f"No new utilisation records were created for {document_name}")
+            logger.info(f"No new Utilisation Entries were created (Already Processed) for {document_name}")
             frappe.msgprint("No new Utilisation Entries were created (Already Processed)", alert=True)
             return None
     except Exception as e:
