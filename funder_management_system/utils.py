@@ -68,7 +68,7 @@ def set_currency_permission_using_custom():
 def add_test_user(email, first_name="Test", last_name="User"):
     """Creates a test user with role 'Fundraising Admin' if it doesn't exist."""
     role = "Fundraising Admin"
-    default_password="mk@"+first_name+".com"
+    default_password = "mk@" + first_name.lower() + ".com"
     try:
         # Check if user already exists
         if frappe.db.exists("User", email):
