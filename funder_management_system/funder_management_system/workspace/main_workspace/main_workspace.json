@@ -208,9 +208,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Grant Disbursement Receipt",
+   "label": "Utilisation Records",
    "link_count": 0,
-   "link_to": "Grant Disbursement Receipt",
+   "link_to": "Utilisation Record",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -218,15 +218,15 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Utilisation Record",
+   "label": "Expense Items",
    "link_count": 0,
-   "link_to": "Utilisation Record",
+   "link_to": "Expense Item",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2025-03-13 17:58:31.150168",
+ "modified": "2025-03-13 21:56:38.942748",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
