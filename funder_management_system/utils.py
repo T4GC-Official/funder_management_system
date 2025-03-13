@@ -66,17 +66,16 @@ def enable_developer_mode():
     """Enable Developer Mode in site_config.json."""
     try:
         site_config_path = frappe.get_site_path("site_config.json")
+
         with open(site_config_path, "r+") as f:
             site_config = json.load(f)
             original_developer_mode = site_config.get("developer_mode", 0)
-            # Write the original state to a new file as backup
-            site_config_backup_file = frappe.get_site_path("site_config_backup.json")
-            with open(site_config_backup_file, "w") as f: # type: ignore
-                json.dump(site_config, f, indent=4)
             site_config["developer_mode"] = 1
             f.seek(0)
             json.dump(site_config, f, indent=4)
             f.truncate()
+        frappe.msgprint("Developer Mode enabled")
+        return original_developer_mode 
     except Exception as e:
         print(f"Error while enabling developer mode: {e}")
     finally:
