@@ -105,6 +105,7 @@ after_install = [
     "funder_management_system.utils.set_currency_permission_using_custom",
     "funder_management_system.utils.skip_setup_wizard",
     "funder_management_system.utils.create_test_users",
+    "funder_management_system.utils.set_default_landing_page",
     ]
 
 # Uninstallation

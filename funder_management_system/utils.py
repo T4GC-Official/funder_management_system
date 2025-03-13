@@ -100,6 +100,12 @@ def skip_setup_wizard():
     frappe.db.commit()
     print("Setup wizard skipped!")
 
+def set_default_landing_page():
+    """Set the default landing page to /app/main-workspace"""
+    frappe.db.set_value("System Settings", "System Settings", "home_page", "/app/main-workspace")
+    frappe.db.commit()
+    print("Default landing page set to /app/main-workspace")
+    
 def create_test_users():
     add_test_user("vidya@tech4goodcommunity.com","Vidya","S")
     add_test_user("akansha@tech4goodcommunity.com","Akansha","Negi")
