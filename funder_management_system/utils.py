@@ -94,6 +94,11 @@ def add_test_user(email, first_name="Test", last_name="User"):
     except Exception as e:
         frappe.log_error(f"Error creating test user {email}: {e}")
         
+def skip_setup_wizard():
+    """Automatically skip the setup wizard after install."""
+    frappe.db.set_value("System Settings", "System Settings", "setup_complete", 1)
+    frappe.db.commit()
+    print("Setup wizard skipped!")
 
 def create_test_users():
     add_test_user("vidya@tech4goodcommunity.com","Vidya","S")
