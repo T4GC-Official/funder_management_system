@@ -65,35 +65,7 @@ def set_currency_permission_using_custom():
         frappe.log_error(f"Error setting permissions for {role} on {doctype}: {e}")
     
     
-def add_test_user(email, first_name="Test", last_name="User"):
-    """Creates a test user with role 'Fundraising Admin' if it doesn't exist."""
-    role = "Fundraising Admin"
-    default_password = "mk@" + first_name.lower() + ".com"
-    try:
-        # Check if user already exists
-        if frappe.db.exists("User", email):
-            print(f"User {email} already exists!")
-            return
-
-        # Create new user
-        user = frappe.get_doc({
-            "doctype": "User",
-            "email": email,
-            "first_name": first_name,
-            "last_name": last_name,
-            "send_welcome_email": 0,  # Avoid sending real emails
-            "new_password": default_password
-        })
-        user.insert(ignore_permissions=True)
-
-        # Assign role "Fundraising Admin"
-        user.add_roles(role)
-
-        print(f"Test user {email} created with role '{role}' Password : {default_password}")
-        frappe.db.commit()
-    except Exception as e:
-        frappe.log_error(f"Error creating test user {email}: {e}")
-        
+     
 def skip_setup_wizard():
     """Automatically skip the setup wizard after install."""
     frappe.db.set_value("System Settings", "System Settings", "setup_complete", 1)
@@ -106,33 +78,3 @@ def set_default_landing_page():
     frappe.db.commit()
     print("Default landing page set to /app/main-workspace")
     
-def create_test_users():
-    add_test_user("vidya@tech4goodcommunity.com","Vidya","S")
-    add_test_user("akansha@tech4goodcommunity.com","Akansha","Negi")
-    add_test_user("ajith@tech4goodcommunity.com","Ajith","B M")
-    add_test_user("chandru@tech4goodcommunity.com","Chandru","M")    
-    add_test_user("praveen@tech4goodcommunity.com","Praveen","K S")    
-    add_test_user("tushar@tech4goodcommunity.com","Tushar","B")    
-
-
-# Insert dummy records for testing
-def create_dummy_records():
-    insert_dummy_budget_categories()
-
-def insert_dummy_budget_categories():
-    dummy_categories = [
-        {"category": "Marketing", "description": "Marketing Expenses"},
-        {"category": "Operations", "description": "Operational Costs"},
-        {"category": "HR", "description": "Human Resources Budget"},
-    ]
-
-    for data in dummy_categories:
-        if not frappe.db.exists("Category", data["category"]):
-            doc = frappe.get_doc({
-                "doctype": "Category",
-                "category": data["category"],
-                "description": data.get("description", ""),
-            })
-            doc.insert(ignore_permissions=True)
-            frappe.db.commit()    
-            print(f"Inserted dummy budget category: {data['category']}")
