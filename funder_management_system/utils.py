@@ -24,43 +24,43 @@ def create_financial_year():
 
 
 def set_currency_permission():
-    #original_state = enable_developer_mode() 
-    frappe.flags.in_developer_mode = 1 
-    doctype = "Currency"
-    role = "Fundraising Admin"
-    
-    existing_permissions = frappe.get_all(
-        "Custom DocPerm",
-        filters={"parent": doctype, "role": role},
-        fields=["name"]
-    )
+    try:
+        frappe.flags.in_developer_mode = 1 
+        doctype = "Currency"
+        role = "Fundraising Admin"
+        
+        existing_permissions = frappe.get_all(
+            "Custom DocPerm",
+            filters={"parent": doctype, "role": role},
+            fields=["name"]
+        )
 
-    if existing_permissions:
-        # Update the existing permission instead of adding a new one
-        for perm in existing_permissions:
-            docperm = frappe.get_doc("Custom DocPerm", perm.name)
-            docperm.read = 1
-            docperm.write = 1
-            docperm.create = 1
-            docperm.delete = 1
-            docperm.save(ignore_permissions=True)
-        frappe.msgprint(f"Updated existing permissions for {role} on {doctype}")
-    else:
-        # If no existing permission, append a new one
-        currency_doc = frappe.get_doc("DocType", doctype)
-        currency_doc.append("permissions", {
-            "role": role,
-            "read": 1,
-            "write": 1,
-            "create": 1,
-            "delete": 1,
-        })
-        currency_doc.save()
-        frappe.msgprint(f"Added new permissions for {role} on {doctype}")
-
-    frappe.db.commit()
-    frappe.flags.in_developer_mode = 0
-    #disable_developer_mode(original_state)  # Restore original Developer Mode state
+        if existing_permissions:
+            # Update the existing permission instead of adding a new one
+            for perm in existing_permissions:
+                docperm = frappe.get_doc("Custom DocPerm", perm.name)
+                docperm.read = 1
+                docperm.write = 1
+                docperm.create = 1
+                docperm.delete = 1
+                docperm.save(ignore_permissions=True)
+            frappe.msgprint(f"Updated existing permissions for {role} on {doctype}")
+        else:
+            # If no existing permission, append a new one
+            currency_doc = frappe.get_doc("DocType", doctype)
+            currency_doc.append("permissions", {
+                "role": role,
+                "read": 1,
+                "write": 1,
+                "create": 1,
+                "delete": 1,
+            })
+            currency_doc.save()
+            frappe.msgprint(f"Added new permissions for {role} on {doctype}")
+    except Exception as e:
+        print(f"Error while setting currency permissions: {e}")
+    finally:
+        frappe.flags.in_developer_mode = 1 
     
 def enable_developer_mode():
     """Enable Developer Mode in site_config.json."""
