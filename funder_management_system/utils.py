@@ -24,7 +24,8 @@ def create_financial_year():
 
 
 def set_currency_permission():
-    original_state = enable_developer_mode() 
+    #original_state = enable_developer_mode() 
+    frappe.flags.in_developer_mode = 1 
     doctype = "Currency"
     role = "Fundraising Admin"
     
@@ -58,7 +59,8 @@ def set_currency_permission():
         frappe.msgprint(f"Added new permissions for {role} on {doctype}")
 
     frappe.db.commit()
-    disable_developer_mode(original_state)  # Restore original Developer Mode state
+    frappe.flags.in_developer_mode = 0
+    #disable_developer_mode(original_state)  # Restore original Developer Mode state
     
 def enable_developer_mode():
     """Enable Developer Mode in site_config.json."""
