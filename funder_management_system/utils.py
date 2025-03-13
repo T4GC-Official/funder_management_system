@@ -64,24 +64,38 @@ def set_currency_permission():
     
 def enable_developer_mode():
     """Enable Developer Mode in site_config.json."""
-    site_config_path = frappe.get_site_path("site_config.json")
+    try:
+        site_config_path = frappe.get_site_path("site_config.json")
+        with open(site_config_path, "r+") as f:
+            site_config = json.load(f)
+            original_developer_mode = site_config.get("developer_mode", 0)
+            # Write the original state to a new file as backup
+            site_config_backup_file = frappe.get_site_path("site_config_backup.json")
+            with open(site_config_backup_file, "w") as f: # type: ignore
+                json.dump(site_config, f, indent=4)
+            site_config["developer_mode"] = 1
+            f.seek(0)
+            json.dump(site_config, f, indent=4)
+            f.truncate()
+    except Exception as e:
+        print(f"Error while enabling developer mode: {e}")
+    finally:
+        return original_developer_mode  # Return original state to restore later
 
-    with open(site_config_path, "r+") as f:
-        site_config = json.load(f)
-        original_developer_mode = site_config.get("developer_mode", 0)
-        site_config["developer_mode"] = 1
-        f.seek(0)
-        json.dump(site_config, f, indent=4)
-        f.truncate()
-    return original_developer_mode  # Return original state to restore later
-
-def disable_developer_mode(original_state):
+def disable_developer_mode():
     """Restore Developer Mode to its original state."""
-    site_config_path = frappe.get_site_path("site_config.json")
+    try:
+        #fetch original state from site_config_backup_file file from the site path directory 
+        original_state = json.load(open(frappe.get_site_path("site_config_backup.json")))
+        site_config_path = frappe.get_site_path("site_config.json")
 
-    with open(site_config_path, "r+") as f:
-        site_config = json.load(f)
-        site_config["developer_mode"] = original_state  # Restore previous state
-        f.seek(0)
-        json.dump(site_config, f, indent=4)
-        f.truncate()
+        with open(site_config_path, "r+") as f:
+            site_config = json.load(f)
+            site_config["developer_mode"] = original_state  # Restore previous state
+            f.seek(0)
+            json.dump(site_config, f, indent=4)
+            f.truncate()
+    except Exception as e:
+        print(f"Error while disabling developer mode: {e}")
+    finally:
+        pass
