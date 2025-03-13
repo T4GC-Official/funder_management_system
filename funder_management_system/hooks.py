@@ -100,7 +100,11 @@ app_include_js = "/assets/funder_management_system/js/custom_toolbar.js"
 # ------------
 
 #before_install = ["funder_management_system.utils.enable_developer_mode"]
-after_install = ["funder_management_system.utils.create_financial_year","funder_management_system.utils.set_currency_permission_using_custom"]
+after_install = [
+    "funder_management_system.utils.create_financial_year",
+    "funder_management_system.utils.set_currency_permission_using_custom",
+    "funder_management_system.utils.create_test_users",
+    ]
 
 # Uninstallation
 # ------------

@@ -21,14 +21,13 @@ def create_financial_year():
             doc.insert(ignore_permissions=True)
 
     frappe.db.commit()
+    
+def set_currency_permission_using_custom():
+    """Set or update Currency DocType permissions for Fundraising Admin role."""
+    doctype = "Currency"
+    role = "Fundraising Admin"
 
-
-def set_currency_permission():
     try:
-        frappe.flags.in_developer_mode = 1 
-        doctype = "Currency"
-        role = "Fundraising Admin"
-        
         existing_permissions = frappe.get_all(
             "Custom DocPerm",
             filters={"parent": doctype, "role": role},
@@ -36,7 +35,7 @@ def set_currency_permission():
         )
 
         if existing_permissions:
-            # Update the existing permission instead of adding a new one
+            # Update existing permissions
             for perm in existing_permissions:
                 docperm = frappe.get_doc("Custom DocPerm", perm.name)
                 docperm.read = 1
@@ -46,94 +45,61 @@ def set_currency_permission():
                 docperm.save(ignore_permissions=True)
             frappe.msgprint(f"Updated existing permissions for {role} on {doctype}")
         else:
-            # If no existing permission, append a new one
-            currency_doc = frappe.get_doc("DocType", doctype)
-            currency_doc.append("permissions", {
+            # Create a new Custom DocPerm entry
+            custom_perm = frappe.get_doc({
+                "doctype": "Custom DocPerm",
+                "parent": doctype,
+                "parenttype": "DocType",
+                "parentfield": "permissions",
                 "role": role,
                 "read": 1,
                 "write": 1,
                 "create": 1,
-                "delete": 1,
+                "delete": 1
             })
-            currency_doc.save()
+            custom_perm.insert(ignore_permissions=True)
             frappe.msgprint(f"Added new permissions for {role} on {doctype}")
+
+        frappe.db.commit()
     except Exception as e:
-        print(f"Error while setting currency permissions: {e}")
-    finally:
-        frappe.flags.in_developer_mode = 1 
+        frappe.log_error(f"Error setting permissions for {role} on {doctype}: {e}")
     
-def enable_developer_mode():
-    """Enable Developer Mode in site_config.json."""
-    try:
-        site_config_path = frappe.get_site_path("site_config.json")
-
-        with open(site_config_path, "r+") as f:
-            site_config = json.load(f)
-            original_developer_mode = site_config.get("developer_mode", 0)
-            site_config["developer_mode"] = 1
-            f.seek(0)
-            json.dump(site_config, f, indent=4)
-            f.truncate()
-        frappe.msgprint("Developer Mode enabled")
-        return original_developer_mode 
-    except Exception as e:
-        print(f"Error while enabling developer mode: {e}")
-    finally:
-        return original_developer_mode  # Return original state to restore later
-
-def disable_developer_mode():
-    """Restore Developer Mode to its original state."""
-    try:
-        #fetch original state from site_config_backup_file file from the site path directory 
-        original_state = json.load(open(frappe.get_site_path("site_config_backup.json")))
-        site_config_path = frappe.get_site_path("site_config.json")
-
-        with open(site_config_path, "r+") as f:
-            site_config = json.load(f)
-            site_config["developer_mode"] = original_state  # Restore previous state
-            f.seek(0)
-            json.dump(site_config, f, indent=4)
-            f.truncate()
-    except Exception as e:
-        print(f"Error while disabling developer mode: {e}")
-    finally:
-        pass
     
-def set_currency_permission_using_custom():
-    """Set or update Currency DocType permissions for Fundraising Admin role."""
-    doctype = "Currency"
+def add_test_user(email, first_name="Test", last_name="User"):
+    """Creates a test user with role 'Fundraising Admin' if it doesn't exist."""
     role = "Fundraising Admin"
+    default_password="mk@"+first_name+".com"
+    try:
+        # Check if user already exists
+        if frappe.db.exists("User", email):
+            print(f"User {email} already exists!")
+            return
 
-    existing_permissions = frappe.get_all(
-        "Custom DocPerm",
-        filters={"parent": doctype, "role": role},
-        fields=["name"]
-    )
-
-    if existing_permissions:
-        # Update existing permissions
-        for perm in existing_permissions:
-            docperm = frappe.get_doc("Custom DocPerm", perm.name)
-            docperm.read = 1
-            docperm.write = 1
-            docperm.create = 1
-            docperm.delete = 1
-            docperm.save(ignore_permissions=True)
-        frappe.msgprint(f"Updated existing permissions for {role} on {doctype}")
-    else:
-        # Create a new Custom DocPerm entry
-        custom_perm = frappe.get_doc({
-            "doctype": "Custom DocPerm",
-            "parent": doctype,
-            "parenttype": "DocType",
-            "parentfield": "permissions",
-            "role": role,
-            "read": 1,
-            "write": 1,
-            "create": 1,
-            "delete": 1
+        # Create new user
+        user = frappe.get_doc({
+            "doctype": "User",
+            "email": email,
+            "first_name": first_name,
+            "last_name": last_name,
+            "send_welcome_email": 0,  # Avoid sending real emails
+            "new_password": default_password
         })
-        custom_perm.insert(ignore_permissions=True)
-        frappe.msgprint(f"Added new permissions for {role} on {doctype}")
+        user.insert(ignore_permissions=True)
 
-    frappe.db.commit()
+        # Assign role "Fundraising Admin"
+        user.add_roles(role)
+
+        print(f"Test user {email} created with role '{role}'")
+        frappe.db.commit()
+    except Exception as e:
+        frappe.log_error(f"Error creating test user {email}: {e}")
+        
+
+def create_test_users():
+    add_test_user("vidya@tech4goodcommunity.com","Vidya","S")
+    add_test_user("akansha@tech4goodcommunity.com","Akansha","Negi")
+    add_test_user("ajith@tech4goodcommunity.com","Ajith","B M")
+    add_test_user("chandru@tech4goodcommunity.com","Chandru","M")    
+    add_test_user("praveen@tech4goodcommunity.com","Praveen","K S")    
+    add_test_user("tushar@tech4goodcommunity.com","Tushar","B")    
+
