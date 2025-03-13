@@ -10,14 +10,6 @@ save_logger = frappe.logger("save_utilisation_record", allow_site=True, file_cou
 
 class UtilisationRecord(Document):
     
-	def validate(self):
-		try:
-			# Check if the utilisation record is in draft status
-			if self.docstatus == 0:
-				self.change_to_draft_status()
-		except Exception as e:
-			save_logger.error(f"Error in utilisation_record validate: {e}")
-   
 	def on_cancel(self):
 		try:
 			user = frappe.session.user
@@ -39,6 +31,7 @@ class UtilisationRecord(Document):
 
 			# Save the parent document if any child record was updated
 			if updated:
+				grant_disbursement.child_table_value_updated = True
 				grant_disbursement.save()
 				frappe.db.commit()  # Ensure changes are committed
 				logger.info(f"Grant Disbursement Receipt updated and saved: {grant_disbursement.name}")
@@ -59,9 +52,12 @@ class UtilisationRecord(Document):
 			for row in grant_disbursement.utilisation_child_table:
 				logger.info(f"Utilisation Child Table record fetched: {row.utilisation_record_created}")
 				if  row.expenditure_record_name == self.amended_from:
+					#update the utilised_amount and utilisation record created
+					row.utilised_amount = self.utilised_amount	
 					row.utilisation_record_created = "Amended"
 					row.expenditure_record_name = self.name
 					break
+			grant_disbursement.child_table_value_updated = True
 			grant_disbursement.save()
 			frappe.db.commit()  # Ensure changes are committed
 			logger.info(f"Grant Disbursement Receipt updated and saved: {grant_disbursement.name}")
@@ -92,6 +88,7 @@ class UtilisationRecord(Document):
 				row_to_update.utilisation_record_created = "Draft"
 				row_to_update.expenditure_record_name = self.name
 				save_logger.info(f"Updated Child Table Row: {row_to_update.name}")
+				grant_disbursement.child_table_value_updated = True	
 				grant_disbursement.save()
 				frappe.db.commit()
 				save_logger.info(f"Grant Disbursement Receipt updated and saved: {self.name}")

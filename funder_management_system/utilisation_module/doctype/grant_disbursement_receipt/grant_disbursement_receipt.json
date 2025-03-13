@@ -20,6 +20,7 @@
   "section_break_plea",
   "tranche_amount",
   "column_break_oejh",
+  "child_table_value_updated",
   "column_break_xkpl",
   "section_break_pacm",
   "column_break_hmtc",
@@ -69,7 +70,7 @@
   {
    "fieldname": "create_expense_record",
    "fieldtype": "Button",
-   "label": "Create Expense Record",
+   "label": "Add Expense",
    "max_height": "3 em"
   },
   {
@@ -120,7 +121,8 @@
   },
   {
    "fieldname": "column_break_oejh",
-   "fieldtype": "Column Break"
+   "fieldtype": "Column Break",
+   "hidden": 1
   },
   {
    "fieldname": "column_break_xkpl",
@@ -198,8 +200,15 @@
   {
    "fieldname": "gdr",
    "fieldtype": "Data",
-   "label": "GDR",
+   "label": "Grant Disbursment Receipt Name",
    "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "child_table_value_updated",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "child table value updated"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -209,7 +218,7 @@
    "link_fieldname": "gdr"
   }
  ],
- "modified": "2025-03-03 16:17:33.182134",
+ "modified": "2025-03-13 06:10:56.175557",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Grant Disbursement Receipt",

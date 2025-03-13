@@ -78,7 +78,23 @@ def create_utilisation_entries(document_name):
         return False
 
 
-
+@frappe.whitelist()
+def check_if_child_table_is_updated(document_name):
+    try:
+        # Fetch the Grant Disbursement Receipt
+        gdr_doc = frappe.get_doc("Grant Disbursement Receipt", document_name)
+        if gdr_doc.child_table_value_updated:
+            logger.info(f"Grant Disbursement Receipt child table is updated: {gdr_doc.name}")
+            # Update the child table value to false and save
+            gdr_doc.child_table_value_updated = False
+            gdr_doc.save()
+            frappe.db.commit()
+            return True
+        else:
+            return False
+    except Exception as e:
+        logger.error(f"Error in check_if_child_table_is_updated: {e}")
+        return False
 # # @frappe.whitelist()
 # # def create_utilisation_records(doc_name):
 # #     """

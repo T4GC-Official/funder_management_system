@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:UT-{grant_receipt}-{budget_plan}-{category}-{####}",
+ "autoname": "format:{grant_receipt}-{budget_plan}-{category}-{####}",
  "creation": "2025-02-25 15:00:25.042360",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -122,7 +122,8 @@
    "fieldtype": "Link",
    "label": "GDR",
    "options": "Grant Disbursement Receipt",
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "fieldname": "amended_from",
@@ -138,7 +139,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-04 11:56:48.591812",
+ "modified": "2025-03-13 06:12:51.697130",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",

@@ -15,22 +15,38 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
         }
         let grid = frm.fields_dict["utilisation_child_table"].grid;
         // Wait for the DOM to render
-        setTimeout(() => {
-            grid.wrapper.find('.grid-row-check').remove(); // Remove checkboxes from rows
-            grid.wrapper.find('.grid-header-row .grid-row-check').remove(); // Remove from header
-        }, 500);
+        // setTimeout(() => {
+        //     grid.wrapper.find('.grid-row-check').remove(); // Remove checkboxes from rows
+        //     grid.wrapper.find('.grid-header-row .grid-row-check').remove(); // Remove from header
+        // }, 500);
     },
 
     
     refresh: function(frm) {
-
+        frm.trigger("check_if_child_table_is_updated");
         frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
         //frm.fields_dict["utilisation_child_table"].grid.wrapper.find('.grid-row-check').hide();
-        frm.refresh_field('utilisation_child_table');
         frm.set_df_property("donor", "only_select", 1);
         frm.set_df_property("grant_tranche_name", "only_select", 1);
+        
+    },
+    check_if_child_table_is_updated: function (frm) {
+        frappe.call({
+            method: "funder_management_system.utilisation_module.doctype.grant_disbursement_receipt.grant_disbursement_receipt.check_if_child_table_is_updated",
+            args: {
+                document_name: frm.doc.name
+            },
+            freeze: true,
+            async: true,
+            callback: function(r) {
+                if(r.message) {
+                    console.log("child table updated: ", r.message);
+                    frm.reload_doc();
+                }
+            }
+        });
     },
 
     after_save: function (frm) {
@@ -156,7 +172,6 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
     },
     grant_agreement: function (frm) {
         if (frm.doc.grant_agreement) {
-            console.log("grant_agreement",frm.doc.grant_agreement);
             frappe.db.get_doc("Grant Agreement", frm.doc.grant_agreement).then(grant => {
                 if (grant) {
                     frm.dashboard.clear_headline();
@@ -164,6 +179,9 @@ frappe.ui.form.on('Grant Disbursement Receipt', {
                 }
             });
         }
+    },
+    after_workflow_action: function(frm) {
+        frm.reload_doc(); // Reloads the document after reopening
     },
     create_expense_record: function (frm) {
 
@@ -282,7 +300,6 @@ function render_budget_info(frm, budget) {
                 </div>
             </div>
         `;
-        console.log("rendering the budget info");
         if (!frm.fields_dict["budget_table_view_section"]) {
             console.error("donor_table_view_section is not found in form fields.");
             return;
@@ -362,10 +379,3 @@ function render_tranche_table(frm, grant) {
         frm.fields_dict["grant_table_view_section"].$wrapper.html(table_html);
     });
 }
-frappe.ui.form.on('Utilisation Table', {
-    // detect the child table check box state change
-    utilisation_child_table: function (frm) {
-        console.log("child table checkbox state change");
-        frm.events.progress_bar(frm);
-    }   
-});
