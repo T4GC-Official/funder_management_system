@@ -127,12 +127,12 @@ def insert_dummy_budget_categories():
     ]
 
     for data in dummy_categories:
-        if not frappe.db.exists("Budget Category", data["category"]):
+        if not frappe.db.exists("Category", data["category"]):
             doc = frappe.get_doc({
-                "doctype": "Budget Category",
-                "category_name": data["category"],
+                "doctype": "Category",
+                "category": data["category"],
                 "description": data.get("description", ""),
             })
             doc.insert(ignore_permissions=True)
             frappe.db.commit()    
-            print(f"Inserted dummy budget category: {data['category_name']}")
+            print(f"Inserted dummy budget category: {data['category']}")
