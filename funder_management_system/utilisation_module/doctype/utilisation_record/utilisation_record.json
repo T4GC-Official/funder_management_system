@@ -1,22 +1,29 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:gdr",
+ "autoname": "field:urn",
  "creation": "2025-02-25 13:47:01.975850",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "gdr",
+  "urn",
   "budget_info_section",
   "financial_year",
   "budget_info_column",
   "budget",
   "column_break_imsc",
-  "donor",
+  "budget_category",
   "column_break_cxll",
-  "grant_agreement",
+  "budget_sub_category",
   "column_break_eaex",
+  "quarters",
+  "section_break_zfhi",
+  "donor",
+  "column_break_nzwq",
+  "grant_agreement",
+  "column_break_vqil",
   "grant_tranche_name",
+  "column_break_mmtl",
   "section_break_plea",
   "tranche_amount",
   "column_break_oejh",
@@ -24,13 +31,12 @@
   "column_break_xkpl",
   "section_break_pacm",
   "column_break_hmtc",
-  "quarters",
+  "expense_title",
   "column_break_wytb",
-  "budget_category",
+  "expense_date",
   "column_break_txcb",
-  "budget_sub_category",
-  "column_break_yrjw",
   "expenditure",
+  "column_break_yrjw",
   "column_break_cffu",
   "create_expense_record",
   "section_break_ppmd",
@@ -65,7 +71,7 @@
   {
    "fieldname": "expenditure",
    "fieldtype": "Currency",
-   "label": "Expenditure"
+   "label": "Amount"
   },
   {
    "fieldname": "create_expense_record",
@@ -99,7 +105,7 @@
   {
    "fieldname": "budget_info_section",
    "fieldtype": "Section Break",
-   "label": "Select Filters &nbsp;"
+   "label": "Budget Details"
   },
   {
    "fieldname": "budget_info_column",
@@ -170,7 +176,7 @@
   {
    "fieldname": "budget",
    "fieldtype": "Link",
-   "label": "Select Budget",
+   "label": "Budget Plan",
    "options": "Budget Plan"
   },
   {
@@ -189,7 +195,7 @@
    "allow_bulk_edit": 1,
    "fieldname": "utilisation_child_table",
    "fieldtype": "Table",
-   "label": "Expenditure Details",
+   "label": "Expense Item",
    "options": "Expense Item Child Table"
   },
   {
@@ -198,27 +204,56 @@
    "label": "Tranche"
   },
   {
-   "fieldname": "gdr",
-   "fieldtype": "Data",
-   "label": "Grant Disbursment Receipt Name",
-   "unique": 1
-  },
-  {
    "default": "0",
    "fieldname": "child_table_value_updated",
    "fieldtype": "Check",
    "hidden": 1,
    "label": "child table value updated"
+  },
+  {
+   "fieldname": "urn",
+   "fieldtype": "Data",
+   "label": "Utilisation Record Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "section_break_zfhi",
+   "fieldtype": "Section Break",
+   "label": "Donor Details"
+  },
+  {
+   "fieldname": "column_break_nzwq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_vqil",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mmtl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expense_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Expense Title"
+  },
+  {
+   "fieldname": "expense_date",
+   "fieldtype": "Date",
+   "label": "Expense Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [
   {
-   "link_doctype": "Utilisation Record",
-   "link_fieldname": "gdr"
+   "link_doctype": "Expense Item",
+   "link_fieldname": "urn"
   }
  ],
- "modified": "2025-03-13 21:52:42.619870",
+ "modified": "2025-03-13 23:27:33.499344",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",

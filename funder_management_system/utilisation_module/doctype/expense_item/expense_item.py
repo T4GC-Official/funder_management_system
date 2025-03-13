@@ -15,26 +15,26 @@ class ExpenseItem(Document):
 			user = frappe.session.user
 			logger.info(f"{user} requested to cancel utilisation record: {self.name}")
 
-			# Fetch the Grant Disbursement Receipt
-			grant_disbursement = frappe.get_doc("Grant Disbursement Receipt", self.gdr)
-			logger.info(f"Grant Disbursement Receipt record fetched: {grant_disbursement.name}")	
+			# Fetch the Utilisation Record
+			utilisation_record = frappe.get_doc("Utilisation Record", self.urn)
+			logger.info(f"Utilisation Record record fetched: {utilisation_record.name}")	
 
 			# Iterate through child table and update expense_item_created
 			updated = False
-			for row in grant_disbursement.utilisation_child_table:
-				logger.info(f"Utilisation Child Table record fetched: {row.expense_item_created}")
-				if (row.expense_item_created == "Submitted" or row.expense_item_created == "Amended" or  row.expense_item_created == "Draft")and row.expenditure_record_name == self.name:
-					row.expense_item_created = "Cancelled"
+			for row in utilisation_record.utilisation_child_table:
+				logger.info(f"Utilisation Child Table record fetched: {row.utilisation_status}")
+				if (row.utilisation_status == "Submitted" or row.utilisation_status == "Amended" or  row.utilisation_status == "Draft")and row.expenditure_record_name == self.name:
+					row.utilisation_status = "Cancelled"
 					updated = True
 					logger.info(f"Utilisation Child Table record updated: {row.name}")
 					break  # Stop once found
 
 			# Save the parent document if any child record was updated
 			if updated:
-				grant_disbursement.child_table_value_updated = True
-				grant_disbursement.save()
+				utilisation_record.child_table_value_updated = True
+				utilisation_record.save()
 				frappe.db.commit()  # Ensure changes are committed
-				logger.info(f"Grant Disbursement Receipt updated and saved: {grant_disbursement.name}")
+				logger.info(f"Utilisation Record updated and saved: {utilisation_record.name}")
 
 			logger.info(f"Utilisation record successfully cancelled: {self.name}")	
 
@@ -45,22 +45,22 @@ class ExpenseItem(Document):
 		try:
 			user = frappe.session.user
 			logger.info(f"{user} requested to submit utilisation record: {self.name}")
-			grant_disbursement = frappe.get_doc("Grant Disbursement Receipt", self.gdr)
-			logger.info(f"Grant Disbursement Receipt record amended from: {self.amended_from} to {self.name}")
-			for row in grant_disbursement.utilisation_child_table:
+			utilisation_record = frappe.get_doc("Utilisation Record", self.urn)
+			logger.info(f"Utilisation Record record amended from: {self.amended_from} to {self.name}")
+			for row in utilisation_record.utilisation_child_table:
 				logger_submit.info(f"Request for Submit {self.name} and {row.expenditure_record_name}")
 				logger.info(f"Utilisation Child Table record fetched: {row.expense_item_created}")
 				if  row.expenditure_record_name == self.name:
 					logger_submit.info(f"Request for Submit {self.amended_from} and {row.expenditure_record_name}")
 					#update the utilised_amount and utilisation record created
 					row.utilised_amount = self.utilised_amount	
-					row.expense_item_created = "Amended"
+					row.utilisation_status = "Amended"
 					row.expenditure_record_name = self.name
 					break
-			grant_disbursement.child_table_value_updated = True
-			grant_disbursement.save()
+			utilisation_record.child_table_value_updated = True
+			utilisation_record.save()
 			frappe.db.commit()  # Ensure changes are committed
-			logger.info(f"Grant Disbursement Receipt updated and saved: {grant_disbursement.name}")
+			logger.info(f"Utilisation Record updated and saved: {utilisation_record.name}")
 			
 		except Exception as e:
 			logger.error(f"Error in expense_item on_submit: {e}")
@@ -72,8 +72,8 @@ class ExpenseItem(Document):
 			logger.info(f"{user} requested to change utilisation record to draft status: {self.name}")
 			logger.info(f"the doc is amended from : {self.amended_from}")
 
-			# Fetch the Grant Disbursement Receipt
-			grant_disbursement = frappe.get_doc("Grant Disbursement Receipt", self.gdr)
+			# Fetch the Utilisation Record
+			grant_disbursement = frappe.get_doc("Utilisation Record", self.urn)
 
 			# Find the correct child table row
 			row_to_update = None
@@ -86,13 +86,13 @@ class ExpenseItem(Document):
 			# If a matching row is found, update it
 			if row_to_update:
 				row.utilised_amount = self.utilised_amount	
-				row_to_update.expense_item_created = "Draft"
+				row_to_update.utilisation_status = "Draft"
 				row_to_update.expenditure_record_name = self.name
 				logger.info(f"Updated Child Table Row: {row_to_update.name}")
 				grant_disbursement.child_table_value_updated = True	
 				grant_disbursement.save()
 				frappe.db.commit()
-				logger.info(f"Grant Disbursement Receipt updated and saved: {self.name}")
+				logger.info(f"Utilisation Record updated and saved: {self.name}")
 
 			else:
 				if update_utilised_amount:

@@ -36,7 +36,8 @@ frappe.ui.form.on("Utilisation Record", {
     },
     check_if_child_table_is_updated: function (frm) {
         frappe.call({
-            method: "funder_management_system.utilisation_module.doctype.grant_disbursement_receipt.grant_disbursement_receipt.check_if_child_table_is_updated",
+            method: "funder_management_system.utilisation_module.doctype.utilisation_record.utilisation_record.check_if_child_table_is_updated",
+            
             args: {
                 document_name: frm.doc.name
             },
@@ -63,7 +64,7 @@ frappe.ui.form.on("Utilisation Record", {
         frm.set_value("expenditure", null);
 
         frappe.call({
-            method: "funder_management_system.utilisation_module.doctype.grant_disbursement_receipt.grant_disbursement_receipt.create_utilisation_entries",
+            method: "funder_management_system.utilisation_module.doctype.utilisation_record.utilisation_record.create_utilisation_entries",
             args: {
                 document_name: frm.doc.name
             },
@@ -197,6 +198,8 @@ frappe.ui.form.on('Utilisation Record', {
                 budget_plan: frm.doc.budget,
                 quarters:frm.doc.quarters,
                 donor: frm.doc.donor,
+                expense_title: frm.doc.expense_title,
+                expense_date: frm.doc.expense_date,
                 grant_agreement: frm.doc.grant_agreement,
                 grant_agreement_tranche: frm.doc.grant_tranche_name,
                 category: frm.doc.budget_category,

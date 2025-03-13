@@ -9,7 +9,7 @@
   "expense_details_section",
   "donor_details_column",
   "donor",
-  "gdr",
+  "urn",
   "grant_agreement",
   "grant_agreement_tranche",
   "column_break_fkev",
@@ -118,14 +118,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "gdr",
-   "fieldtype": "Link",
-   "label": "GDR",
-   "options": "Utilisation Record",
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -134,12 +126,20 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "urn",
+   "fieldtype": "Link",
+   "label": "Utilisation Record Name",
+   "options": "Utilisation Record",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-13 21:55:07.489741",
+ "modified": "2025-03-13 22:28:43.922611",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Expense Item",
