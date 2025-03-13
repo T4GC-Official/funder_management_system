@@ -47,7 +47,8 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Utilisation",
-   "options": "Submitted\nCancelled\nNew\nAmended\nDraft"
+   "options": "Submitted\nCancelled\nNew\nAmended\nDraft",
+   "read_only": 1
   },
   {
    "fieldname": "quarters",
@@ -104,7 +105,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-04 12:29:30.341396",
+ "modified": "2025-03-13 06:49:51.922558",
  "modified_by": "Administrator",
  "module": "Utilisation",
  "name": "Utilisation Child Table",
