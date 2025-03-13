@@ -98,3 +98,42 @@ def disable_developer_mode():
         print(f"Error while disabling developer mode: {e}")
     finally:
         pass
+    
+def set_currency_permission_using_custom():
+    """Set or update Currency DocType permissions for Fundraising Admin role."""
+    doctype = "Currency"
+    role = "Fundraising Admin"
+
+    existing_permissions = frappe.get_all(
+        "Custom DocPerm",
+        filters={"parent": doctype, "role": role},
+        fields=["name"]
+    )
+
+    if existing_permissions:
+        # Update existing permissions
+        for perm in existing_permissions:
+            docperm = frappe.get_doc("Custom DocPerm", perm.name)
+            docperm.read = 1
+            docperm.write = 1
+            docperm.create = 1
+            docperm.delete = 1
+            docperm.save(ignore_permissions=True)
+        frappe.msgprint(f"Updated existing permissions for {role} on {doctype}")
+    else:
+        # Create a new Custom DocPerm entry
+        custom_perm = frappe.get_doc({
+            "doctype": "Custom DocPerm",
+            "parent": doctype,
+            "parenttype": "DocType",
+            "parentfield": "permissions",
+            "role": role,
+            "read": 1,
+            "write": 1,
+            "create": 1,
+            "delete": 1
+        })
+        custom_perm.insert(ignore_permissions=True)
+        frappe.msgprint(f"Added new permissions for {role} on {doctype}")
+
+    frappe.db.commit()
