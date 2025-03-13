@@ -23,7 +23,9 @@ frappe.ui.form.on("Grant Disbursement Receipt", {
 
     
     refresh: function(frm) {
-        frm.trigger("check_if_child_table_is_updated");
+        if(!frm.is_new()) {
+            frm.trigger("check_if_child_table_is_updated");
+        }
         frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
