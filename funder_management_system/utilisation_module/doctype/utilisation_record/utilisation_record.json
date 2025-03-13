@@ -1,179 +1,242 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{grant_receipt}-{budget_plan}-{category}-{####}",
- "creation": "2025-02-25 15:00:25.042360",
+ "autoname": "field:gdr",
+ "creation": "2025-02-25 13:47:01.975850",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "expense_details_section",
-  "donor_details_column",
-  "donor",
   "gdr",
-  "grant_agreement",
-  "grant_agreement_tranche",
-  "column_break_fkev",
-  "budget_plan",
-  "quarters",
+  "budget_info_section",
   "financial_year",
-  "section_break_pzfy",
-  "utilised_amount",
-  "column_break_eaqn",
-  "category",
-  "column_break_noba",
-  "sub_category",
-  "column_break_qtxl",
-  "amended_from"
+  "budget_info_column",
+  "budget",
+  "column_break_imsc",
+  "donor",
+  "column_break_cxll",
+  "grant_agreement",
+  "column_break_eaex",
+  "grant_tranche_name",
+  "section_break_plea",
+  "tranche_amount",
+  "column_break_oejh",
+  "child_table_value_updated",
+  "column_break_xkpl",
+  "section_break_pacm",
+  "column_break_hmtc",
+  "quarters",
+  "column_break_wytb",
+  "budget_category",
+  "column_break_txcb",
+  "budget_sub_category",
+  "column_break_yrjw",
+  "expenditure",
+  "column_break_cffu",
+  "create_expense_record",
+  "section_break_ppmd",
+  "utilisation_child_table",
+  "section_break_yriv",
+  "info_budget_col",
+  "grant_table_view_section",
+  "budget_table_view_section"
  ],
  "fields": [
   {
-   "fieldname": "budget_plan",
+   "fieldname": "grant_agreement",
    "fieldtype": "Link",
-   "label": "Budget Plan",
-   "options": "Budget Plan",
+   "label": "Grant Agreement",
+   "options": "Grant Agreement"
+  },
+  {
+   "fieldname": "column_break_wytb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tranche_amount",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Tranche Amount",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_txcb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "expenditure",
+   "fieldtype": "Currency",
+   "label": "Expenditure"
+  },
+  {
+   "fieldname": "create_expense_record",
+   "fieldtype": "Button",
+   "label": "Add Expense",
+   "max_height": "3 em"
+  },
+  {
+   "fieldname": "section_break_ppmd",
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "financial_year",
    "fieldtype": "Link",
    "label": "Financial Year",
-   "options": "Financial Year",
-   "read_only": 1
+   "options": "Financial Year"
   },
   {
-   "fieldname": "donor",
-   "fieldtype": "Link",
-   "label": "Donor",
-   "options": "Donor",
-   "read_only": 1
-  },
-  {
-   "fieldname": "category",
-   "fieldtype": "Link",
-   "label": "Category",
-   "options": "Budget Category",
-   "read_only": 1
-  },
-  {
-   "fieldname": "sub_category",
-   "fieldtype": "Link",
-   "label": "Sub Category",
-   "options": "Budget Sub-Category",
-   "read_only": 1
-  },
-  {
-   "fieldname": "utilised_amount",
-   "fieldtype": "Currency",
-   "label": "Utilised Amount"
-  },
-  {
-   "fieldname": "column_break_fkev",
-   "fieldtype": "Column Break",
-   "label": "Budget Pan Details"
-  },
-  {
-   "fieldname": "section_break_pzfy",
+   "fieldname": "section_break_pacm",
    "fieldtype": "Section Break",
-   "label": "Utilisation Details"
+   "label": "Expense Details"
   },
   {
-   "fieldname": "expense_details_section",
+   "fieldname": "section_break_plea",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "column_break_eaqn",
+   "fieldname": "column_break_hmtc",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "grant_agreement",
-   "fieldtype": "Link",
-   "label": "Grant",
-   "options": "Grant Agreement",
-   "read_only": 1
+   "fieldname": "budget_info_section",
+   "fieldtype": "Section Break",
+   "label": "Select Filters &nbsp;"
+  },
+  {
+   "fieldname": "budget_info_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_yriv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "info_budget_col",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.budget",
+   "fieldname": "budget_table_view_section",
+   "fieldtype": "Data",
+   "label": "Budget Info"
+  },
+  {
+   "fieldname": "column_break_oejh",
+   "fieldtype": "Column Break",
+   "hidden": 1
+  },
+  {
+   "fieldname": "column_break_xkpl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.grant_agreement",
+   "fieldname": "grant_table_view_section",
+   "fieldtype": "Data",
+   "label": "Grant Info"
+  },
+  {
+   "fieldname": "column_break_imsc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_cxll",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_eaex",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_yrjw",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "quarters",
    "fieldtype": "Select",
    "label": "Quarters",
-   "options": "Q1\nQ2\nQ3\nQ4",
-   "read_only": 1
+   "options": "Q1\nQ2\nQ3\nQ4"
   },
   {
-   "fieldname": "column_break_noba",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_qtxl",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "donor_details_column",
+   "fieldname": "column_break_cffu",
    "fieldtype": "Column Break",
-   "label": "Donor Details"
+   "label": "&nbsp;"
   },
   {
-   "fieldname": "grant_agreement_tranche",
-   "fieldtype": "Data",
-   "label": "Tranche Name",
-   "read_only": 1
+   "fieldname": "donor",
+   "fieldtype": "Link",
+   "label": "Donor",
+   "options": "Donor"
+  },
+  {
+   "fieldname": "budget",
+   "fieldtype": "Link",
+   "label": "Select Budget",
+   "options": "Budget Plan"
+  },
+  {
+   "fieldname": "budget_sub_category",
+   "fieldtype": "Link",
+   "label": "Budget Sub Category",
+   "options": "Budget Sub-Category"
+  },
+  {
+   "fieldname": "budget_category",
+   "fieldtype": "Link",
+   "label": "Budget Category",
+   "options": "Budget Category"
+  },
+  {
+   "allow_bulk_edit": 1,
+   "fieldname": "utilisation_child_table",
+   "fieldtype": "Table",
+   "label": "Expenditure Details",
+   "options": "Expense Item Child Table"
+  },
+  {
+   "fieldname": "grant_tranche_name",
+   "fieldtype": "Select",
+   "label": "Tranche"
   },
   {
    "fieldname": "gdr",
-   "fieldtype": "Link",
-   "label": "GDR",
-   "options": "Grant Disbursement Receipt",
-   "read_only": 1,
-   "search_index": 1
+   "fieldtype": "Data",
+   "label": "Grant Disbursment Receipt Name",
+   "unique": 1
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Utilisation Record",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
+   "default": "0",
+   "fieldname": "child_table_value_updated",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "child table value updated"
   }
  ],
  "index_web_pages_for_search": 1,
- "is_submittable": 1,
- "links": [],
- "modified": "2025-03-13 06:12:51.697130",
+ "links": [
+  {
+   "link_doctype": "Utilisation Record",
+   "link_fieldname": "gdr"
+  }
+ ],
+ "modified": "2025-03-13 21:52:42.619870",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
- "naming_rule": "Expression",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
-   "cancel": 1,
+   "create": 1,
    "delete": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
    "write": 1
   },
   {
-   "cancel": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Administrator",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "cancel": 1,
+   "create": 1,
    "delete": 1,
    "email": 1,
    "export": 1,
@@ -182,7 +245,6 @@
    "report": 1,
    "role": "Fundraising Admin",
    "share": 1,
-   "submit": 1,
    "write": 1
   }
  ],

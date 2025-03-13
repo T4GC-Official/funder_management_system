@@ -64,12 +64,12 @@
    "fieldname": "expense_tracker",
    "fieldtype": "Table",
    "label": "Expense Tracker",
-   "options": "Utilisation Child Table"
+   "options": "Expense Item Child Table"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-27 01:49:07.797441",
+ "modified": "2025-03-13 21:52:42.206860",
  "modified_by": "Administrator",
  "module": "Utilisation",
  "name": "Expense",
