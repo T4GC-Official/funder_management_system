@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{grant_receipt}-{budget_plan}-{category}-{####}",
+ "autoname": "format:ER-{expense_title}-{####}",
  "creation": "2025-02-25 15:00:25.042360",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -10,6 +10,8 @@
   "donor_details_column",
   "donor",
   "urn",
+  "expense_date",
+  "expense_title",
   "grant_agreement",
   "grant_agreement_tranche",
   "column_break_fkev",
@@ -64,7 +66,7 @@
   {
    "fieldname": "utilised_amount",
    "fieldtype": "Currency",
-   "label": "Utilised Amount"
+   "label": "Amount"
   },
   {
    "fieldname": "column_break_fkev",
@@ -134,12 +136,22 @@
    "options": "Utilisation Record",
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "expense_date",
+   "fieldtype": "Date",
+   "label": "Expense Date"
+  },
+  {
+   "fieldname": "expense_title",
+   "fieldtype": "Data",
+   "label": "Expense Title"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-13 22:28:43.922611",
+ "modified": "2025-03-14 00:47:27.549587",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Expense Item",

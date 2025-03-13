@@ -40,6 +40,8 @@ def create_utilisation_entries(document_name):
                 "donor": row.donor,
                 "grant_agreement": row.grant_agreement,
                 "category": row.category,
+                "expense_date": row.expense_date,
+                "expense_title": row.expense_title,
                 "grant_agreement_tranche": row.grant_agreement_tranche,
                 "sub_category": row.sub_category,
                 "utilised_amount": row.utilised_amount,
