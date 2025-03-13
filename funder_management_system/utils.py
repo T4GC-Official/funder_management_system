@@ -89,7 +89,7 @@ def add_test_user(email, first_name="Test", last_name="User"):
         # Assign role "Fundraising Admin"
         user.add_roles(role)
 
-        print(f"Test user {email} created with role '{role}'")
+        print(f"Test user {email} created with role '{role}' Password : {default_password}")
         frappe.db.commit()
     except Exception as e:
         frappe.log_error(f"Error creating test user {email}: {e}")
