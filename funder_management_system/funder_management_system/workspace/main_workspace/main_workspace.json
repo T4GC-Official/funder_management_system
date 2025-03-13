@@ -166,35 +166,6 @@
    "type": "Link"
   },
   {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Grant Utilisation",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Grant Disbursement Receipt",
-   "link_count": 0,
-   "link_to": "Grant Disbursement Receipt",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Utilisation Record",
-   "link_count": 0,
-   "link_to": "Utilisation Record",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "description": "This module is designed for fundraising team members to maintain a record of ongoing engagement with confirmed donors, track grant agreements and tranche level details.",
    "hidden": 0,
    "is_query_report": 0,
@@ -223,9 +194,39 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "description": "This module helps user to align their organizational expenses to budgets and different grants as utilization records for optimum financial tracking. ",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Grant Utilisation",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Grant Disbursement Receipt",
+   "link_count": 0,
+   "link_to": "Grant Disbursement Receipt",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Utilisation Record",
+   "link_count": 0,
+   "link_to": "Utilisation Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-03-03 17:31:47.781524",
+ "modified": "2025-03-13 17:58:31.150168",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
