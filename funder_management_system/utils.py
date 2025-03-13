@@ -114,3 +114,25 @@ def create_test_users():
     add_test_user("praveen@tech4goodcommunity.com","Praveen","K S")    
     add_test_user("tushar@tech4goodcommunity.com","Tushar","B")    
 
+
+# Insert dummy records for testing
+def create_dummy_records():
+    insert_dummy_budget_categories()
+
+def insert_dummy_budget_categories():
+    dummy_categories = [
+        {"category": "Marketing", "description": "Marketing Expenses"},
+        {"category": "Operations", "description": "Operational Costs"},
+        {"category": "HR", "description": "Human Resources Budget"},
+    ]
+
+    for data in dummy_categories:
+        if not frappe.db.exists("Budget Category", data["category"]):
+            doc = frappe.get_doc({
+                "doctype": "Budget Category",
+                "category_name": data["category"],
+                "description": data.get("description", ""),
+            })
+            doc.insert(ignore_permissions=True)
+            frappe.db.commit()    
+            print(f"Inserted dummy budget category: {data['category_name']}")
