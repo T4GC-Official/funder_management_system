@@ -6,6 +6,7 @@ from frappe.model.document import Document
 
 frappe.utils.logger.set_log_level("DEBUG")  # Ensure debug logs are captured
 logger = frappe.logger("utilisation_record", allow_site=True, file_count=50)
+logger_submit = frappe.logger("utilisation_record_submit", allow_site=True, file_count=50)
 
 class UtilisationRecord(Document):
     
@@ -47,9 +48,10 @@ class UtilisationRecord(Document):
 			grant_disbursement = frappe.get_doc("Grant Disbursement Receipt", self.gdr)
 			logger.info(f"Grant Disbursement Receipt record amended from: {self.amended_from} to {self.name}")
 			for row in grant_disbursement.utilisation_child_table:
+				logger_submit.info(f"Request for Submit {self.name} and {row.expenditure_record_name}")
 				logger.info(f"Utilisation Child Table record fetched: {row.utilisation_record_created}")
-				if  row.expenditure_record_name == self.amended_from:
-					logger.info(f"Request for Submit {self.amended_from} and row.expenditure_record_name")
+				if  row.expenditure_record_name == self.name:
+					logger_submit.info(f"Request for Submit {self.amended_from} and {row.expenditure_record_name}")
 					#update the utilised_amount and utilisation record created
 					row.utilised_amount = self.utilised_amount	
 					row.utilisation_record_created = "Amended"
