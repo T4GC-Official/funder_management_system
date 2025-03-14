@@ -6,13 +6,27 @@ import random
 def create_dummy_records():
     try:
         create_test_users()
+        Budget_Allocation_Module()
+        Donor_Acquisition_Module()
+    except Exception as e:
+        print(f"Error creating dummy records: {e}")
+
+def Budget_Allocation_Module():
+    try:
         insert_dummy_budget_category_and_sub_categories()
         delete_dummy_budget_plan()
         create_dummy_budget_plan()
         submit_budget_plan(1)
         create_dummy_budget_plan_template()
     except Exception as e:
-        print(f"Error creating dummy records: {e}")
+        print(f"Dummy Records Creation Error in Budget Allocation Module: {e}")
+
+def Donor_Acquisition_Module():
+    try:
+        create_organisation_records()
+        generate_leads()
+    except Exception as e:
+        print(f"Dummy Records Creation Error in Donor Acquisition Module: {e}")
 
 def random_budget():
     return random.randint(5000, 20000)
@@ -204,3 +218,68 @@ def submit_budget_plan(number_of_record_to_be_submitted=0):
             budget_plan.submit()
             frappe.db.commit()
             print(f"Budget Plan {budget_plan_name} submitted successfully!")
+
+# Donor Acquisition Module
+def create_organisation_records():
+    organisations = [
+        {"name": "Tech4Good", "address": "123 Tech Street, Silicon Valley", "contact_email": "info@tech4good.org", "website_url": "https://www.tech4good.org", "pan_card": "AAAAP1234A"},
+        {"name": "Green Initiatives", "address": "456 Green Ave, New York", "contact_email": "contact@greeninitiatives.com", "website_url": "https://www.greeninitiatives.com", "pan_card": "ADAAP1234A"},
+        {"name": "Health Innovators", "address": "789 Health Blvd, Boston", "contact_email": "support@healthinnovators.org", "website_url": "https://www.healthinnovators.org", "pan_card": "AHEAP1234A"},
+        {"name": "Education First", "address": "321 Education Lane, Chicago", "contact_email": "hello@educationfirst.edu", "website_url": "https://www.educationfirst.edu", "pan_card": "DDAAP1235F"},
+        {"name": "Food for All", "address": "654 Food Street, Seattle", "contact_email": "info@foodforall.org", "website_url": "https://www.foodforall.org", "pan_card": "FFAAP1234G"},
+        {"name": "Water Watch", "address": "987 Water Drive, Miami", "contact_email": "contact@waterwatch.org", "website_url": "https://www.waterwatch.org", "pan_card": "WWWAP1234H"},
+        {"name": "Clean Energy", "address": "213 Solar Park, Austin", "contact_email": "support@cleanenergy.org", "website_url": "https://www.cleanenergy.org", "pan_card": "CEAP1234I"},
+        {"name": "Animal Welfare", "address": "789 Wildlife Road, Denver", "contact_email": "hello@animalwelfare.org", "website_url": "https://www.animalwelfare.org", "pan_card": "AWAAP1234J"},
+        {"name": "Arts Alive", "address": "456 Culture Lane, San Francisco", "contact_email": "info@artsalive.org", "website_url": "https://www.artsalive.org", "pan_card": "AAAAP5678K"},
+        {"name": "Tech Education", "address": "123 Innovation Blvd, San Jose", "contact_email": "contact@techeducation.org", "website_url": "https://www.techeducation.org", "pan_card": "TEAP5678L"},
+        {"name": "Green Earth", "address": "321 Eco Drive, Portland", "contact_email": "support@greenearth.org", "website_url": "https://www.greenearth.org", "pan_card": "GEAP5678M"},
+        {"name": "Community Builders", "address": "654 Unity Ave, Philadelphia", "contact_email": "hello@communitybuilders.org", "website_url": "https://www.communitybuilders.org", "pan_card": "CBAP5678N"},
+        {"name": "World Health", "address": "987 Health Street, Houston", "contact_email": "info@worldhealth.org", "website_url": "https://www.worldhealth.org", "pan_card": "WHAP5678O"},
+        {"name": "Youth Empowerment", "address": "213 Young Road, Atlanta", "contact_email": "contact@youthempowerment.org", "website_url": "https://www.youthempowerment.org", "pan_card": "YEAP5678P"},
+        {"name": "Literacy for All", "address": "789 Knowledge Lane, Phoenix", "contact_email": "support@literacyforall.org", "website_url": "https://www.literacyforall.org", "pan_card": "LFAAP5678Q"},
+        {"name": "Disaster Relief", "address": "456 Help Ave, Dallas", "contact_email": "hello@disasterrelief.org", "website_url": "https://www.disasterrelief.org", "pan_card": "DRAP5678R"},
+        {"name": "Elder Care", "address": "123 Senior Street, San Diego", "contact_email": "info@eldercare.org", "website_url": "https://www.eldercare.org", "pan_card": "ECAP5678S"},
+        {"name": "Wildlife Conservation", "address": "321 Nature Blvd, Orlando", "contact_email": "contact@wildlifeconservation.org", "website_url": "https://www.wildlifeconservation.org", "pan_card": "WCAP5678T"},
+        {"name": "Women's Rights", "address": "654 Equality Ave, Minneapolis", "contact_email": "support@womensrights.org", "website_url": "https://www.womensrights.org", "pan_card": "WRAP5678U"},
+        {"name": "Mental Health Support", "address": "987 Wellness Drive, Nashville", "contact_email": "hello@mentalhealthsupport.org", "website_url": "https://www.mentalhealthsupport.org", "pan_card": "MHSP5678V"}
+    ]
+
+    for org in organisations:
+        if not frappe.db.exists("Organisation Details", {"organisation_name": org["name"]}):
+            doc = frappe.get_doc({
+                "doctype": "Organisation Details",
+                "organisation_name": org["name"],
+                "website_url": org["website_url"],
+                "official_address": org["address"],
+                "pan_card": org["pan_card"],
+                "official_email_id": org["contact_email"]
+            })
+            doc.insert(ignore_permissions=True)
+            frappe.db.commit()
+            print(f"Inserted organisation record: {org['name']}")
+
+def generate_leads():
+    organisations = frappe.get_all("Organisation Details", fields=["name", "organisation_name", "website_url", "official_email_id", "pan_card"])
+    lead_stages = ["New Lead","Warm Lead", "Hot Lead", "Cold Lead", "Confirmed Lead", "Dropped Lead"]
+    category = [item.name for item in frappe.get_all("Category", fields=["name"])]
+    thematic_areas = frappe.get_all("Thematic Area", fields=["name"])
+    for org in organisations:
+        org["thematic_areas"] = [item.name for item in thematic_areas if random.choice([True, False])]
+        org["category"] = random.choice(category)
+        org["lead_stage"] = random.choice(lead_stages)
+    for org in organisations:
+        if not frappe.db.exists("Organisation Lead", {"lead_name": org["organisation_name"]}):
+            lead_doc = frappe.get_doc({
+                "doctype": "Organisation Lead",
+                "lead_name": org["organisation_name"],
+                "website_url": org["website_url"],
+                "official_email": org["official_email_id"],
+                "pan_card": org["pan_card"],
+                "lead_stage":  org["lead_stage"],
+                "organisation_id": org["name"],
+                "thematic_areas": org["thematic_areas"],
+                "category": org["category"]
+            })
+            lead_doc.insert(ignore_permissions=True)
+            frappe.db.commit()
+            print(f"Inserted lead record: {org['organisation_name']}")
