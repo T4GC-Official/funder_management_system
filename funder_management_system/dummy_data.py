@@ -260,12 +260,12 @@ def create_organisation_records():
 
 def generate_leads():
     organisations = frappe.get_all("Organisation Details", fields=["name", "organisation_name", "website_url", "official_email_id", "pan_card"])
-    lead_stages = ["New Lead","Warm Lead", "Hot Lead", "Cold Lead", "Confirmed Lead", "Dropped Lead"]
+    lead_stages = ["New Lead","Warm Lead", "Hot Lead", "Cold Lead", "Dropped Lead"]
     category = [item.name for item in frappe.get_all("Category", fields=["name"])]
-    thematic_areas = frappe.get_all("Thematic Area", fields=["name"])
+    financial_year = [item.name for item in frappe.get_all("Financial Year", fields=["name"])]
     for org in organisations:
-        org["thematic_areas"] = [item.name for item in thematic_areas if random.choice([True, False])]
-        org["category"] = random.choice(category)
+        org["financial_year"]= random.choice(financial_year)
+        org["lead_category"] = random.choice(category)
         org["lead_stage"] = random.choice(lead_stages)
     for org in organisations:
         if not frappe.db.exists("Organisation Lead", {"lead_name": org["organisation_name"]}):
@@ -277,8 +277,8 @@ def generate_leads():
                 "pan_card": org["pan_card"],
                 "lead_stage":  org["lead_stage"],
                 "organisation_id": org["name"],
-                "thematic_areas": org["thematic_areas"],
-                "category": org["category"]
+                "lead_category": org["lead_category"],
+                "financial_year_of_reachout": org["financial_year"],
             })
             lead_doc.insert(ignore_permissions=True)
             frappe.db.commit()
