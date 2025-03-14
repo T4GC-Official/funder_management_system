@@ -25,6 +25,7 @@ def Donor_Acquisition_Module():
     try:
         create_organisation_records()
         generate_leads()
+        change_lead_stage()
     except Exception as e:
         print(f"Dummy Records Creation Error in Donor Acquisition Module: {e}")
 
@@ -283,12 +284,27 @@ def generate_leads():
             lead_doc.insert(ignore_permissions=True)
             frappe.db.commit()
             print(f"Inserted lead record: {org['organisation_name']}")
+        else:
+            print(f"Lead record already exists: {org['organisation_name']}")
 
 def change_lead_stage(stage="Confirmed Lead"):
-    leads = frappe.get_all("Organisation Lead", fields=["name"])
+    leads = frappe.get_all("Organisation Lead", filters={"lead_stage": "Hot Lead"}, fields=["name"], limit=1)
     for lead in leads:
         lead_doc = frappe.get_doc("Organisation Lead", lead["name"])
         lead_doc.lead_stage = stage
-        lead_doc.save(ignore_permissions=True)
+        lead_doc.save()
         frappe.db.commit()
         print(f"Updated lead stage to {stage} for lead: {lead['name']}")
+
+        # Create donor record
+        if not frappe.db.exists("Donor", {"lead_name": lead["name"]}):
+            donor_doc = frappe.get_doc({
+                "doctype": "Donor",
+                "lead_name": lead["name"],
+                "donor_name": lead_doc.lead_name,
+            })
+            donor_doc.insert(ignore_permissions=True)
+            frappe.db.commit()
+            print(f"Created donor record from lead: {lead['name']}")
+        else:
+            print(f"Donor record already exists for lead: {lead['name']}")
