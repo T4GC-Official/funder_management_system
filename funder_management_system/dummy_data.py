@@ -283,3 +283,12 @@ def generate_leads():
             lead_doc.insert(ignore_permissions=True)
             frappe.db.commit()
             print(f"Inserted lead record: {org['organisation_name']}")
+
+def change_lead_stage(stage="Confirmed Lead"):
+    leads = frappe.get_all("Organisation Lead", fields=["name"])
+    for lead in leads:
+        lead_doc = frappe.get_doc("Organisation Lead", lead["name"])
+        lead_doc.lead_stage = stage
+        lead_doc.save(ignore_permissions=True)
+        frappe.db.commit()
+        print(f"Updated lead stage to {stage} for lead: {lead['name']}")
