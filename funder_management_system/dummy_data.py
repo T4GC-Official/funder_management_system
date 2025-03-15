@@ -1,5 +1,6 @@
+import math
 import frappe, json
-from datetime import datetime
+from datetime import datetime, timedelta
     
 import random
 
@@ -8,6 +9,7 @@ def create_dummy_records():
         create_test_users()
         Budget_Allocation_Module()
         Donor_Acquisition_Module()
+        Donor_Engagement_Module()
     except Exception as e:
         print(f"Error creating dummy records: {e}")
 
@@ -20,6 +22,14 @@ def Budget_Allocation_Module():
         create_dummy_budget_plan_template()
     except Exception as e:
         print(f"Dummy Records Creation Error in Budget Allocation Module: {e}")
+        
+def Donor_Engagement_Module():
+    try:
+        delete_grant_agreements()
+        create_grant_agreement()
+        calculate_grant_agreement_tranche_progress()
+    except Exception as e:
+        print(f"Dummy Records Creation Error in Donor Acquisition Module: {e}")
 
 def Donor_Acquisition_Module():
     try:
@@ -308,3 +318,92 @@ def change_lead_stage(stage="Confirmed Lead"):
             print(f"Created donor record from lead: {lead['name']}")
         else:
             print(f"Donor record already exists for lead: {lead['name']}")
+
+def create_grant_agreement():
+    donors = frappe.get_all("Donor", fields=["name", "lead_name", "donor_name"])
+    for donor in donors:
+        if not frappe.db.exists("Grant Agreement", {"donor": donor["name"]}):
+            amount = random.randint(9000, 140000)
+            grant_agreement_doc = frappe.get_doc({
+                "doctype": "Grant Agreement",
+                "donor": donor["name"],
+                "donor_name": donor["donor_name"],
+                "lead_name": donor["lead_name"],
+                "grant_name": "Grant for " + "Climate Change",
+                "total_number_of_tranches": random.randint(1, 10),
+                "grant_name": donor["name"]+" | Grant for " + random.choice(["Climate Change", "Education", "Healthcare", "Women Empowerment", "Children Welfare", "Disaster Response", "Community Development", "Animal Welfare", "Environmental Conservation", "Other"]),
+                "total_grant_amount": amount,
+                "grant_agreement_start_date": "2020-01-01",
+                "grant_agreement_end_date": "2020-12-31",
+            })
+            # add data in tranche table for each tranche
+            for i in range(grant_agreement_doc.total_number_of_tranches):
+                due_date = random_date(grant_agreement_doc.grant_agreement_start_date, grant_agreement_doc.grant_agreement_end_date)
+                tranche_status = random.choice(["Pending - On Time","Pending - Delayed","Received - On Time","Received - Delayed"])
+                tranche_doc = frappe.get_doc({
+                    "doctype": "Tranche Details",
+                    "grant_agreement": grant_agreement_doc.name,
+                    "tranche_name": "Tranche " + str(i+1),
+                    "tranche_amount": math.floor(amount / grant_agreement_doc.total_number_of_tranches),
+                    "due_date": due_date,
+                    "tranche_status": tranche_status,
+                    "tranche_financial_year": get_financial_year_for_due_date(due_date),
+                    "mode_of_payment": random.choice(["Cheque", "UPI", "Netbanking"]),
+                    # if tranche status is "Received - On Time" or "Received - Delayed", then received on date will be due date other wise it will be null
+                    "received_on": add_days_to_date(due_date,3) if tranche_status == "Received - Delayed" else (due_date if tranche_status == "Received - On Time" else None),
+                })
+                grant_agreement_doc.append("tranche_table", tranche_doc)
+                    
+            grant_agreement_doc.save()
+            frappe.db.commit()
+            print(f"Created grant agreement for donor: {donor['name']}")
+        else:
+            print(f"Grant agreement already exists for donor: {donor['name']}")
+            
+
+def delete_grant_agreements():
+    donors = frappe.get_all("Donor", fields=["name"])
+    for donor in donors:
+        grant_agreements = frappe.get_all("Grant Agreement", filters={"donor": donor["name"]}, fields=["name"])
+        for grant_agreement in grant_agreements:
+            frappe.delete_doc("Grant Agreement", grant_agreement["name"], force=True)
+            frappe.db.commit()
+            print(f"Deleted grant agreement for donor: {donor['name']}")
+def random_date(start_date, end_date):
+    """Get a random date between start_date and end_date"""
+    start_timestamp = datetime.strptime(start_date, "%Y-%m-%d").timestamp()
+    end_timestamp = datetime.strptime(end_date, "%Y-%m-%d").timestamp()
+    random_timestamp = random.uniform(start_timestamp, end_timestamp)
+    return datetime.fromtimestamp(random_timestamp).strftime("%Y-%m-%d")
+
+def get_financial_year_for_due_date(due_date):
+    due_date_year = datetime.strptime(due_date, "%Y-%m-%d").year
+    # the format of the financial year will be 2023-24
+    financial_year_start = due_date_year
+    financial_year_end = due_date_year + 1
+    financial_year = str(financial_year_start) + "-" + str(financial_year_end)[2:]
+    return financial_year
+    
+def add_days_to_date(date_str, days):
+    print("Due Date: ", date_str, "Days: ", days)
+    date_format = "%Y-%m-%d"
+    date_obj = datetime.strptime(date_str, date_format)
+    new_date_obj = date_obj + timedelta(days=days)
+    return new_date_obj.strftime(date_format)    
+
+
+def calculate_grant_agreement_tranche_progress():
+    grant_agreements = frappe.get_all("Grant Agreement", fields=["name"])
+    for grant_agreement in grant_agreements:
+        total_tranche_progress = 0
+        grant_agreement_doc = frappe.get_doc("Grant Agreement", grant_agreement["name"])
+        for tranche in grant_agreement_doc.tranche_table:
+            if tranche.tranche_status in  ["Received - Delayed","Received - On Time"]:
+                total_tranche_progress +=1
+        grant_agreement_doc.total_tranche_progress_percentage = math.floor((total_tranche_progress/grant_agreement_doc.total_number_of_tranches)*100)
+        grant_agreement_doc.total_tranche_progress = str(total_tranche_progress)+"/"+str(grant_agreement_doc.total_number_of_tranches)
+        grant_agreement_doc.total_tranche_amount_received = grant_agreement_doc.total_grant_amount * grant_agreement_doc.total_tranche_progress_percentage/100
+        grant_agreement_doc.save()
+        frappe.db.commit()
+        print(f"Calculated progress for grant agreement: {grant_agreement['name']}")
+        total_tranche_progress = 0
