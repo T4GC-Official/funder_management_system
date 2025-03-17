@@ -187,9 +187,8 @@
   },
   {
    "fieldname": "budget_category",
-   "fieldtype": "Link",
-   "label": "Budget Category",
-   "options": "Budget Category"
+   "fieldtype": "Select",
+   "label": "Budget Category"
   },
   {
    "allow_bulk_edit": 1,
@@ -253,7 +252,7 @@
    "link_fieldname": "urn"
   }
  ],
- "modified": "2025-03-13 23:27:33.499344",
+ "modified": "2025-03-17 12:01:21.814190",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",

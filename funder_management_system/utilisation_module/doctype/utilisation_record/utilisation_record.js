@@ -167,6 +167,10 @@ frappe.ui.form.on('Utilisation Record', {
         if (frm.doc.budget) {
             frappe.db.get_doc("Budget Plan", frm.doc.budget).then(budget => {
                 if (budget) {
+                    let budget_categories = budget.budget_breakdown.map(item => item.budget_category);
+                    // only keep unique budget categories
+                    budget_categories = [...new Set(budget_categories)];
+                    frm.set_df_property("budget_category", "options", budget_categories.join("\n"));
                     frm.dashboard.clear_headline();
                     render_budget_info(frm, budget);
                 }
@@ -237,9 +241,6 @@ frappe.ui.form.on('Utilisation Record', {
                 frappe.throw("Please fill in all the required fields.");
             }
         }
-      // fetch Financial Year, Budget_Name, Donor , Grant Agreement, Tranche Name a, Budget Category, Sub category and expenditure from Utilisation Record doctype and add it to the utilisation_details child table without savind it to the child table
-
-
     },
 
 });
@@ -384,3 +385,24 @@ function render_tranche_table(frm, grant) {
         frm.fields_dict["grant_table_view_section"].$wrapper.html(table_html);
     });
 }
+
+frappe.ui.form.on('Utilisation Record', {
+    onload: function(frm) {
+        frm.events.get_budget_category_and_set_filter(frm);
+    },
+    get_budget_category_and_set_filter: function(frm) {
+        if (frm.doc.budget) {
+            frappe.db.get_doc("Budget Plan", frm.doc.budget).then(budget => {
+                if (budget && budget.budget_breakdown) {
+                    const budget_categories = budget.budget_breakdown.map(item => item.budget_category);
+                    frm.set_query('budget_category', () => {
+                        return { filters: { 'name': ['in', budget_categories] } };
+                    });
+                    frm.set_value('budget_category', null);
+                } else {
+                    frm.set_value('budget_category', null);
+                }
+            });
+        }
+    }
+});
