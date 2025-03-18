@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":4}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":4}}]",
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":6}}]",
  "creation": "2025-01-28 12:24:00.611386",
  "custom_blocks": [],
  "docstatus": 0,
@@ -146,26 +146,6 @@
    "type": "Link"
   },
   {
-   "description": "In this module, you can set reminders for all document renewals and create various document lists. Additionally, users can choose to receive reminders a certain number of days in advance.",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation Toolkit",
-   "link_count": 1,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Document List",
-   "link_count": 0,
-   "link_to": "Document List",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "description": "This module is designed for fundraising team members to maintain a record of ongoing engagement with confirmed donors, track grant agreements and tranche level details.",
    "hidden": 0,
    "is_query_report": 0,
@@ -224,9 +204,29 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "description": "This module enables users to access all compliance and regulatory documents in a single repository as well as add renewal reminders for relevant documents.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Toolkit",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Document List",
+   "link_count": 0,
+   "link_to": "Document List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-03-13 22:09:51.886750",
+ "modified": "2025-03-18 18:00:17.458357",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
