@@ -5,7 +5,6 @@ frappe.utils.logger.set_log_level("DEBUG")  # Ensure debug logs are captured
 logger = frappe.logger("utilisation_record", allow_site=True, file_count=50)
 
 class UtilisationRecord(Document):
-    
     pass
 
 

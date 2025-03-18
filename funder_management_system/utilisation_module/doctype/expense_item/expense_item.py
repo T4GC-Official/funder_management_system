@@ -12,6 +12,7 @@ class ExpenseItem(Document):
     
 	def on_cancel(self):
 		try:
+			self.update_grant_expenditure(increase=False)
 			user = frappe.session.user
 			logger.info(f"{user} requested to cancel utilisation record: {self.name}")
 
@@ -43,15 +44,17 @@ class ExpenseItem(Document):
 
 	def on_submit(self):
 		try:
+			self.update_grant_expenditure(increase=True)
 			user = frappe.session.user
-			logger.info(f"{user} requested to submit utilisation record: {self.name}")
+			logger_submit.info(f"{user} requested to submit utilisation record: {self.name}")
 			utilisation_record = frappe.get_doc("Utilisation Record", self.urn)
-			logger.info(f"Utilisation Record record amended from: {self.amended_from} to {self.name}")
+			logger_submit.info(f"Utilisation Record record amended from: {self.amended_from} to {self.name}")
 			for row in utilisation_record.utilisation_child_table:
 				logger_submit.info(f"Request for Submit {self.name} and {row.expenditure_record_name}")
-				logger.info(f"Utilisation Child Table record fetched: {row.expense_item_created}")
+				#logger_submit.info(f"Utilisation Child Table record fetched: {row.expense_item_created}")
 				if  row.expenditure_record_name == self.name:
 					logger_submit.info(f"Request for Submit {self.amended_from} and {row.expenditure_record_name}")
+					logger_submit.info(f"Utilisation Child Table record status changed from: {row.utilisation_status} to 'Amended'")
 					#update the utilised_amount and utilisation record created
 					row.utilised_amount = self.utilised_amount	
 					row.utilisation_status = "Amended"
@@ -60,10 +63,10 @@ class ExpenseItem(Document):
 			utilisation_record.child_table_value_updated = True
 			utilisation_record.save()
 			frappe.db.commit()  # Ensure changes are committed
-			logger.info(f"Utilisation Record updated and saved: {utilisation_record.name}")
+			logger_submit.info(f"Utilisation Record updated and saved: {utilisation_record.name}")
 			
 		except Exception as e:
-			logger.error(f"Error in expense_item on_submit: {e}")
+			logger_submit.error(f"Error in expense_item on_submit: {e}")
 
 
 	def update_draft_status(self,update_utilised_amount=False):
@@ -121,3 +124,37 @@ class ExpenseItem(Document):
 
 		except Exception as e:	
 			logger.error(f"Error in expense_item after_insert: {e}")
+	def update_grant_expenditure(self, increase=True):
+		try:
+			if not self.grant_agreement or not self.grant_agreement_tranche:
+				logger.error(f"Grant Agreement or Grant Tranche is missing for {self.name}")
+				return
+
+			grant_agreement = frappe.get_doc("Grant Agreement", self.grant_agreement)
+			tranche_found = False  # Track if tranche exists
+
+			for tranche in grant_agreement.tranche_table:
+				if tranche.tranche_name == self.grant_agreement_tranche:
+					tranche_found = True
+					if increase:
+						tranche.total_tranche_expenditure += self.utilised_amount or 0
+					else:
+						tranche.total_tranche_expenditure = max(
+							tranche.total_tranche_expenditure - (self.utilised_amount or 0), 0
+						)  # Prevent negative values
+					break  # Stop iterating once found
+
+			if not tranche_found:
+				logger.warning(
+					f"Tranche '{self.grant_tranche_name}' not found in Grant Agreement '{self.grant_agreement}'"
+				)
+				return  # Stop execution if tranche is missing
+
+			grant_agreement.save(ignore_permissions=True)
+			frappe.db.commit()
+			logger.info(
+				f"Grant Agreement Expenditure updated for {self.grant_agreement}, tranche: {self.grant_tranche_name}"
+			)
+
+		except Exception as e:
+			logger.error(f"Error in update_grant_expenditure for {self.name}: {str(e)}", exc_info=True)

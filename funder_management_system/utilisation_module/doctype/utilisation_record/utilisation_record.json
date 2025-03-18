@@ -85,7 +85,7 @@
   },
   {
    "fieldname": "financial_year",
-   "fieldtype": "Link",
+   "fieldtype": "Select",
    "label": "Financial Year",
    "options": "Financial Year"
   },
@@ -160,7 +160,7 @@
    "fieldname": "quarters",
    "fieldtype": "Select",
    "label": "Quarters",
-   "options": "Q1\nQ2\nQ3\nQ4"
+   "options": "\nQ1\nQ2\nQ3\nQ4"
   },
   {
    "fieldname": "column_break_cffu",
@@ -169,21 +169,18 @@
   },
   {
    "fieldname": "donor",
-   "fieldtype": "Link",
-   "label": "Donor",
-   "options": "Donor"
+   "fieldtype": "Select",
+   "label": "Donor"
   },
   {
    "fieldname": "budget",
-   "fieldtype": "Link",
-   "label": "Budget Plan",
-   "options": "Budget Plan"
+   "fieldtype": "Select",
+   "label": "Budget Plan"
   },
   {
    "fieldname": "budget_sub_category",
-   "fieldtype": "Link",
-   "label": "Budget Sub Category",
-   "options": "Budget Sub-Category"
+   "fieldtype": "Select",
+   "label": "Budget Sub Category"
   },
   {
    "fieldname": "budget_category",
@@ -252,7 +249,7 @@
    "link_fieldname": "urn"
   }
  ],
- "modified": "2025-03-17 12:01:21.814190",
+ "modified": "2025-03-18 15:31:56.500482",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
