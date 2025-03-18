@@ -2,49 +2,12 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Utilisation Record", {
-    setup: function(frm) {
-        console.log("setup");
-        // frm.set_value('budget', null);
-        // frm.set_value('grant_agreement', null);
-        // frm.set_value('grant_tranche_name', null);
-        // frm.set_value('tranche_amount', null);
-        // frm.set_value("financial_year", null);
-        // frm.set_value("donor", null);
-        // frm.set_value("budget_category", null);
-        // frm.set_value("budget_sub_category", null);
-        // frm.set_value("expenditure", null);
-        // frm.set_value("expense_title", null);
-        // frm.set_value("expense_date", null);
-        // frm.set_value("quarters", null);
-    },
-
-    onload_post_render: function(frm) {
-        if(frm.doc.budget){
-            // trigger the budget field change event
-            frm.trigger("budget");
-
-        }
-        
-        if(frm.doc.grant_agreement){
-            // trigger the grant_agreement field change event
-            frm.trigger("grant_agreement");
-        }
-        let grid = frm.fields_dict["utilisation_child_table"].grid;
-        // Wait for the DOM to render
-        // setTimeout(() => {
-        //     grid.wrapper.find('.grid-row-check').remove(); // Remove checkboxes from rows
-        //     grid.wrapper.find('.grid-header-row .grid-row-check').remove(); // Remove from header
-        // }, 500);
-        frm.trigger("set_financial_year");
-        
-    },
 
     onload: function(frm) {
         frm.trigger("set_donor_list");
-        //apply_budget_filter(frm);
+        frm.trigger("set_financial_year");
+        
     },
-
-    
     refresh: function(frm) {
         frm.fields_dict.grant_agreement.$input.on("click", function() {
             if(!frm.doc.donor) {
@@ -54,17 +17,11 @@ frappe.ui.form.on("Utilisation Record", {
         if(!frm.is_new()) {
             frm.trigger("check_if_child_table_is_updated");
         }
-        //apply_budget_filter(frm);
         frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
-        //frm.fields_dict["utilisation_child_table"].grid.wrapper.find('.grid-row-check').hide();
-        frm.set_df_property("donor", "only_select", 1);
+        
         frm.set_df_property("grant_agreement", "only_select", 1);
-        frm.set_df_property("budget", "only_select", 1);
-        frm.set_df_property("budget_sub_category", "only_select", 1);
-        frm.set_df_property("grant_tranche_name", "only_select", 1);
-        frm.set_df_property("financial_year", "only_select", 1);
     },
     check_if_child_table_is_updated: function (frm) {
         frappe.call({
@@ -77,13 +34,12 @@ frappe.ui.form.on("Utilisation Record", {
             async: true,
             callback: function(r) {
                 if(r.message) {
-                    console.log("child table updated: ", r.message);
                     frm.reload_doc();
                 }
             }
         });
     },
-    on_save: function(frm) {
+    before_save: function(frm) {
         frm.set_value('budget', null);
         frm.set_value('grant_agreement', null);
         frm.set_value('grant_tranche_name', null);
@@ -100,8 +56,6 @@ frappe.ui.form.on("Utilisation Record", {
     },
 
     after_save: function (frm) {
-        
-
         frappe.call({
             method: "funder_management_system.utilisation_module.doctype.utilisation_record.utilisation_record.create_utilisation_entries",
             args: {
@@ -198,9 +152,14 @@ frappe.ui.form.on('Utilisation Record', {
             fields: ["financial_year"], 
             order_by: "financial_year DESC" 
         }).then(response => {
-            let financialYears = response.map(doc => doc.financial_year);
+            let financialYears = response.map(doc => doc.financial_year);  // Extract array of years
             console.log("List of Financial Years:", financialYears);
-            frm.set_df_property("financial_year", "options", financialYears.length ? financialYears.join("\n") : "");
+    
+            // Convert array to a newline-separated string
+            let options_string = financialYears.join("\n");
+    
+            // Set the select field options correctly
+            frm.set_df_property("financial_year", "options", options_string);
         });
         
     },
@@ -245,13 +204,6 @@ frappe.ui.form.on('Utilisation Record', {
     },
 
     budget: function(frm) {
-        if (!frm.doc.financial_year) {
-            // Prevent selecting a budget if financial year is missing
-            frm.set_value("budget", null);
-            frappe.show_alert({ message: __("You must select a Financial Year first."), indicator: "red" });
-            return;
-        }
-
         if (frm.doc.budget) {
             // Fetch selected Budget details
             frappe.db.get_doc("Budget Plan", frm.doc.budget).then(budget => {
@@ -264,6 +216,8 @@ frappe.ui.form.on('Utilisation Record', {
 
                     // Update Budget Category dropdown options
                     frm.set_df_property("budget_category", "options", budget_categories.length ? budget_categories.join("\n") : "");
+                    frm.dashboard.clear_headline();
+                    render_budget_info(frm, budget);
                 }
             });
         } else {
@@ -291,6 +245,10 @@ frappe.ui.form.on('Utilisation Record', {
         frm.reload_doc(); // Reloads the document after reopening
     },
     create_expense_record: function (frm) {
+
+        //set the fin year manually for debug
+        frm.doc.financial_year="2023-24";
+        console.log(frm.doc.financial_year);
 
 
 
@@ -325,16 +283,22 @@ frappe.ui.form.on('Utilisation Record', {
                 frm.fields_dict.financial_year.set_focus();
             } else if (!frm.doc.budget) {
                 frm.fields_dict.budget.set_focus();
+            } else if (!frm.doc.budget_category) {
+                frm.fields_dict.budget_category.set_focus();
+            } else if (!frm.doc.budget_sub_category) {
+                frm.fields_dict.budget_sub_category.set_focus();
+            } else if(!frm.doc.quarters){
+                frm.fields_dict.quarters.set_focus();
             } else if (!frm.doc.donor) {
                 frm.fields_dict.donor.set_focus();
             } else if (!frm.doc.grant_agreement) {
                 frm.fields_dict.grant_agreement.set_focus();
             } else if (!frm.doc.grant_tranche_name) {
                 frm.fields_dict.grant_tranche_name.set_focus();
-            } else if (!frm.doc.budget_category) {
-                frm.fields_dict.budget_category.set_focus();
-            } else if (!frm.doc.budget_sub_category) {
-                frm.fields_dict.budget_sub_category.set_focus();
+            } else if(!frm.doc.expense_title){
+                frm.fields_dict.expense_title.set_focus();  
+            } else if(!frm.doc.expense_date){
+                frm.fields_dict.expense_date.set_focus();
             } else if (!frm.doc.expenditure) {
                 frm.fields_dict.expenditure.set_focus();
             } else {
@@ -413,24 +377,6 @@ function render_budget_info(frm, budget) {
 
         frm.fields_dict["budget_table_view_section"].$wrapper.html(budget_html);
     });
-}
-function apply_budget_filter(frm) {
-    if (frm.doc.financial_year) {
-        frm.set_query("budget", function() {
-            return {
-                filters: {
-                    financial_year: frm.doc.financial_year,
-                    docstatus: 1  // Ensures only submitted budgets are shown
-                }
-            };
-        });
-    } else {
-        // Clear budget field and block unfiltered selection
-        frm.set_value("budget", null);
-        frm.set_query("budget", function() {
-            return { filters: { name: "###" } }; // Blocks selection
-        });
-    }
 }
 
 
