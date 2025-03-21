@@ -104,7 +104,7 @@ class ExpenseItem(Document):
 			logger.error(f"Error in expense_item after_insert: {e}")
 
 @frappe.whitelist()
-def create_utilisation_entries(document_name):
+def create_utilisation_entries_job(document_name):
     try:
         ur_doc = frappe.get_doc("Utilisation Record", document_name)
         frappe.enqueue(
@@ -120,7 +120,7 @@ def create_utilisation_entries(document_name):
         logger_create.error(f"Error enqueuing create_utilisation_entries: {e}")
 
 
-def create_utilisation_entries_task(document_name): #we will convert this function to do bulk insert
+def create_utilisation_entries(document_name): #we will convert this function to do bulk insert
     try:
         ur_doc = frappe.get_doc("Utilisation Record", document_name)
         count = 0
@@ -151,7 +151,7 @@ def create_utilisation_entries_task(document_name): #we will convert this functi
                 logger_create.info(f"{count}|Creating Utilisation Record: {row.expenditure_record_name} for {row.expense_title}")
 
         if count > 0:
-            logger_create.info(f"utilisation entries in Expense Items: {utilisation_entries}\n calling update_grant_expenditure_new method")
+            logger_create.info(f"utilisation entries in Expense Items: {utilisation_entries}")
             update_grant_expenditure_new(utilisation_entries)
             ur_doc.child_table_value_updated = True
             ur_doc.save()
@@ -204,7 +204,7 @@ def update_grant_expenditure(grant_agreement_name, grant_agreement_tranche, amou
             logger_create.warning(
                 f"Tranche '{grant_agreement_tranche}' not found in Grant Agreement '{grant_agreement_name}'"
             )
-            return  # Stop execution if tranche is missing
+            return 
         update_total_grant_amount_utilised(grant_agreement_doc)
         grant_agreement_doc.save(ignore_permissions=True)
         frappe.db.commit()
