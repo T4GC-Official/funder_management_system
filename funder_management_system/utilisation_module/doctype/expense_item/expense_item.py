@@ -114,12 +114,13 @@ def create_utilisation_entries_job(document_name):
             document_name=document_name,
             is_async=True
     	)
+        #keep checking the job status and it the job is completed return true
         frappe.msgprint(f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}", alert=True)
         logger_create.info(f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}")
     except Exception as e:
         logger_create.error(f"Error enqueuing create_utilisation_entries: {e}")
 
-
+@frappe.whitelist()
 def create_utilisation_entries(document_name): #we will convert this function to do bulk insert
     try:
         ur_doc = frappe.get_doc("Utilisation Record", document_name)
