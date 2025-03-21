@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:budget_category",
  "creation": "2025-01-24 13:20:10.378468",
@@ -20,7 +21,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-03 15:50:03.228288",
+ "modified": "2025-03-21 18:46:57.494076",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Category",
