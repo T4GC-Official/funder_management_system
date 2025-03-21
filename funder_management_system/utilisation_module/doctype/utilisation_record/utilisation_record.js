@@ -5,6 +5,7 @@
 frappe.ui.form.on("Utilisation Record", { 
 
     onload: function(frm) {
+        
         frm.trigger("set_donor_list");
         frm.trigger("set_financial_year");
         frappe.realtime.on("job_success", (data) => {
@@ -17,18 +18,13 @@ frappe.ui.form.on("Utilisation Record", {
         
     },
     refresh: function(frm) {
-        // frm.fields_dict.grant_agreement.$input.on("click", function() {
-        //     if(!frm.doc.donor) {
-        //         frm.trigger("donor");
-        //     }
-        // });
+        
         if(!frm.is_new()) {
             frm.trigger("check_if_child_table_is_updated");
         }
         frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
         frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
-        
         frm.set_df_property("grant_agreement", "only_select", 1);
     },
     check_if_child_table_is_updated: function (frm) {
@@ -102,25 +98,9 @@ frappe.ui.form.on("Utilisation Record", {
             });
         }
         if(!frm.doc.donor){
-            frappe.show_alert({
-                message:__('Please select a Donor first.'),
-                indicator:'warning'
-            }, 5);
-            // fetch the value of Donor based on grant_agreement then set the value of Donor
-            // if(frm.doc.grant_agreement){
-            //     frappe.call({
-            //         method: "frappe.client.get",
-            //         args: { doctype: "Grant Agreement", name: frm.doc.grant_agreement },
-            //         callback: function(response) {
-            //             if (response.message) {
-            //                 let agreement = response.message;
-            //                 frm.set_value("donor", agreement.donor);
-            //                 frm.set_value("grant_agreement", "Hello");
-            //             }
-                        
-            //         }
-            //     });
-            // }
+            frm.set_value('grant_agreement', null);
+            frm.set_value('grant_tranche_name', null);
+            frm.fields_dict.donor.set_focus();
         }
         frm.set_query('grant_tranche_name', () => {
             return frm.doc.grant_agreement ? { filters: { parent: frm.doc.grant_agreement } } : {};
