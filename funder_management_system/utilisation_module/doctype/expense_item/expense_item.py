@@ -14,9 +14,6 @@ logger_update = frappe.logger("update_grant_agreement", allow_site=True, file_co
 logger_create = frappe.logger("create_utilisation_entries", allow_site=True, file_count=5)
 
 class ExpenseItem(Document):
-    
-    
-    
 	def on_cancel(self):
 		try:
 			update_grant_expenditure(self.grant_agreement,self.grant_agreement_tranche, self.utilised_amount, increase=False)
@@ -48,33 +45,7 @@ class ExpenseItem(Document):
 
 		except Exception as e:
 			logger.error(f"Error in expense_item on_cancel: {e}")
-
-	def on_submit(self):
-		try:
-			update_grant_expenditure(self.grant_agreement,self.grant_agreement_tranche, self.utilised_amount,increase=True)
-			user = frappe.session.user
-			logger_submit.info(f"{user} requested to submit utilisation record: {self.name}")
-			utilisation_record = frappe.get_doc("Utilisation Record", self.urn)
-			logger_submit.info(f"Utilisation Record record amended from: {self.amended_from} to {self.name}")
-			for row in utilisation_record.utilisation_child_table:
-				logger_submit.info(f"Request for Submit {self.name} and {row.expenditure_record_name}")
-				#logger_submit.info(f"Utilisation Child Table record fetched: {row.expense_item_created}")
-				if  row.expenditure_record_name == self.name:
-					logger_submit.info(f"Request for Submit {self.amended_from} and {row.expenditure_record_name}")
-					logger_submit.info(f"Utilisation Child Table record status changed from: {row.utilisation_status} to 'Amended'")
-					#update the utilised_amount and utilisation record created
-					row.utilised_amount = self.utilised_amount	
-					row.utilisation_status = "Amended"
-					row.expenditure_record_name = self.name
-					break
-			utilisation_record.child_table_value_updated = True
-			utilisation_record.save()
-			frappe.db.commit()  # Ensure changes are committed
-			logger_submit.info(f"Utilisation Record updated and saved: {utilisation_record.name}")
-			
-		except Exception as e:
-			logger_submit.error(f"Error in expense_item on_submit: {e}")
-
+    
 
 	def update_draft_status(self,update_utilised_amount=False):
 		try:
@@ -143,27 +114,11 @@ def create_utilisation_entries(document_name):
             document_name=document_name,
             is_async=True
     	)
-        
-        frappe.msgprint(f"Job enqueued for creating the {len(ur_doc.utilisation_child_table)}Utilisation Entries", alert=True)
-        logger_create.info(f"Enqueued create_utilisation_entries for document: {document_name}")
+        frappe.msgprint(f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}", alert=True)
+        logger_create.info(f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}")
     except Exception as e:
         logger_create.error(f"Error enqueuing create_utilisation_entries: {e}")
 
-    
-    
-def unlock_document(document_name):
-    """Unlock the document and make it read-only"""
-    try:
-        logger_create.info(f"on_success | Unlocking and setting document {document_name} to read-only")
-        # ur_doc = frappe.get_doc("Utilisation Record", document_name)
-        # ur_doc.is_locked = 0  # Unlock the document
-        # ur_doc.save(ignore_permissions=True)
-
-        # # Make the document read-only
-        # frappe.set_user_read_only("Utilisation Record", document_name, True)
-
-    except Exception as e:
-        logger_create.error(f"Error unlocking and setting document {document_name} to read-only: {e}")
 
 def create_utilisation_entries_task(document_name): #we will convert this function to do bulk insert
     try:
@@ -194,19 +149,10 @@ def create_utilisation_entries_task(document_name): #we will convert this functi
                 count += 1
                 utilisation_entries.append(utilisation_doc.name)
                 logger_create.info(f"{count}|Creating Utilisation Record: {row.expenditure_record_name} for {row.expense_title}")
-                
-                try:
-                    logger_create(f"{count}| Updating grant expenditure in tranche for {utilisation_doc.name}")
-                    update_grant_expenditure(row.grant_agreement, row.grant_agreement_tranche, row.utilised_amount)
-                except Exception as update_error:
-                    # Rollback the changes if update fails
-                    utilisation_doc.cancel()
-                    row.db_set("utilisation_status", "New")
-                    logger.error(f"Failed to update grant expenditure for {utilisation_doc.name}: {str(update_error)}")
-                    frappe.log_error(f"Failed to update grant expenditure for {utilisation_doc.name}: {str(update_error)}", "Expenditure Update Error")
-                    return False
 
         if count > 0:
+            logger_create.info(f"utilisation entries in Expense Items: {utilisation_entries}\n calling update_grant_expenditure_new method")
+            update_grant_expenditure_new(utilisation_entries)
             ur_doc.child_table_value_updated = True
             ur_doc.save()
             frappe.db.commit()
@@ -219,53 +165,144 @@ def create_utilisation_entries_task(document_name): #we will convert this functi
             return True
 
         else:
-            logger.info(f"No new Expense Items Entries were created (Already Processed) for {document_name}")
+            logger_create.info(f"No new Expense Items Entries were created (Already Processed) for {document_name}")
             frappe.msgprint("No new Expense Items Entries were created (Already Processed)", alert=True)
             return None
     except Exception as e:
         logger.error(f"Error creating utilisation records: {str(e)}")
         frappe.log_error(f"Error creating utilisation records: {str(e)}", "Utilisation Creation Error")
         return False
-
+def update_grant_expenditure_new(utilisation_entries):
+    for utilisation_entry in utilisation_entries:
+        logger_create.info(f"Updating grant expenditure for {utilisation_entry}")
+        utilisation_doc = frappe.get_doc("Expense Item", utilisation_entry)
+        try:
+            update_grant_expenditure(utilisation_doc.grant_agreement, utilisation_doc.grant_agreement_tranche, utilisation_doc.utilised_amount)
+        except:
+            logger_create.error(f"Error updating grant expenditure for {utilisation_entry}")
+            return False
+        
 def update_grant_expenditure(grant_agreement_name, grant_agreement_tranche, amount, increase=True):		
     try:
-        logger_update.info(
-            f"Request for update_grant_expenditure for Grant: {grant_agreement_name}, "
-            f"Tranche: {grant_agreement_tranche}, Expense Amount: {amount}"
-        )
-
         grant_agreement_doc = frappe.get_doc("Grant Agreement", grant_agreement_name)
         tranche_found = False  # Track if tranche exists
-
+        logger_create.info(f"Total Tranche:{len(grant_agreement_doc.tranche_table)}")
         for tranche in grant_agreement_doc.tranche_table:
             if tranche.tranche_name == grant_agreement_tranche:
-                logger_update.info(f"Tranche '{grant_agreement_tranche}' found in Grant Agreement '{grant_agreement_name}'")
                 tranche_found = True
                 if increase:
                     tranche.total_tranche_expenditure += amount or 0
-                    logger_update.info(f"Increase | Updated total expenditure for tranche '{grant_agreement_tranche}' to {tranche.total_tranche_expenditure}")
-                    
+                    logger_create.info(f"Increase | Updated total expenditure for tranche '{grant_agreement_tranche}' to {tranche.total_tranche_expenditure}")
                 else:
                     tranche.total_tranche_expenditure = max(tranche.total_tranche_expenditure - (amount or 0), 0)
-                    logger_update(f"Decrease | Updated total expenditure for tranche '{grant_agreement_tranche}' to {tranche.total_tranche_expenditure}")
+                    logger_create.info(f"Decrease | Updated total expenditure for tranche '{grant_agreement_tranche}' to {tranche.total_tranche_expenditure}")
                       # Prevent negative values
 
                 break  # Stop iterating once found
 
         if not tranche_found:
-            logger_update.warning(
+            logger_create.warning(
                 f"Tranche '{grant_agreement_tranche}' not found in Grant Agreement '{grant_agreement_name}'"
             )
             return  # Stop execution if tranche is missing
-
-        #grant_agreement_doc.total_grant_amount_utilised, grant_agreement_doc.total_tranche_amount_utilised = update_total_grant_amount_utilised(grant_agreement_doc)
-        #grant_agreement_doc.total_grant_amount_utilised = 
         update_total_grant_amount_utilised(grant_agreement_doc)
-        logger_update.info(f"Total Grant Amount Utilised: {grant_agreement_doc.total_grant_amount_utilised} for {grant_agreement_doc.name}")
         grant_agreement_doc.save(ignore_permissions=True)
         frappe.db.commit()
 
     except Exception as e:
         logger_update.error(f"Error in update_grant_expenditure: {str(e)}", exc_info=True)
         
+@frappe.whitelist()
+def submit_record(document_name):
+    try:
+        document = frappe.get_doc("Expense Item", document_name)
+        update_grant_expenditure(document.grant_agreement,document.grant_agreement_tranche, document.utilised_amount,increase=True) #because of this line it was creating the tranche expenditure entry twice 
+        user = frappe.session.user
+        logger_submit.info(f"{user} requested to submit utilisation record: {document.name}")
+        utilisation_record = frappe.get_doc("Utilisation Record", document.urn)
+        logger_submit.info(f"Utilisation Record record amended from: {document.amended_from} to {document.name}")
+        for row in utilisation_record.utilisation_child_table:
+            if  row.expenditure_record_name == document.name:
+                row.utilised_amount = document.utilised_amount	
+                row.utilisation_status = "Amended"
+                row.expenditure_record_name = document.name
+                break
+        utilisation_record.child_table_value_updated = True
+        utilisation_record.save()
+        frappe.db.commit()
+        logger_submit.info(f"Utilisation Record {utilisation_record.name} updated and saved")
+        
+    except Exception as e:
+        logger_submit.error(f"Error in submitting Expense Item Record: {document.name}: {e}")
 
+@frappe.whitelist()
+def create_bulk_utilisation_entries(document_name):
+    try:
+        utilisation_record_doc = frappe.get_doc("Utilisation Record", document_name)
+        utilisation_entries = []
+        child_updates = []
+        grant_updates = []
+
+        for row in utilisation_record_doc.utilisation_child_table:
+            if row.utilisation_status == "New":
+                utilisation_entries.append([
+                    row.donor,
+                    row.grant_agreement,
+                    row.category,
+                    row.expense_date,
+                    row.expense_title,
+                    row.grant_agreement_tranche,
+                    row.sub_category,
+                    row.utilised_amount,
+                    row.quarters,
+                    row.budget_plan,
+                    row.financial_year,
+                    utilisation_record_doc.urn,
+                    1  # docstatus
+                ])
+                child_updates.append(row)
+                grant_updates.append((row.grant_agreement, row.grant_agreement_tranche, row.utilised_amount))
+
+        if utilisation_entries:
+            # ✅ Using `bulk_insert` for fast batch insertion
+            frappe.db.bulk_insert(
+                "Expense Item",
+                fields=[
+                    "donor", "grant_agreement", "category", "expense_date", "expense_title",
+                    "grant_agreement_tranche", "sub_category", "utilised_amount", "quarters",
+                    "budget_plan", "financial_year", "urn", "docstatus"
+                ],
+                values=utilisation_entries
+            )
+
+            # ✅ Fetch inserted document names
+            inserted_docs = frappe.db.get_list(
+                "Expense Item",
+                filters={"urn": utilisation_record_doc.urn},  # Assuming `urn` is unique for this batch
+                fields=["name"]
+            )
+
+            if len(inserted_docs) != len(child_updates):
+                frappe.log_error("Mismatch in inserted records", "Utilisation Entry Error")
+                return False
+
+            # ✅ Update child table records
+            for row, inserted_doc in zip(child_updates, inserted_docs):
+                row.db_set("expenditure_record_name", inserted_doc["name"])
+                row.db_set("utilisation_status", "Submitted")
+
+            utilisation_record_doc.child_table_value_updated = True
+            utilisation_record_doc.save()
+            frappe.db.commit()
+
+            # ✅ Enqueue bulk update for grant expenditures
+            frappe.enqueue(update_grant_expenditure, grants=grant_updates, queue='long', job_name="Update Grant Expenditure")
+
+            frappe.msgprint(f"{len(utilisation_entries)} Expense Items Created", alert=True)
+            return True
+        else:
+            frappe.msgprint("No new Expense Items Entries were created (Already Processed)", alert=True)
+            return None
+    except Exception as e:
+        frappe.log_error(f"Error creating utilisation records: {str(e)}", "Utilisation Creation Error")
+        return False

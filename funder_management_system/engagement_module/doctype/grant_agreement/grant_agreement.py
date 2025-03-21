@@ -17,7 +17,6 @@ def update_total_grant_amount_utilised(grant_agreement_doc):
         percentage = 0
     else:
         percentage = round((total_expenditure / total_received) * 100, 2)
-    logger_update.info(f"Update request for update_total_grant_amount_utilised for grant_agreement: {grant_agreement_doc.name} | updated expenditure: {total_expenditure} | updated percentage: {percentage}")
     grant_agreement_doc.total_grant_amount_utilised = total_expenditure
     grant_agreement_doc.total_tranche_amount_utilised = percentage
 
