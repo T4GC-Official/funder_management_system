@@ -203,7 +203,6 @@
    "default": "0",
    "fieldname": "child_table_value_updated",
    "fieldtype": "Check",
-   "hidden": 1,
    "label": "child table value updated"
   },
   {
@@ -249,7 +248,7 @@
    "link_fieldname": "urn"
   }
  ],
- "modified": "2025-03-18 15:31:56.500482",
+ "modified": "2025-03-20 13:49:52.015321",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",

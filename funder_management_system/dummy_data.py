@@ -35,7 +35,7 @@ def Donor_Acquisition_Module():
     try:
         create_organisation_records()
         generate_leads()
-        change_lead_stage()
+        change_lead_stage_and_create_donor()
     except Exception as e:
         print(f"Dummy Records Creation Error in Donor Acquisition Module: {e}")
 
@@ -74,12 +74,17 @@ def add_test_user(email, first_name="Test", last_name="User"):
     
 def create_test_users():
     add_test_user("vidya@tech4goodcommunity.com","Vidya","S")
-    add_test_user("akansha@tech4goodcommunity.com","Akansha","Negi")
+    add_test_user("akanksha@tech4goodcommunity.com","Akanksha","Negi")
     add_test_user("ajith@tech4goodcommunity.com","Ajith","B M")
     add_test_user("chandru@tech4goodcommunity.com","Chandru","M")    
     add_test_user("praveen@tech4goodcommunity.com","Praveen","K S")    
     add_test_user("tushar@tech4goodcommunity.com","Tushar","B")    
-
+    add_test_user("rinju@tech4goodcommunity.com","Rinju","R")
+    add_test_user("akhila@tech4goodcommunity.com","Akhila","Amma")
+    add_test_user("anusha@tech4goodcommunity.com","Anusha","M B")
+    add_test_user("prashant@tech4goodcommunity.com","Prashant","Bala")
+    add_test_user("hazel@tech4goodcommunity.com","Hazel","Ronaldo")
+    add_test_user("varshini@tech4goodcommunity.com","Varshini","S")
 
 # Insert dummy records for testing
 def insert_dummy_budget_category_and_sub_categories():
@@ -116,10 +121,8 @@ def insert_dummy_budget_category_and_sub_categories():
             })
             doc.insert(ignore_permissions=True)
             frappe.db.commit()
-            print(f"Inserted: {data['budget_category']} - {data['budget_sub_category']}")
+            print(f"Created dummy record for budget category and sub-category: {data['budget_category']} - {data['budget_sub_category']}")
 
-
-import frappe
 
 def create_dummy_budget_plan():
     # Get all the available financial years
@@ -137,7 +140,7 @@ def create_dummy_budget_plan():
             {"category": "Finance", "sub_category": "Budgeting"},
             {"category": "Finance", "sub_category": "Auditing"},
             {"category": "IT", "sub_category": "Software Development"},
-            {"category": "IT", "sub_category": "Cybersecurity"},
+            {"category": "IT","sub_category": "Cybersecurity"},
         ]
         
         budget_plan = None
@@ -164,7 +167,7 @@ def create_dummy_budget_plan():
         if budget_plan:
             budget_plan.insert()
             frappe.db.commit()
-            print(f"Dummy Budget Plan {budget_plan.name} created and submitted successfully!")
+            print(f"Dummy Budget Plan {budget_plan.name} created successfully!")
 
 def delete_dummy_budget_plan():
     financial_years = frappe.get_all("Financial Year", fields=["financial_year"], order_by="financial_year desc")
@@ -232,6 +235,7 @@ def submit_budget_plan(number_of_record_to_be_submitted=0):
 
 # Donor Acquisition Module
 def create_organisation_records():
+    print("Creating Organisation records...")
     organisations = [
         {"name": "Tech4Good", "address": "123 Tech Street, Silicon Valley", "contact_email": "info@tech4good.org", "website_url": "https://www.tech4good.org", "pan_card": "AAAAP1234A"},
         {"name": "Green Initiatives", "address": "456 Green Ave, New York", "contact_email": "contact@greeninitiatives.com", "website_url": "https://www.greeninitiatives.com", "pan_card": "ADAAP1234A"},
@@ -267,17 +271,30 @@ def create_organisation_records():
             })
             doc.insert(ignore_permissions=True)
             frappe.db.commit()
-            print(f"Inserted organisation record: {org['name']}")
+            print(f"Created Dummy Organisation record: {org['name']}")
 
 def generate_leads():
+    print("Generating leads...")
     organisations = frappe.get_all("Organisation Details", fields=["name", "organisation_name", "website_url", "official_email_id", "pan_card"])
-    lead_stages = ["New Lead","Warm Lead", "Hot Lead", "Cold Lead", "Dropped Lead"]
-    category = [item.name for item in frappe.get_all("Category", fields=["name"])]
-    financial_year = [item.name for item in frappe.get_all("Financial Year", fields=["name"])]
+    lead_stages = ["New Lead", "Warm Lead", "Hot Lead", "Cold Lead", "Dropped Lead"]
+    categories = frappe.get_all("Category", fields=["category"])
+    financial_years = frappe.get_all("Financial Year", fields=["name"])
+
+    if not categories:
+        print("Categories are missing.")
+        return
+
+    if not financial_years:
+        print("Financial Years are missing.")
+        return
+
     for org in organisations:
-        org["financial_year"]= random.choice(financial_year)
-        org["lead_category"] = random.choice(category)
-        org["lead_stage"] = random.choice(lead_stages)
+        org["financial_year"] = random.choice(financial_years)["name"]
+        org["lead_category"] = random.choice(categories)["category"]
+
+    for i, org in enumerate(organisations):
+        org["lead_stage"] = "Hot Lead" if i == 0 else random.choice(lead_stages)
+
     for org in organisations:
         if not frappe.db.exists("Organisation Lead", {"lead_name": org["organisation_name"]}):
             lead_doc = frappe.get_doc({
@@ -286,19 +303,23 @@ def generate_leads():
                 "website_url": org["website_url"],
                 "official_email": org["official_email_id"],
                 "pan_card": org["pan_card"],
-                "lead_stage":  org["lead_stage"],
+                "lead_stage": org["lead_stage"],
                 "organisation_id": org["name"],
                 "lead_category": org["lead_category"],
                 "financial_year_of_reachout": org["financial_year"],
             })
             lead_doc.insert(ignore_permissions=True)
             frappe.db.commit()
-            print(f"Inserted lead record: {org['organisation_name']}")
+            print(f"Created Dummy lead record: {org['organisation_name']}")
         else:
-            print(f"Lead record already exists: {org['organisation_name']}")
+            print(f"Dummy Lead record already exists: {org['organisation_name']}, skipping...")
 
-def change_lead_stage(stage="Confirmed Lead"):
+def change_lead_stage_and_create_donor(stage="Confirmed Lead"):
+    print(f"Changing lead stage to {stage}...")
     leads = frappe.get_all("Organisation Lead", filters={"lead_stage": "Hot Lead"}, fields=["name"], limit=1)
+    if not leads:
+        print("No leads found with stage 'Hot Lead'")
+        return
     for lead in leads:
         lead_doc = frappe.get_doc("Organisation Lead", lead["name"])
         lead_doc.lead_stage = stage
@@ -321,6 +342,11 @@ def change_lead_stage(stage="Confirmed Lead"):
 
 def create_grant_agreement():
     donors = frappe.get_all("Donor", fields=["name", "lead_name", "donor_name"])
+    donors = frappe.get_all("Donor", fields=["name", "lead_name", "donor_name"])
+    if not donors:
+        print("No donors found. failed to create grant agreements and tranches.")
+        return
+
     for donor in donors:
         if not frappe.db.exists("Grant Agreement", {"donor": donor["name"]}):
             amount = random.randint(9000, 140000)
@@ -363,6 +389,9 @@ def create_grant_agreement():
 
 def delete_grant_agreements():
     donors = frappe.get_all("Donor", fields=["name"])
+    if not donors:
+        print("No donors found. Can't delete grant agreements.")
+        return
     for donor in donors:
         grant_agreements = frappe.get_all("Grant Agreement", filters={"donor": donor["name"]}, fields=["name"])
         for grant_agreement in grant_agreements:

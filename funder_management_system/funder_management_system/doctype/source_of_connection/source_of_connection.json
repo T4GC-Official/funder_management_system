@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:source_of_connection",
  "creation": "2025-01-31 14:23:48.169568",
@@ -18,7 +19,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-03 16:00:43.147115",
+ "modified": "2025-03-21 12:47:58.813196",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Source of Connection",
@@ -42,6 +43,7 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,

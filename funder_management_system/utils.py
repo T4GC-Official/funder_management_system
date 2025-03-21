@@ -72,9 +72,12 @@ def skip_setup_wizard():
     frappe.db.commit()
     print("Setup wizard skipped!")
 
-def set_default_landing_page():
-    """Set the default landing page to /app/main-workspace"""
-    frappe.db.set_value("System Settings", "System Settings", "home_page", "/app/main-workspace")
-    frappe.db.commit()
-    print("Default landing page set to /app/main-workspace")
+
+def set_default_workspace(doc, method):
+    """Set default workspace for new users"""
+    if not doc.default_workspace:  # Only set if not already defined
+        doc.default_workspace = "Main Workspace"
+        doc.save(ignore_permissions=True)  # Correct way to update
+        frappe.msgprint(f"Default workspace set to 'Main Workspace' for {doc.name}")
+
     

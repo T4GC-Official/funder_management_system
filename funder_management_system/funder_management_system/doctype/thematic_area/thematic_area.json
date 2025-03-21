@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:thematic_area",
  "creation": "2025-01-31 13:59:37.849128",
@@ -18,7 +19,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-03 16:01:16.090488",
+ "modified": "2025-03-21 12:25:29.132090",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Thematic Area",

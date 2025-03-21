@@ -9,10 +9,10 @@
   "tranche_name",
   "tranche_amount",
   "tranche_status",
+  "total_tranche_expenditure",
   "mode_of_payment",
   "due_date",
   "received_on",
-  "total_tranche_expenditure",
   "tranche_financial_year",
   "over_utilisation"
  ],
@@ -63,6 +63,7 @@
    "default": "10",
    "fieldname": "total_tranche_expenditure",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Expenditure",
    "read_only": 1
   },
@@ -90,7 +91,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-03 20:03:34.920406",
+ "modified": "2025-03-20 12:48:46.142952",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Tranche Details",

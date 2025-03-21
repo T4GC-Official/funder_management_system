@@ -156,6 +156,10 @@ after_install = [
 # Document Events
 # ---------------
 # Hook on document methods and events
+doc_events = {
+    "User": {
+        "after_insert":"funder_management_system.utils.set_default_workspace"}
+}
 
 # doc_events = {
 # 	"*": {

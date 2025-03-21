@@ -16,6 +16,18 @@ frappe.ui.form.on("Organisation Lead", {
     refresh: function (frm) {
         frm.get_field("table_lead_history").grid.cannot_add_rows = true;
         frm.refresh_field("table_lead_history");
+        // Add button inside the large text field
+        frm.fields_dict.disposition_note.$wrapper.append(`
+            <button class="btn btn-sm btn-primary enhance-text-btn" 
+                style="margin-top: 5px;">Enhance Note</button>
+        `);
+
+        // Add click event to the button
+        frm.fields_dict.disposition_note.$wrapper.find('.enhance-text-btn').click(function() {
+            let text = frm.doc.disposition_note || "";
+            let enhanced_text = enhance_text_function(text); // Call enhancement function
+            frm.set_value("disposition_note", enhanced_text);
+        });
 
     },
 
@@ -128,3 +140,43 @@ frappe.ui.form.on("Organisation Lead", {
         }
     }
 });
+
+function enhance_text_function(text) {
+    console.log("Enhancing text:", text);
+    //return "**Enhanced:** " + text.toUpperCase(); // Example: Converts to uppercase and adds prefix
+    const data = { text };
+    return fetch("http://127.0.0.1:11434/api/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        const reader = response.body.getReader();
+        const stream = new ReadableStream({
+            async *[Symbol.asyncIterator]() {
+                let result;
+                while (!(result = await reader.read()).done) {
+                    yield result.value;
+                }
+            }
+        });
+        const decoder = new TextDecoder("utf-8");
+        const streamReader = stream.pipeThrough(new TransformStream({
+            transform(chunk, controller) {
+                controller.enqueue(decoder.decode(chunk));
+            }
+        }));
+        return new Response(streamReader).text();
+    })
+    .then(text => {
+        const responses = text.split(/{"model":"DeepSeek-R1:latest","created_at":"[0-9TZ:-]+"}/);
+        const finalResponse = responses[responses.length - 1];
+        return finalResponse;
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        return text;
+    });
+}
