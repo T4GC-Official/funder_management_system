@@ -17,17 +17,17 @@ frappe.ui.form.on("Organisation Lead", {
         frm.get_field("table_lead_history").grid.cannot_add_rows = true;
         frm.refresh_field("table_lead_history");
         // Add button inside the large text field
-        frm.fields_dict.disposition_note.$wrapper.append(`
-            <button class="btn btn-sm btn-primary enhance-text-btn" 
-                style="margin-top: 5px;">Enhance Note</button>
-        `);
+        // frm.fields_dict.disposition_note.$wrapper.append(`
+        //     <button class="btn btn-sm btn-primary enhance-text-btn" 
+        //         style="margin-top: 5px;">Enhance Note</button>
+        // `);
 
-        // Add click event to the button
-        frm.fields_dict.disposition_note.$wrapper.find('.enhance-text-btn').click(function() {
-            let text = frm.doc.disposition_note || "";
-            let enhanced_text = enhance_text_function(text); // Call enhancement function
-            frm.set_value("disposition_note", enhanced_text);
-        });
+        // // Add click event to the button
+        // frm.fields_dict.disposition_note.$wrapper.find('.enhance-text-btn').click(function() {
+        //     let text = frm.doc.disposition_note || "";
+        //     let enhanced_text = enhance_text_function(text); // Call enhancement function
+        //     frm.set_value("disposition_note", enhanced_text);
+        // });
 
     },
 
@@ -79,11 +79,17 @@ frappe.ui.form.on("Organisation Lead", {
                         callback: function (r) {
                             if (r.message) {
                                 if (r.message.status === "success") {
-                                    frappe.msgprint(__('Donor created successfully!'));
-
+                                    frappe.show_alert({
+                                        message: __("Donor created successfully!"),
+                                        indicator: "green"
+                                    });
+                    
                                     frm.set_value("lead_stage", "Confirmed Lead");
-                                    frm.save();
-                                } 
+                                    frm.save();                    
+        
+        
+                                }
+        
                                 else if (r.message.status === "duplicate") {
                                     frappe.msgprint(__('Donor already exists! Reloading...'));
                                     frm.reload_doc();  
@@ -140,7 +146,6 @@ frappe.ui.form.on("Organisation Lead", {
         }
     }
 });
-
 function enhance_text_function(text) {
     console.log("Enhancing text:", text);
     //return "**Enhanced:** " + text.toUpperCase(); // Example: Converts to uppercase and adds prefix

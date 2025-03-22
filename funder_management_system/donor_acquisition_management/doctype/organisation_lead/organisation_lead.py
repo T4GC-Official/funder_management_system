@@ -49,5 +49,3 @@ def create_donor_from_lead(lead_name):
         logger.error(f"Error creating donor: {str(e)}")
         frappe.log_error(f"Error creating donor: {str(e)}", "Donor Creation Error")
         return {"status": "error", "message": str(e)}
-
-
