@@ -1,24 +1,14 @@
 // Copyright (c) 2025, Tech4Good Community and contributors
 // For license information, please see license.txt
 
-
 frappe.ui.form.on("Utilisation Record", { 
-
+    
     onload: function(frm) {
-        
         frm.trigger("set_donor_list");
         frm.trigger("set_financial_year");
-        frappe.realtime.on("job_success", (data) => {
-            frappe.msgprint({
-                title: __("Success"),
-                message: data.message,
-                indicator: "green"
-            });
-        });
-        
+        render_expense_button(frm)
     },
     refresh: function(frm) {
-        
         if(!frm.is_new()) {
             frm.trigger("check_if_child_table_is_updated");
         }
@@ -446,3 +436,41 @@ function render_tranche_table(frm, grant) {
     });
 }
 
+
+function render_expense_button(frm) {
+    frappe.call({
+        method: 'frappe.client.get_list',
+        args: {
+            doctype: 'Expense Item',
+            filters: { urn: frm.doc.name },
+            fields: ['docstatus'],
+        },
+        callback: function(r) {
+            let counts = { 0: 0, 1: 0, 2: 0 }; // Draft, Submitted, Cancelled
+
+            // Count the occurrences of each docstatus
+            (r.message || []).forEach(item => {
+                counts[item.docstatus] = (counts[item.docstatus] || 0) + 1;
+            });
+
+            // Define button labels and colors
+            const buttonConfigs = [
+                { label: 'Draft Expense Items', status: 0, color: 'btn-secondary' }, // Gray
+                { label: 'Submitted Expense Items', status: 1, color: 'btn-primary' }, // Blue
+                { label: 'Cancelled Expense Items', status: 2, color: 'btn-danger' } // Red
+            ];
+
+            // Add buttons dynamically with color
+            buttonConfigs.forEach(config => {
+                let button = frm.add_custom_button(`${__(config.label)} (${counts[config.status]})`, function() {
+                    frappe.set_route('List', 'Expense Item', { urn: frm.doc.name, docstatus: config.status });
+                });
+
+                // Apply the Bootstrap color class using jQuery
+                $(button).removeClass('btn-default').addClass(config.color);
+            });
+        }
+    });
+
+    
+}

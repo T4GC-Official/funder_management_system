@@ -6,6 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "section_break_eiti",
   "urn",
   "budget_info_section",
   "financial_year",
@@ -242,16 +243,15 @@
    "fieldname": "expense_date",
    "fieldtype": "Date",
    "label": "Expense Date"
+  },
+  {
+   "fieldname": "section_break_eiti",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [
-  {
-   "link_doctype": "Expense Item",
-   "link_fieldname": "urn"
-  }
- ],
- "modified": "2025-03-21 19:07:17.990859",
+ "links": [],
+ "modified": "2025-03-22 10:43:31.898205",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
@@ -277,6 +277,17 @@
    "read": 1,
    "report": 1,
    "role": "Fundraising Admin",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
    "share": 1,
    "write": 1
   }
