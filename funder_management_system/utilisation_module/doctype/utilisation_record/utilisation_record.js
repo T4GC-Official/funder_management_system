@@ -96,7 +96,6 @@ frappe.ui.form.on("Utilisation Record", {
             return frm.doc.grant_agreement ? { filters: { parent: frm.doc.grant_agreement } } : {};
         });
         load_tranches(frm);
-        load_donor(frm);
     },
 
 
@@ -177,7 +176,6 @@ frappe.ui.form.on('Utilisation Record', {
         }
     }).then(response => {
         let budgetPlans = response.map(doc => doc.name);
-        console.log("List of Budget Plans:", budgetPlans);
         frm.set_df_property("budget", "options", budgetPlans.length ? budgetPlans.join("\n") : "");
     });
     },
