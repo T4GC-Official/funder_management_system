@@ -155,7 +155,7 @@ def create_utilisation_entries(document_name): #we will convert this function to
             logger_create.info(f"utilisation entries in Expense Items: {utilisation_entries}")
             update_grant_expenditure_new(utilisation_entries)
             ur_doc.child_table_value_updated = True
-            ur_doc.save()
+            #ur_doc.save() this will cause the error because the document is already saved
             frappe.db.commit()
             logger_create.info(f"Successfully created {count} utilisation records for {document_name}")
             if count == 1:
@@ -163,7 +163,7 @@ def create_utilisation_entries(document_name): #we will convert this function to
             else:
                 frappe.msgprint(f"{count} Utilisation Entries Created", alert=True)
 
-            return True
+            return {"status": True, "message": f"Successfully created {count} utilisation records for {document_name}"}
 
         else:
             logger_create.info(f"No new Expense Items Entries were created (Already Processed) for {document_name}")

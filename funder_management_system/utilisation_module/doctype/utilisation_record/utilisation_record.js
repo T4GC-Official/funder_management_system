@@ -58,8 +58,9 @@ frappe.ui.form.on("Utilisation Record", {
             freeze: true,
             async: false,
             callback: function (r) {
-                if (r.message) {
-                    frm.reload_doc(); 
+                if (r.status) {
+                    frm.reload_doc();
+                    frm.save(); 
                 }
             }
         });
