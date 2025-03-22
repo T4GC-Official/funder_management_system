@@ -26,7 +26,7 @@
   "grant_tranche_name",
   "column_break_mmtl",
   "section_break_plea",
-  "tranche_amount",
+  "column_break_khcu",
   "column_break_oejh",
   "child_table_value_updated",
   "column_break_xkpl",
@@ -57,13 +57,6 @@
   {
    "fieldname": "column_break_wytb",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "tranche_amount",
-   "fieldtype": "Currency",
-   "hidden": 1,
-   "label": "Tranche Amount",
-   "read_only": 1
   },
   {
    "fieldname": "column_break_txcb",
@@ -247,11 +240,15 @@
   {
    "fieldname": "section_break_eiti",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_khcu",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-22 10:43:31.898205",
+ "modified": "2025-03-22 23:32:16.362690",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
