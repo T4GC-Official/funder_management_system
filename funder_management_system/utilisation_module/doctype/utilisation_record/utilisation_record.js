@@ -6,10 +6,10 @@ frappe.ui.form.on("Utilisation Record", {
     onload: function(frm) {
         frm.trigger("set_donor_list");
         frm.trigger("set_financial_year");
-        render_expense_button(frm)
     },
     refresh: function(frm) {
         if(!frm.is_new()) {
+            render_expense_button(frm)
             frm.trigger("check_if_child_table_is_updated");
         }
         frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
