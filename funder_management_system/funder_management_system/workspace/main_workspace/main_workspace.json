@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":6}}]",
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":6}},{\"id\":\"7Lj1F5KA0G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"lMWm5EShpL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Budget Plan Summary Report\",\"col\":5}}]",
  "creation": "2025-01-28 12:24:00.611386",
  "custom_blocks": [],
  "docstatus": 0,
@@ -226,7 +226,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-03-18 18:00:17.458357",
+ "modified": "2025-03-25 03:27:51.419701",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
@@ -244,7 +244,15 @@
   }
  ],
  "sequence_id": 1.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Budget Plan Summary Report",
+   "link_to": "Report Budget Plan",
+   "type": "Report"
+  }
+ ],
  "title": "Main Workspace",
  "type": "Workspace"
 }
