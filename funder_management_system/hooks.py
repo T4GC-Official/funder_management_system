@@ -60,6 +60,7 @@ app_include_js = "/assets/funder_management_system/js/custom_toolbar.js"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
+doctype_list_js = {"Expense Item": "public/js/expense_item_list.js"}
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -142,6 +143,9 @@ after_install = [
 # }
 #
 # has_permission = {
+#     "Expense Item": "funder_management_system.utils.has_permission"
+# }
+# has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
@@ -160,6 +164,7 @@ doc_events = {
     "User": {
         "after_insert":"funder_management_system.utils.set_default_workspace"}
 }
+
 
 # doc_events = {
 # 	"*": {

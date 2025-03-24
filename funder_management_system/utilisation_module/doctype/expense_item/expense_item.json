@@ -151,7 +151,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-21 19:02:24.362670",
+ "modified": "2025-03-24 15:18:34.119929",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Expense Item",
@@ -186,6 +186,7 @@
   },
   {
    "cancel": 1,
+   "create": 1,
    "delete": 1,
    "email": 1,
    "export": 1,

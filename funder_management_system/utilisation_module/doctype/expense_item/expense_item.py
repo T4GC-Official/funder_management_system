@@ -114,6 +114,7 @@ def create_utilisation_entries_job(document_name):
             document_name=document_name,
             is_async=True
     	)
+        # Todo: function to lock the Utilisation Record and then 
         #keep checking the job status and it the job is completed return true
         frappe.msgprint(f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}", alert=True)
         logger_create.info(f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}")
@@ -265,7 +266,7 @@ def create_bulk_utilisation_entries(document_name):
                 grant_updates.append((row.grant_agreement, row.grant_agreement_tranche, row.utilised_amount))
 
         if utilisation_entries:
-            # ✅ Using `bulk_insert` for fast batch insertion
+            # Using `bulk_insert` for fast batch insertion
             frappe.db.bulk_insert(
                 "Expense Item",
                 fields=[
@@ -276,7 +277,7 @@ def create_bulk_utilisation_entries(document_name):
                 values=utilisation_entries
             )
 
-            # ✅ Fetch inserted document names
+            # Fetch inserted document names
             inserted_docs = frappe.db.get_list(
                 "Expense Item",
                 filters={"urn": utilisation_record_doc.urn},  # Assuming `urn` is unique for this batch
@@ -287,7 +288,7 @@ def create_bulk_utilisation_entries(document_name):
                 frappe.log_error("Mismatch in inserted records", "Utilisation Entry Error")
                 return False
 
-            # ✅ Update child table records
+            # Update child table records
             for row, inserted_doc in zip(child_updates, inserted_docs):
                 row.db_set("expenditure_record_name", inserted_doc["name"])
                 row.db_set("utilisation_status", "Submitted")
@@ -296,7 +297,7 @@ def create_bulk_utilisation_entries(document_name):
             utilisation_record_doc.save()
             frappe.db.commit()
 
-            # ✅ Enqueue bulk update for grant expenditures
+            # Enqueue bulk update for grant expenditures
             frappe.enqueue(update_grant_expenditure, grants=grant_updates, queue='long', job_name="Update Grant Expenditure")
 
             frappe.msgprint(f"{len(utilisation_entries)} Expense Items Created", alert=True)
