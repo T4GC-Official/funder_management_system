@@ -217,7 +217,7 @@ def update_grant_expenditure(grant_agreement_name, grant_agreement_tranche, amou
 def submit_record(document_name):
     try:
         document = frappe.get_doc("Expense Item", document_name)
-        update_grant_expenditure(document.grant_agreement,document.grant_agreement_tranche, document.utilised_amount,increase=True) #because of this line it was creating the tranche expenditure entry twice 
+        update_grant_expenditure(document.grant_agreement,document.grant_agreement_tranche, document.utilised_amount,increase=True)
         user = frappe.session.user
         logger_submit.info(f"{user} requested to submit utilisation record: {document.name}")
         utilisation_record = frappe.get_doc("Utilisation Record", document.urn)

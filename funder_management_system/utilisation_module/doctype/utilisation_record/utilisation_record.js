@@ -37,7 +37,6 @@ frappe.ui.form.on("Utilisation Record", {
         frm.set_value('budget', null);
         frm.set_value('grant_agreement', null);
         frm.set_value('grant_tranche_name', null);
-        frm.set_value('tranche_amount', null);
         frm.set_value("financial_year", null);
         frm.set_value("donor", null);
         frm.set_value("budget_category", null);
@@ -114,7 +113,6 @@ frappe.ui.form.on("Utilisation Record", {
 function load_tranches(frm) {
     if (!frm.doc.grant_agreement) {
         frm.set_value("grant_tranche_name", null);
-        frm.set_value("tranche_amount", null);
         frm.tranche_map = {};
         return;
     }
@@ -140,7 +138,6 @@ function load_tranches(frm) {
 
                 if (tranches.length > 0) {
                     frm.set_value("grant_tranche_name", tranches[0].tranche_name);
-                    frm.set_value("tranche_amount", tranches[0].tranche_amount);
                 }
             }
         }

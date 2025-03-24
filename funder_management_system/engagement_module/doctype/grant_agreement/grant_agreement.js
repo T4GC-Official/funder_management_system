@@ -1,37 +1,6 @@
 frappe.ui.form.on('Grant Agreement', {
     onload: function(frm) {
-        // frm.fields_dict["tranche_table"].grid.get_field("tranche_financial_year").get_query = function(doc) {
-        //     if (!frm.doc.grant_agreement_start_date || !frm.doc.grant_agreement_end_date) {
-        //         return { filters: [] };  // Return an empty filter if dates are missing
-        //     }
-
-        //     let start_date = new Date(frm.doc.grant_agreement_start_date);
-        //     let end_date = new Date(frm.doc.grant_agreement_end_date);
-
-        //     let start_year = start_date.getFullYear();
-        //     let end_year = end_date.getFullYear();
-
-        //     // If start date is Jan-March, it belongs to the previous financial year
-        //     if (start_date.getMonth() < 3) {
-        //         start_year -= 1;
-        //     }
-
-        //     // If end date is Jan-March, it belongs to the previous financial year
-        //     if (end_date.getMonth() < 3) {
-        //         end_year -= 1;
-        //     }
-
-        //     let financial_years = [];
-        //     for (let year = start_year; year <= end_year; year++) {
-        //         financial_years.push(`${year}-${String(year + 1).slice(-2)}`);
-        //     }
-
-        //     return {
-        //         filters: [
-        //             ["Financial Year", "financial_year", "in", financial_years]
-        //         ]
-        //     };
-        // };
+        
     },
 refresh: function(frm) {
 
@@ -202,7 +171,6 @@ calculate_utilisation_of_tranche:function(frm){
 calculate_total_tranche_amount:function(frm){
     let total_tranches = frm.doc.tranche_table ? frm.doc.tranche_table.length : 0;
     let total_tranche_amount_received = 0;
-    let total_grant_amount = frm.doc.total_grant_amount || 0;
     if (total_tranches > 0) {
         total_tranche_amount_received = frm.doc.tranche_table.reduce((sum, row) => {
             if (row.tranche_status === "Received - On Time" || row.tranche_status === "Received - Delayed") {
