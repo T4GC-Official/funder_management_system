@@ -66,86 +66,6 @@
    "type": "Link"
   },
   {
-   "description": "This module allows members of the fundraising team to create a new organisation lead, track their relevant details and stages till conversion to a confirmed Donor.",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Donor Acquisition Module",
-   "link_count": 7,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation Details",
-   "link_count": 0,
-   "link_to": "Organisation Details",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation Lead",
-   "link_count": 0,
-   "link_to": "Organisation Lead",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation POC",
-   "link_count": 0,
-   "link_to": "Organisation POC",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Category",
-   "link_count": 0,
-   "link_to": "Category",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Thematic Area",
-   "link_count": 0,
-   "link_to": "Thematic Area",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Source of Connection",
-   "link_count": 0,
-   "link_to": "Source of Connection",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Compliance Checklist",
-   "link_count": 0,
-   "link_to": "Compliance Checklist",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "description": "This module is designed for fundraising team members to maintain a record of ongoing engagement with confirmed donors, track grant agreements and tranche level details.",
    "hidden": 0,
    "is_query_report": 0,
@@ -224,9 +144,49 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "description": "This module allows members of the fundraising team to create a new organisation lead, track their relevant details and stages till conversion to a confirmed Donor.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Donor Acquisition Module",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Details",
+   "link_count": 0,
+   "link_to": "Organisation Details",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation POC",
+   "link_count": 0,
+   "link_to": "Organisation POC",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Lead",
+   "link_count": 0,
+   "link_to": "Organisation Lead",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-03-25 04:48:26.416684",
+ "modified": "2025-03-25 13:05:18.457668",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
