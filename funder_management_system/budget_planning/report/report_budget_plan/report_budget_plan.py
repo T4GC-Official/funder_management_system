@@ -50,7 +50,7 @@ def execute(filters=None):
             "total_quarter_3_budget": plan["total_quarter_3_budget"],
             "total_quarter_4_budget": plan["total_quarter_4_budget"],
             "subtotal": None,
-             "budget_plan_link": f'<a href="/app/budget-plan/{plan["name"]}" target="_blank" title="View Budget Plan"><i class="fa fa-eye"></i>View Budget</a>',
+             "budget_plan_link": f'<a href="/app/budget-plan/{plan["name"]}" target="_blank" title="View Budget Plan">View Budget</a>',
             "total": plan["yearly_budget"],
             "indent": 0
         })

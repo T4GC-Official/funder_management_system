@@ -1,6 +1,7 @@
 import math
 import frappe, json
 from datetime import datetime, timedelta
+from frappe.utils.password import update_password
     
 import random
 
@@ -49,7 +50,9 @@ def add_test_user(email, first_name="Test", last_name="User"):
     try:
         # Check if user already exists
         if frappe.db.exists("User", email):
-            print(f"User {email} already exists! Removing and creating it again!")
+            update_password(email, default_password)
+            print(f"User {email} already exists!")
+            return {"status": "exists", "message": f"User {email} already exists!"}
 
         # Create new user
         user = frappe.get_doc({
@@ -58,15 +61,18 @@ def add_test_user(email, first_name="Test", last_name="User"):
             "first_name": first_name,
             "last_name": last_name,
             "send_welcome_email": 0,  # Avoid sending real emails
-            "new_password": default_password
+            "enabled": 1
         })
         user.insert(ignore_permissions=True)
-
         # Assign role "Fundraising Admin"
         user.add_roles(role)
-        frappe.db.commit()
-        print(f"Test user {email} created with role '{role}' Password : {default_password}")
+        update_password(email, default_password)
         
+        frappe.db.commit()
+        
+        msg = (f"Test user {email} created with role '{role}' Password : {default_password}")
+        return {"status": "success", "message": msg}
+    
     except Exception as e:
         frappe.log_error(f"Error creating test user {email}: {e}")
         

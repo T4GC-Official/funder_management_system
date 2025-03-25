@@ -17,7 +17,7 @@ def execute(filters: dict | None = None):
 def get_columns():
     """Define report columns."""
     return [
-        {"fieldname": "entity", "label": "Entity", "fieldtype": "Data", "width": 300},
+        {"fieldname": "entity", "label": "Entity", "fieldtype": "HTML", "width": 300},
         {"fieldname": "status", "label": "Status", "fieldtype": "Data", "width": 150},
         {"fieldname": "total_amount", "label": "Total Amount", "fieldtype": "Currency", "width": 150},
         {"fieldname": "received_amount", "label": "Amount Received", "fieldtype": "Currency", "width": 150},
