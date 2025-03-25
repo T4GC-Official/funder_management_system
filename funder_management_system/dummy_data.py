@@ -50,7 +50,6 @@ def add_test_user(email, first_name="Test", last_name="User"):
         # Check if user already exists
         if frappe.db.exists("User", email):
             print(f"User {email} already exists! Removing and creating it again!")
-            frappe.delete_doc("User", email, ignore_permissions=True)
 
         # Create new user
         user = frappe.get_doc({
