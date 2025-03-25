@@ -8,7 +8,7 @@ import frappe
 
 def execute(filters=None):
     columns = [
-        {"fieldname": "name", "label": "Budget Plan / Budget Category / Budget Sub-Category", "fieldtype": "Data", "width": 350},
+        {"fieldname": "name", "label": "Budget Plan / Budget Category / Budget Sub-Category", "fieldtype": "HTML", "width": 350},
         {"fieldname": "budget_plan_link", "label": "",  "fieldtype": "HTML"},
         {"fieldname": "docstatus", "label": "Status", "fieldtype": "Data"},
         {"fieldname": "financial_year", "label": "Financial Year", "fieldtype": "Link", "options": "Financial Year"},
@@ -49,8 +49,8 @@ def execute(filters=None):
             "total_quarter_2_budget": plan["total_quarter_2_budget"],
             "total_quarter_3_budget": plan["total_quarter_3_budget"],
             "total_quarter_4_budget": plan["total_quarter_4_budget"],
-            "subtotal": "--",
-             "budget_plan_link": f'<a href="/app/budget-plan/{plan["name"]}" target="_blank" title="View Budget Plan">View</a>',
+            "subtotal": None,
+             "budget_plan_link": f'<a href="/app/budget-plan/{plan["name"]}" target="_blank" title="View Budget Plan"><i class="fa fa-eye"></i>View Budget</a>',
             "total": plan["yearly_budget"],
             "indent": 0
         })
@@ -108,7 +108,7 @@ def execute(filters=None):
             )
 
             data.append({
-                "name": f"📌 {category}",
+                "name": f" {category}",
                 "docstatus": "",
                 "financial_year": "",
                 "currency": "",
@@ -116,6 +116,7 @@ def execute(filters=None):
                 "total_quarter_2_budget": cat_totals["total_quarter_2_budget"],
                 "total_quarter_3_budget": cat_totals["total_quarter_3_budget"],
                 "total_quarter_4_budget": cat_totals["total_quarter_4_budget"],
+                "subtotal": None,
                 "total": category_subtotal,
                 "indent": 1  # Indent to show category under budget plan
             })
@@ -128,7 +129,7 @@ def execute(filters=None):
                 )
 
                 data.append({
-                    "name": f"🔹 {sub_category}",
+                    "name": f'<span style="margin-left: 1em;">&#x21B3; {sub_category}</span>',
                     "docstatus": "",
                     "financial_year": "",
                     "currency": "",
@@ -137,38 +138,8 @@ def execute(filters=None):
                     "total_quarter_3_budget": sub_totals["total_quarter_3_budget"],
                     "total_quarter_4_budget": sub_totals["total_quarter_4_budget"],
                     "subtotal": sub_total,
-                    "total": "--",
+                    "total": None,
                     "indent": 2  # Indent to show subcategory under category
                 })
 
     return columns, data
-
-
-def get_columns() -> list[dict]:
-	"""Return columns for the report.
-
-	One field definition per column, just like a DocType field definition.
-	"""
-	return [
-		{
-			"label": _("Column 1"),
-			"fieldname": "column_1",
-			"fieldtype": "Data",
-		},
-		{
-			"label": _("Column 2"),
-			"fieldname": "column_2",
-			"fieldtype": "Int",
-		},
-	]
-
-
-def get_data() -> list[list]:
-	"""Return data for the report.
-
-	The report data is a list of rows, with each row being a list of cell values.
-	"""
-	return [
-		["Row 1", 1],
-		["Row 2", 2],
-	]
