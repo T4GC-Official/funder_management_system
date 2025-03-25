@@ -65,7 +65,30 @@ def set_currency_permission_using_custom():
         frappe.log_error(f"Error setting permissions for {role} on {doctype}: {e}")
     
     
-     
+# write a generic function to add data import permission on FMS doctypes the user will pass the doctype name and the role name
+def set_import_permission(doctype, role, permissions):
+    try:
+        existing_perm = frappe.get_all("Custom DocPerm", 
+                                       filters={"parent": doctype, "role": role}, 
+                                       fields=["name"])
+        if not existing_perm:
+            custom_perm = frappe.get_doc({
+                "doctype": "Custom DocPerm",
+                "parent": doctype,
+                "parenttype": "DocType",
+                "parentfield": "permissions",
+                "role": role,
+                "read": 1 if "read" in permissions else 0,
+                "write": 1 if "write" in permissions else 0,
+                "create": 1 if "create" in permissions else 0,
+                "delete": 1 if "delete" in permissions else 0,
+                "export": 1 if "export" in permissions else 0,
+                "import": 1 if "import" in permissions else 0
+            })
+            custom_perm.insert(ignore_permissions=True)
+    except Exception as e:
+        frappe.log_error(f"Error setting permissions for {role} on {doctype}: {e}")
+        
 def skip_setup_wizard():
     """Automatically skip the setup wizard after install."""
     frappe.db.set_value("System Settings", "System Settings", "setup_complete", 1)
@@ -81,3 +104,21 @@ def set_default_workspace(doc, method):
         frappe.msgprint(f"Default workspace set to 'Main Workspace' for {doc.name}")
 
     
+def enable_permission_for_fms_roles(fms_admin=True):
+    if not fms_admin:
+        return
+
+    roles = ["Fundraising Admin"]
+    permissions_map = {
+        "Page": ["read"],
+        "Data Import": ["read", "write", "create", "delete"],
+        "Data Export": ["read", "write"],
+        "Error Log": ["read", "write"],
+    }
+
+    for doctype, permissions in permissions_map.items():
+        for role in roles:
+            set_import_permission(doctype, role, permissions)
+
+    frappe.db.commit()
+    print(f"Permissions set for FMS roles{roles}")
