@@ -5,6 +5,9 @@ frappe.listview_settings['Expense Item'] = {
             if (button.textContent.trim() === "Create a new Expense Item") {
                 button.style.display = 'none';
             }
+            if (button.textContent.trim() === "Create your first Expense Item") {
+                button.style.display = 'none';
+            }
         });
 
     }
