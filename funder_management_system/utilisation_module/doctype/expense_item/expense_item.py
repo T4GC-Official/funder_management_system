@@ -218,6 +218,8 @@ def update_grant_expenditure(grant_agreement_name, grant_agreement_tranche, amou
 def submit_record(document_name):
     try:
         document = frappe.get_doc("Expense Item", document_name)
+        if not document:
+            frappe.throw(f"Expense Item not found", exc=frappe.DoesNotExistError)
         update_grant_expenditure(document.grant_agreement,document.grant_agreement_tranche, document.utilised_amount,increase=True)
         user = frappe.session.user
         logger_submit.info(f"{user} requested to submit utilisation record: {document.name}")
@@ -235,7 +237,7 @@ def submit_record(document_name):
         logger_submit.info(f"Utilisation Record {utilisation_record.name} updated and saved")
         
     except Exception as e:
-        logger_submit.error(f"Error in submitting Expense Item Record: {document.name}: {e}")
+        logger_submit.error(f"Error in submitting Expense Item Record: {document_name}: {e}")
 
 @frappe.whitelist()
 def create_bulk_utilisation_entries(document_name):
