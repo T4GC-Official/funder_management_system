@@ -45,6 +45,7 @@
   {
    "fieldname": "donor",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Donor",
    "options": "Donor",
    "read_only": 1
@@ -66,6 +67,7 @@
   {
    "fieldname": "utilised_amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Amount"
   },
   {
@@ -140,18 +142,20 @@
   {
    "fieldname": "expense_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
    "label": "Expense Date"
   },
   {
    "fieldname": "expense_title",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Expense Title"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-24 15:18:34.119929",
+ "modified": "2025-03-27 14:14:22.390968",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Expense Item",
