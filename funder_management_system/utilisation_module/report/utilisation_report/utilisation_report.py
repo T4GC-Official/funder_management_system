@@ -20,13 +20,13 @@ def execute(filters=None):
 
     data = []
 
-    #Fetch all expense items
+    # Fetch all expense items
     expense_items = frappe.get_all("Expense Item",
                                    fields=["budget_plan", "category",
                                            "sub_category", "utilised_amount"]
                                    )
 
-    #Prepare Aggregation
+    # Prepare Aggregation
     budget_total = defaultdict(float)                   # budget_plan level
     category_total = defaultdict(
         lambda: defaultdict(float))   # budget_plan > category
@@ -43,7 +43,7 @@ def execute(filters=None):
         category_total[bp][cat] += utilised
         subcategory_total[bp][cat][subcat] += utilised
 
-    #Level 0 → Budget Plan
+    # Level 0 → Budget Plan
     for bp in budget_total:
         allocated_amount = frappe.get_all(
             "Budget Plan",
@@ -63,11 +63,11 @@ def execute(filters=None):
             "category_total": None,
             "sub_category_total": None,
             "allocated_amount": allocated_amount_value,
-            "utilisation_percentage": calculatePercentage(budget_total, bp, allocated_amount_value),
+            "utilisation_percentage": formatPercentage(calculatePercentage(budget_total, bp, allocated_amount_value)),
             "indent": 0
         })
 
-        #Level 1 → Category
+        # Level 1 → Category
         for cat in category_total[bp]:
             # Fetch sub_total from budget_breakdown where parent is budget plan
             budget_breakdown_items = frappe.get_all(
@@ -78,7 +78,6 @@ def execute(filters=None):
 
             allocated_cat_amount = sum(item["sub_total"]
                                        for item in budget_breakdown_items)
-
             data.append({
                 "budget_plan": cat,
                 "category_total": category_total[bp][cat],
@@ -88,7 +87,7 @@ def execute(filters=None):
                 "indent": 1,
             })
 
-            #Level 2 → Sub Category
+            # Level 2 → Sub Category
             for subcat in subcategory_total[bp][cat]:
                 allocated_subcat_amount = 0
                 budget_breakdown_items = frappe.get_all(
@@ -113,8 +112,18 @@ def execute(filters=None):
 
     return columns, data
 
+
 def calculatePercentage(budget_total, bp, allocated_amount_value):
-    percetage = round((budget_total[bp] / allocated_amount_value) * 100, 2) if allocated_amount_value != 0 else 0
-    if percetage > 100:
-        return f"🔺 {percetage} %"
-    return f"{percetage} %"
+    percetage = round((budget_total[bp] / allocated_amount_value)
+                      * 100, 2) if allocated_amount_value != 0 else 0
+    return percetage
+
+
+def formatPercentage(percentage):
+    icon = 'equals' if percentage == 100 else ('down' if percentage < 100 else 'up')
+    color = 'green' if percentage <= 100 else 'red'
+    return '{}% <span style="color: {}; font-weight: bold;"><i class="fa fa-arrow-{}"></i> </span> '.format(
+        percentage,
+        color,
+        icon
+    )
