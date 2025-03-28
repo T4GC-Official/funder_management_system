@@ -19,10 +19,10 @@ def get_columns():
     return [
         {"fieldname": "entity", "label": "Entity", "fieldtype": "HTML", "width": 300},
         {"fieldname": "status", "label": "Status", "fieldtype": "Data", "width": 150},
-        {"fieldname": "total_amount", "label": "Total Amount", "fieldtype": "Currency", "width": 150},
-        {"fieldname": "received_amount", "label": "Amount Received", "fieldtype": "Currency", "width": 150},
-        {"fieldname": "utilised_amount", "label": "Utilised Amount", "fieldtype": "Currency", "width": 150},
-        {"fieldname": "available_amount", "label": "Available Amount", "fieldtype": "Currency", "width": 150},
+        {"fieldname": "total_amount", "label": "Total Amount", "fieldtype": "Currency", "width": 200},
+        {"fieldname": "received_amount", "label": "Amount Received", "fieldtype": "Currency", "width": 200},
+        {"fieldname": "utilised_amount", "label": "Utilised Amount", "fieldtype": "Currency", "width": 200},
+        {"fieldname": "available_amount", "label": "Available Amount", "fieldtype": "Currency", "width": 200},
     ]
 
 def get_data():

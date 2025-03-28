@@ -17,5 +17,8 @@ frappe.query_reports["Donor Summary Report"] = {
 		report.page.add_inner_button(__('Open Budget Plan Report'), function() {
             window.location.href = "/app/query-report/Report%20Budget%20Plan";
         }, __('Reports'));
+		report.page.add_inner_button(__('Open Utilisation Report'), function() {
+            window.location.href = "/app/query-report/Utilisation%20Report";
+        }, __('Reports'));
     }
 };

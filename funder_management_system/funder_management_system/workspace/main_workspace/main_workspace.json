@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":6}},{\"id\":\"42-5_K1Voj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"lMWm5EShpL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Budget Plan Summary Report\",\"col\":5}},{\"id\":\"hjs0K3_cda\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Donor Summary Report\",\"col\":4}}]",
+ "content": "[{\"id\":\"ZryZOG5cV1\",\"type\":\"paragraph\",\"data\":{\"text\":\"Start Your Fundraising Journey Now\",\"col\":12}},{\"id\":\"6tdhxEm1Zb\",\"type\":\"card\",\"data\":{\"card_name\":\"Budget Allocation Module\",\"col\":6}},{\"id\":\"QCizdogrVT\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Acquisition Module\",\"col\":6}},{\"id\":\"uDcR0DZBkR\",\"type\":\"card\",\"data\":{\"card_name\":\"Donor Engagement Module\",\"col\":6}},{\"id\":\"xpcNXCBnPU\",\"type\":\"card\",\"data\":{\"card_name\":\"Grant Utilisation\",\"col\":6}},{\"id\":\"rbguehq830\",\"type\":\"card\",\"data\":{\"card_name\":\"Organisation Toolkit\",\"col\":6}},{\"id\":\"42-5_K1Voj\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"lMWm5EShpL\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Budget Plan Summary Report\",\"col\":5}},{\"id\":\"hjs0K3_cda\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Donor Summary Report\",\"col\":4}},{\"id\":\"maqWdc2Wy7\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Utilisation Report\",\"col\":4}}]",
  "creation": "2025-01-28 12:24:00.611386",
  "custom_blocks": [],
  "docstatus": 0,
@@ -186,7 +186,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-03-25 13:05:18.457668",
+ "modified": "2025-03-28 12:27:35.379094",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
@@ -210,6 +210,13 @@
    "doc_view": "List",
    "label": "Budget Plan Summary Report",
    "link_to": "Report Budget Plan",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Utilisation Report",
+   "link_to": "Utilisation Report",
    "type": "Report"
   },
   {
