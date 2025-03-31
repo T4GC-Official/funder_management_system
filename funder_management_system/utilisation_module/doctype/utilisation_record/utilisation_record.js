@@ -453,7 +453,7 @@ function render_expense_button(frm) {
             const buttonConfigs = [
                 { label: 'Draft Expense Items', status: 0, color: 'btn-secondary' }, // Gray
                 { label: 'Submitted Expense Items', status: 1, color: 'btn-primary' }, // Blue
-                { label: 'Cancelled Expense Items', status: 2, color: 'btn-danger' } // Red
+                { label: 'All Cancelled Expense Items', status: 2, color: 'btn-danger' } // Red
             ];
 
             // Add buttons dynamically with color
