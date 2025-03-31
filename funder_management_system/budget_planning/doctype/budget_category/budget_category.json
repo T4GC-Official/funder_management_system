@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:budget_category",
  "creation": "2025-01-24 13:20:10.378468",
@@ -20,7 +21,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-03 15:50:03.228288",
+ "modified": "2025-03-31 19:59:32.332615",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Category",
@@ -56,6 +57,7 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,
@@ -64,6 +66,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
