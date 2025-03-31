@@ -38,10 +38,8 @@ frappe.ui.form.on("Donor", {
         });
     },
     save_donor_history: function (frm) {
-        console.log("save_donor_history");
         let { donor_status } = frm.doc;
         if (frm.doc.table_donor_history.length === 0) {
-
             let donor_history = frm.add_child("table_donor_history");
             donor_history.donor_status = donor_status;
             frappe.refresh_field("table_donor_history");

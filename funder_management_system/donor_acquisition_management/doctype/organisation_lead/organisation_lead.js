@@ -67,11 +67,17 @@ frappe.ui.form.on("Organisation Lead", {
                         callback: function (r) {
                             if (r.message) {
                                 if (r.message.status === "success") {
-                                    frappe.msgprint(__('Donor created successfully!'));
-
+                                    frappe.show_alert({
+                                        message: __("Donor created successfully!"),
+                                        indicator: "green"
+                                    });
+                    
                                     frm.set_value("lead_stage", "Confirmed Lead");
-                                    frm.save();
-                                } 
+                                    frm.save();                    
+        
+        
+                                }
+        
                                 else if (r.message.status === "duplicate") {
                                     frappe.msgprint(__('Donor already exists! Reloading...'));
                                     frm.reload_doc();  

@@ -335,6 +335,13 @@ tranche_status: function(frm, cdt, cdn) {
         frappe.validated = false;
         frappe.msgprint("Tranche Amount cannot be zero for Received - On Time or Received - Delayed status");
     }
+    if (allowedStatuses.includes(row.tranche_status)) {
+        if (!row.due_date){
+            frappe.validated = false;
+            frappe.msgprint("Due Date is required for Received - On Time or Received - Delayed status");
+        }
+       
+    }
 
 },
 
