@@ -103,10 +103,11 @@ doctype_list_js = {"Expense Item": "public/js/expense_item_list.js"}
 #before_install = ["funder_management_system.utils.enable_developer_mode"]
 after_install = [
     "funder_management_system.utils.create_financial_year",
+    ]
+after_migrate =[
     "funder_management_system.utils.set_currency_permission_using_custom",
     "funder_management_system.utils.enable_permission_for_fms_roles",
-    ]
-
+]
 # Uninstallation
 # ------------
 

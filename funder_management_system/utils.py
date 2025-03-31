@@ -43,7 +43,7 @@ def set_currency_permission_using_custom():
                 docperm.create = 1
                 docperm.delete = 1
                 docperm.save(ignore_permissions=True)
-            frappe.msgprint(f"Updated existing permissions for {role} on {doctype}")
+            print(f"Updated existing permissions for {role} on {doctype}")
         else:
             # Create a new Custom DocPerm entry
             custom_perm = frappe.get_doc({
@@ -58,7 +58,7 @@ def set_currency_permission_using_custom():
                 "delete": 1
             })
             custom_perm.insert(ignore_permissions=True)
-            frappe.msgprint(f"Added new permissions for {role} on {doctype}")
+            print(f"Added new permissions for {role} on {doctype}")
 
         frappe.db.commit()
     except Exception as e:
