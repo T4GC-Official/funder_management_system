@@ -180,7 +180,6 @@ doc_events = {
 scheduler_events = {
 	"all": [
 	 	"funder_management_system.task.daily.grant_agreement_daily",
-   		"funder_management_system.task.daily.organisation_toolkit_daily"
 	 ],
 	"daily": [
 
