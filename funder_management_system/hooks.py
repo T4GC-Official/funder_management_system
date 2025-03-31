@@ -35,14 +35,7 @@ fixtures = [{
 },
 {
 	"dt": "Engagement Checklist Master"
-},
-{
-	"dt": "Designation",
-	"filters": [
-		["designation", "!=", "ENGINEER"]
-	]
-},
-]
+}]
 # Includes in <head>
 # ------------------
 
@@ -106,9 +99,14 @@ app_include_js = "/assets/funder_management_system/js/custom_toolbar.js"
 # Installation
 # ------------
 
-# before_install = "funder_management_system.install.before_install"
-after_install = "funder_management_system.utils.create_financial_year"
-
+#before_install = ["funder_management_system.utils.enable_developer_mode"]
+after_install = [
+    "funder_management_system.utils.create_financial_year",
+    ]
+after_migrate =[
+    "funder_management_system.utils.set_currency_permission_using_custom",
+    "funder_management_system.utils.enable_permission_for_fms_roles",
+]
 # Uninstallation
 # ------------
 
@@ -160,6 +158,11 @@ after_install = "funder_management_system.utils.create_financial_year"
 # Document Events
 # ---------------
 # Hook on document methods and events
+doc_events = {
+    "User": {
+        "after_insert":"funder_management_system.utils.set_default_workspace"}
+}
+
 
 # doc_events = {
 # 	"*": {
@@ -177,7 +180,7 @@ after_install = "funder_management_system.utils.create_financial_year"
 scheduler_events = {
 	"all": [
 	 	"funder_management_system.task.daily.grant_agreement_daily",
-   		#"funder_management_system.task.daily.organisation_toolkit_daily"
+   		"funder_management_system.task.daily.organisation_toolkit_daily"
 	 ],
 	"daily": [
 
