@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "field:category",
  "creation": "2025-01-31 14:17:55.060729",
@@ -20,7 +21,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-03 16:01:01.157947",
+ "modified": "2025-04-01 17:44:31.656462",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Category",
@@ -52,6 +53,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
