@@ -43,7 +43,7 @@ def set_currency_permission_using_custom():
                 docperm.create = 1
                 docperm.delete = 1
                 docperm.save(ignore_permissions=True)
-            frappe.msgprint(f"Updated existing permissions for {role} on {doctype}")
+            print(f"Updated existing permissions for {role} on {doctype}")
         else:
             # Create a new Custom DocPerm entry
             custom_perm = frappe.get_doc({
