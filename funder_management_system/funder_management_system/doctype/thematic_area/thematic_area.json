@@ -19,7 +19,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-21 12:25:29.132090",
+ "modified": "2025-04-07 14:41:29.981533",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Thematic Area",
@@ -43,6 +43,7 @@
    "delete": 1,
    "email": 1,
    "export": 1,
+   "import": 1,
    "print": 1,
    "read": 1,
    "report": 1,
@@ -51,6 +52,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []
