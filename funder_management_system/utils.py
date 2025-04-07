@@ -58,7 +58,7 @@ def set_currency_permission_using_custom():
                 "delete": 1
             })
             custom_perm.insert(ignore_permissions=True)
-            frappe.msgprint(f"Added new permissions for {role} on {doctype}")
+            print(f"Added new permissions for {role} on {doctype}")
 
         frappe.db.commit()
     except Exception as e:
