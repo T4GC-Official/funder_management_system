@@ -23,7 +23,8 @@ def execute(filters=None):
     # Fetch all expense items
     expense_items = frappe.get_all("Expense Item",
                                    fields=["budget_plan", "category",
-                                           "sub_category", "utilised_amount"]
+                                           "sub_category", "utilised_amount"],
+                                   filters={"docstatus": 1}
                                    )
 
     # Prepare Aggregation
