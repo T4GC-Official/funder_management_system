@@ -84,7 +84,7 @@ def get_data():
                                       filters={"parent": grant["name"]},
                                       fields=[
                                           "tranche_name", "tranche_status", "tranche_amount", "total_tranche_expenditure"],
-                                      order_by="tranche_name asc")
+                                      order_by="idx asc")
 
             for tranche in tranches:
                 available_amount = tranche["tranche_amount"] - tranche["total_tranche_expenditure"]
