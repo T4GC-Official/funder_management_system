@@ -52,7 +52,8 @@
    "fieldname": "grant_agreement",
    "fieldtype": "Link",
    "label": "Grant Agreement",
-   "options": "Grant Agreement"
+   "options": "Grant Agreement",
+   "print_hide": 1
   },
   {
    "fieldname": "column_break_wytb",
@@ -65,13 +66,15 @@
   {
    "fieldname": "expenditure",
    "fieldtype": "Currency",
-   "label": "Amount"
+   "label": "Amount",
+   "print_hide": 1
   },
   {
    "fieldname": "create_expense_record",
    "fieldtype": "Button",
    "label": "Add Expense",
-   "max_height": "3 em"
+   "max_height": "3 em",
+   "print_hide": 1
   },
   {
    "fieldname": "section_break_ppmd",
@@ -81,7 +84,8 @@
    "fieldname": "financial_year",
    "fieldtype": "Select",
    "label": "Financial Year",
-   "options": "Financial Year"
+   "options": "Financial Year",
+   "print_hide": 1
   },
   {
    "fieldname": "section_break_pacm",
@@ -106,7 +110,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "description": "\n<b>Utilisation Module Note:</b> \n\nMeaning of Submit, Cancel, Amend:\nCertain documents, like an Invoice, should not be changed once final. The final state for such documents is called Submitted. You can restrict which roles can Submit.\nYou can change Submitted documents by cancelling them and then, amending them.\nWhen you Amend a document after Cancel and save it, it will get a new number that is a version of the old number.\nFor example if you cancel and amend EI-Salary-004 it will become a new document EI-Salary-004-1. This helps you to keep track of each amendment.",
+   "description": "\n<b>Expense States and\u00a0 Meaning</b> \n<br>\n1. New - Any newly added expense but still not submitted will be in new state.<br>\n2. Submit - The final state for expense records is called submitted. You can restrict which roles can submit an expense.\u00a0<br>\n3. Cancelled - Any submitted expense which now stands cancelled. <br>\n<b>Note </b>- As a best practice, expense records should not be changed once submitted.\u00a0 Incase you want to make a change to a submitted expense record, you can first cancel them and then create a new record.",
    "fieldname": "section_break_yriv",
    "fieldtype": "Section Break"
   },
@@ -155,7 +159,8 @@
    "fieldname": "quarters",
    "fieldtype": "Select",
    "label": "Quarters",
-   "options": "\nQ1\nQ2\nQ3\nQ4"
+   "options": "\nQ1\nQ2\nQ3\nQ4",
+   "print_hide": 1
   },
   {
    "fieldname": "column_break_cffu",
@@ -165,22 +170,26 @@
   {
    "fieldname": "donor",
    "fieldtype": "Select",
-   "label": "Donor"
+   "label": "Donor",
+   "print_hide": 1
   },
   {
    "fieldname": "budget",
    "fieldtype": "Select",
-   "label": "Budget Plan"
+   "label": "Budget Plan",
+   "print_hide": 1
   },
   {
    "fieldname": "budget_sub_category",
    "fieldtype": "Select",
-   "label": "Budget Sub Category"
+   "label": "Budget Sub Category",
+   "print_hide": 1
   },
   {
    "fieldname": "budget_category",
    "fieldtype": "Select",
-   "label": "Budget Category"
+   "label": "Budget Category",
+   "print_hide": 1
   },
   {
    "fieldname": "utilisation_child_table",
@@ -191,7 +200,8 @@
   {
    "fieldname": "grant_tranche_name",
    "fieldtype": "Select",
-   "label": "Tranche"
+   "label": "Tranche",
+   "print_hide": 1
   },
   {
    "default": "0",
@@ -229,12 +239,14 @@
    "fieldname": "expense_title",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Expense Title"
+   "label": "Expense Title",
+   "print_hide": 1
   },
   {
    "fieldname": "expense_date",
    "fieldtype": "Date",
-   "label": "Expense Date"
+   "label": "Expense Date",
+   "print_hide": 1
   },
   {
    "fieldname": "section_break_eiti",
@@ -247,7 +259,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-07 14:29:00.788640",
+ "modified": "2025-04-09 22:50:46.379121",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",

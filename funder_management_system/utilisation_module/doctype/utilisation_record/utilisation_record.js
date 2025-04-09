@@ -442,7 +442,8 @@ function render_expense_button(frm) {
             fields: ['docstatus'],
         },
         callback: function(r) {
-            let counts = { 0: 0, 1: 0, 2: 0 }; // Draft, Submitted, Cancelled
+            //let counts = { 0: 0, 1: 0, 2: 0 }; // Draft, Submitted, Cancelled
+            let counts = { 1: 0, 2: 0 }; //Submitted, Cancelled
 
             // Count the occurrences of each docstatus
             (r.message || []).forEach(item => {
@@ -451,9 +452,9 @@ function render_expense_button(frm) {
 
             // Define button labels and colors
             const buttonConfigs = [
-                { label: 'Draft Expense Items', status: 0, color: 'btn-secondary' }, // Gray
+                // { label: 'Draft Expense Items', status: 0, color: 'btn-secondary' }, // Gray
                 { label: 'Submitted Expense Items', status: 1, color: 'btn-primary' }, // Blue
-                { label: 'All Cancelled Expense Items', status: 2, color: 'btn-danger' } // Red
+                { label: 'Cancelled Expense Items', status: 2, color: 'btn-danger' } // Red
             ];
 
             // Add buttons dynamically with color

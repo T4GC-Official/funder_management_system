@@ -1,7 +1,7 @@
 // Copyright (c) 2025, Tech4Good Community and contributors
 // For license information, please see license.txt
 
-frappe.query_reports["Utilisation Report"] = {
+frappe.query_reports["Budget Plan Report"] = {
 	filters: [
 		// {
 		// 	"fieldname": "my_filter",
@@ -14,12 +14,11 @@ frappe.query_reports["Utilisation Report"] = {
         report.page.add_inner_button(__('Go to Main Workspace'), function() {
             window.location.href = "/app/main-workspace";
         });
-		report.page.add_inner_button(__('Open Budget Plan Report'), function() {
-            window.location.href = "/app/query-report/Report%20Budget%20Plan";
+		report.page.add_inner_button(__('Donation vs Utilisation Report'), function() {
+            window.location.href = "/app/query-report/Donation%20vs%20Utilisation%20Report";
         }, __('Reports'));
-		report.page.add_inner_button(__('Open Donor Summary Report'), function() {
-            window.location.href = "/app/query-report/Donor%20Summary%20Report";
+		report.page.add_inner_button(__('Budget Vs Utilisation Report'), function() {
+            window.location.href = "/app/query-report/Budget%20vs%20Utilisation%20Report";
         }, __('Reports'));
-		
     }
 };
