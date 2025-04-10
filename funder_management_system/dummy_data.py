@@ -2,8 +2,10 @@ import math
 import frappe, json
 from datetime import datetime, timedelta
 from frappe.utils.password import update_password
-    
 import random
+import string
+from frappe.utils import nowdate
+from funder_management_system.utilisation_module.doctype.expense_item.expense_item import create_utilisation_entries
 
 def create_dummy_records():
     try:
@@ -441,3 +443,65 @@ def calculate_grant_agreement_tranche_progress():
         frappe.db.commit()
         print(f"Calculated progress for grant agreement: {grant_agreement['name']}")
         total_tranche_progress = 0
+
+
+def add_dummy_utilisation_records(n_utilisation, n_expense):
+    
+    # Get only submitted Budget Plans
+    budget_plans = frappe.get_all("Budget Plan", filters={"docstatus": 1}, fields=["name", "financial_year"])
+    if not budget_plans:
+        print("No submitted Budget Plans found.")
+        return
+
+    # Get Grant Agreements
+    grant_agreements = frappe.get_all("Grant Agreement", fields=["name", "donor"])
+    if not grant_agreements:
+        print("No Grant Agreements found.")
+        return
+
+    quarters = ["Q1", "Q2", "Q3", "Q4"]
+    status = "New"
+
+    for _ in range(n_utilisation):
+        grant = random.choice(grant_agreements)
+        plan = random.choice(budget_plans)
+
+        grant_doc = frappe.get_doc("Grant Agreement", grant["name"])
+        plan_doc = frappe.get_doc("Budget Plan", plan["name"])
+
+        if not plan_doc.budget_breakdown:
+            print(f"No budget breakdown in Budget Plan: {plan['name']}")
+            continue
+        if not grant_doc.tranche_table:
+            print(f"No tranches found in Grant Agreement: {grant['name']}")
+            continue
+
+        urn = f"URN-{''.join(random.choices(string.ascii_uppercase + string.digits, k=6))}"
+        doc = frappe.new_doc("Utilisation Record")
+        doc.urn = urn
+        doc.grant_agreement = grant["name"]
+        doc.date = nowdate()
+
+        for _ in range(n_expense):
+            breakdown_row = random.choice(plan_doc.budget_breakdown)
+            tranche_row = random.choice(grant_doc.tranche_table)
+
+            doc.append("utilisation_child_table", {
+                "budget_plan": plan["name"],
+                "financial_year": plan["financial_year"],
+                "donor": grant["donor"],
+                "category": breakdown_row.budget_category,
+                "sub_category": breakdown_row.budget_sub_category,
+                "utilised_amount": round(random.uniform(1000, 10000), 2),
+                "grant_agreement": grant["name"],
+                "quarters": random.choice(quarters),
+                "grant_agreement_tranche": tranche_row.tranche_name,
+                "expense_title": "Auto-generated expense",
+                "expense_date": nowdate(),
+                "utilisation_status": status
+            })
+
+        doc.save(ignore_permissions=True) 
+        frappe.db.commit()
+        create_utilisation_entries(document_name=doc.name)
+        print(f"Created Utilisation Record: {doc.name} with {n_expense} expenses.")
