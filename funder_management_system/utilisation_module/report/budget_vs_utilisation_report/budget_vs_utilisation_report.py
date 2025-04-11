@@ -10,12 +10,36 @@ def execute(filters=None):
             "fieldtype": "Currency", "width": 200},
         {"label": "Sub Category Total", "fieldname": "sub_category_total",
             "fieldtype": "Currency", "width": 200},
-        {"label": "Utilised Amount", "fieldname": "utilised_amount",
-            "fieldtype": "Currency", "width": 200},
-        {"label": "Allocated Amount", "fieldname": "allocated_amount",
+        {"label": "Q1 Allocated Budget", "fieldname": "total_quarter_1_budget",
             "fieldtype": "Currency", "width": 250},
-        {"label": "Utilisation %", "fieldname": "utilisation_percentage",
-            "fieldtype": "Percentage", "width": 150}
+        {"label": "Q1 Utilised Budget", "fieldname": "total_quarter_1_budget_utilised",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Q1 Utilisation %", "fieldname": "q1_utilisation_percentage",
+            "fieldtype": "Percentage", "width": 150},
+        {"label": "Q2 Allocated Budget", "fieldname": "total_quarter_2_budget",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Q2 Utilised Budget", "fieldname": "total_quarter_2_budget_utilised",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Q2 Utilisation %", "fieldname": "q2_utilisation_percentage",
+            "fieldtype": "Percentage", "width": 150},
+        {"label": "Q3 Allocated Budget", "fieldname": "total_quarter_3_budget",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Q3 Utilised Budget", "fieldname": "total_quarter_3_budget_utilised",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Q3 Utilisation %", "fieldname": "q3_utilisation_percentage",
+            "fieldtype": "Percentage", "width": 150},
+        {"label": "Q4 Allocated Budget ", "fieldname": "total_quarter_4_budget",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Q4 Utilised Budget ", "fieldname": "total_quarter_4_budget_utilised",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Q4 Utilisation %", "fieldname": "q4_utilisation_percentage",
+            "fieldtype": "Percentage", "width": 150},
+        {"label": "Total Allocated Budget ", "fieldname": "allocated_amount",
+            "fieldtype": "Currency", "width": 250},
+        {"label": "Total Utilised Budget", "fieldname": "utilised_amount",
+            "fieldtype": "Currency", "width": 200},
+        {"label": "Total Utilisation %", "fieldname": "utilisation_percentage",
+            "fieldtype": "Percentage", "width": 150},
     ]
 
     data = []
@@ -48,23 +72,53 @@ def execute(filters=None):
     for bp in budget_total:
         allocated_amount = frappe.get_all(
             "Budget Plan",
-            fields=["yearly_budget"],
-            filters={"name": bp, "docstatus": 1}
+            fields=["yearly_budget", "total_quarter_1_budget", "total_quarter_2_budget",
+                    "total_quarter_3_budget", "total_quarter_4_budget"],
+            filters={"name": bp}
         )
 
         if allocated_amount:
-            allocated_amount_value = allocated_amount[0].get(
+            yearly_total_allocated_amount_value = allocated_amount[0].get(
                 "yearly_budget", 0)
+            total_quarter_1_budget = allocated_amount[0].get(
+                "total_quarter_1_budget", 0)
+            total_quarter_2_budget = allocated_amount[0].get(
+                "total_quarter_2_budget", 0)
+            total_quarter_3_budget = allocated_amount[0].get(
+                "total_quarter_3_budget", 0)
+            total_quarter_4_budget = allocated_amount[0].get(
+                "total_quarter_4_budget", 0)
         else:
-            allocated_amount_value = 0
+            yearly_total_allocated_amount_value = 0
+            total_quarter_1_budget = 0
+            total_quarter_2_budget = 0
+            total_quarter_3_budget = 0
+            total_quarter_4_budget = 0
+
+        q1_utilisation = calculateUtilisation(bp, "Q1")
+        q2_utilisation = calculateUtilisation(bp, "Q2")
+        q3_utilisation = calculateUtilisation(bp, "Q3")
+        q4_utilisation = calculateUtilisation(bp, "Q4")
 
         data.append({
             "budget_plan": bp,
             "utilised_amount": budget_total[bp],
             "category_total": None,
             "sub_category_total": None,
-            "allocated_amount": allocated_amount_value,
-            "utilisation_percentage": formatPercentage(calculatePercentage(budget_total, bp, allocated_amount_value)),
+            "allocated_amount": yearly_total_allocated_amount_value,
+            "utilisation_percentage": formatPercentage(calculatePercentageOfAllocatedAmount(budget_total, bp, yearly_total_allocated_amount_value)),
+            "total_quarter_1_budget": total_quarter_1_budget,
+            "total_quarter_1_budget_utilised": q1_utilisation,
+            "q1_utilisation_percentage": formatPercentage(calculatePercentage(q1_utilisation, total_quarter_1_budget)),
+            "total_quarter_2_budget": total_quarter_2_budget,
+            "total_quarter_2_budget_utilised": q2_utilisation,
+            "q2_utilisation_percentage": formatPercentage(calculatePercentage(q2_utilisation, total_quarter_2_budget)),
+            "total_quarter_3_budget": total_quarter_3_budget,
+            "total_quarter_3_budget_utilised": q3_utilisation,
+            "q3_utilisation_percentage": formatPercentage(calculatePercentage(q3_utilisation, total_quarter_3_budget)),
+            "total_quarter_4_budget": total_quarter_4_budget,
+            "total_quarter_4_budget_utilised": q4_utilisation,
+            "q4_utilisation_percentage": formatPercentage(calculatePercentage(q4_utilisation, total_quarter_4_budget)),
             "indent": 0
         })
 
@@ -85,6 +139,14 @@ def execute(filters=None):
                 "sub_category_total": None,
                 "utilised_amount": None,
                 "allocated_amount": allocated_cat_amount,
+                "total_quarter_1_budget": None,
+                "total_quarter_1_budget_utilised": None,
+                "total_quarter_2_budget": None,
+                "total_quarter_2_budget_utilised": None,
+                "total_quarter_3_budget": None,
+                "total_quarter_3_budget_utilised": None,
+                "total_quarter_4_budget": None,
+                "total_quarter_4_budget_utilised": None,
                 "indent": 1,
             })
 
@@ -108,20 +170,38 @@ def execute(filters=None):
                     "sub_category_total": subcategory_total[bp][cat][subcat],
                     "utilised_amount": None,
                     "allocated_amount": allocated_subcat_amount,
+                    "total_quarter_1_budget": None,
+                    "total_quarter_1_budget_utilised": None,
+                    "total_quarter_2_budget": None,
+                    "total_quarter_2_budget_utilised": None,
+                    "total_quarter_3_budget": None,
+                    "total_quarter_3_budget_utilised": None,
+                    "total_quarter_4_budget": None,
+                    "total_quarter_4_budget_utilised": None,
                     "indent": 2,
                 })
 
     return columns, data
 
 
-def calculatePercentage(budget_total, bp, allocated_amount_value):
-    percetage = round((budget_total[bp] / allocated_amount_value)
+def calculateUtilisation(bp, quarter):
+    return sum(item["utilised_amount"] or 0 for item in frappe.get_all("Expense Item", fields=["utilised_amount"], filters={"budget_plan": bp, "quarters": quarter, "docstatus": 1}))
+
+
+def calculatePercentageOfAllocatedAmount(budget_total, bp, allocated_amount_value):
+    percetage = calculatePercentage(budget_total[bp], allocated_amount_value)
+    return percetage
+
+
+def calculatePercentage(utiliased_amount, allocated_amount_value):
+    percetage = round((utiliased_amount / allocated_amount_value)
                       * 100, 2) if allocated_amount_value != 0 else 0
     return percetage
 
 
 def formatPercentage(percentage):
-    icon = 'equals' if percentage == 100 else ('down' if percentage < 100 else 'up')
+    icon = 'equals' if percentage == 100 else (
+        'down' if percentage < 100 else 'up')
     color = 'green' if percentage <= 100 else 'red'
     return '{}% <span style="color: {}; font-weight: bold;"><i class="fa fa-arrow-{}"></i> </span> '.format(
         percentage,
