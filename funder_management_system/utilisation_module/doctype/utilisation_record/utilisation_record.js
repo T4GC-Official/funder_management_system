@@ -435,39 +435,28 @@ function render_tranche_table(frm, grant) {
 
 function render_expense_button(frm) {
     frappe.call({
-        method: 'frappe.client.get_list',
+        method: 'funder_management_system.utilisation_module.doctype.utilisation_record.utilisation_record.count_expense_items',
         args: {
-            doctype: 'Expense Item',
-            filters: { urn: frm.doc.name },
-            fields: ['docstatus'],
+            urn: frm.doc.name
         },
-        callback: function(r) {
-            //let counts = { 0: 0, 1: 0, 2: 0 }; // Draft, Submitted, Cancelled
-            let counts = { 1: 0, 2: 0 }; //Submitted, Cancelled
-
-            // Count the occurrences of each docstatus
-            (r.message || []).forEach(item => {
-                counts[item.docstatus] = (counts[item.docstatus] || 0) + 1;
-            });
+        callback: function(response) {
+            const counts = response.message; // This will be the dictionary returned by the server-side method
 
             // Define button labels and colors
             const buttonConfigs = [
-                // { label: 'Draft Expense Items', status: 0, color: 'btn-secondary' }, // Gray
-                { label: 'Submitted Expense Items', status: 1, color: 'btn-primary' }, // Blue
-                { label: 'Cancelled Expense Items', status: 2, color: 'btn-danger' } // Red
+                { label: 'Submitted Expense Items', status: 1, color: 'btn-primary', count: counts[1] },
+                { label: 'Cancelled Expense Items', status: 2, color: 'btn-danger', count: counts[2] }
             ];
 
-            // Add buttons dynamically with color
+            // Add buttons dynamically with updated counts
             buttonConfigs.forEach(config => {
-                let button = frm.add_custom_button(`${__(config.label)} (${counts[config.status]})`, function() {
+                let button = frm.add_custom_button(`${__(config.label)} (${config.count})`, function() {
                     frappe.set_route('List', 'Expense Item', { urn: frm.doc.name, docstatus: config.status });
                 });
 
-                // Apply the Bootstrap color class using jQuery
                 $(button).removeClass('btn-default').addClass(config.color);
             });
         }
     });
-
-    
 }
+

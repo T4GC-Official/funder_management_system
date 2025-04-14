@@ -25,3 +25,12 @@ def check_if_child_table_is_updated(document_name):
     except Exception as e:
         logger.error(f"Error in check_if_child_table_is_updated: {e}")
         return False
+
+@frappe.whitelist()
+def count_expense_items(urn):
+    # Count both Submitted and Cancelled records in one query
+    counts = {
+        1: frappe.db.count('Expense Item', filters={'urn': urn, 'docstatus': 1}),  # Submitted
+        2: frappe.db.count('Expense Item', filters={'urn': urn, 'docstatus': 2})   # Cancelled
+    }
+    return counts
