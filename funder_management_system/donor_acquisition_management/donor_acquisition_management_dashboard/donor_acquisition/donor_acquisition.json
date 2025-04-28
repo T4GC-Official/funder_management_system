@@ -1,0 +1,43 @@
+{
+ "cards": [
+  {
+   "card": "Total Leads"
+  },
+  {
+   "card": "Conversion Rate"
+  },
+  {
+   "card": "Churn Rate"
+  }
+ ],
+ "charts": [
+  {
+   "chart": "Lead Funnel Metrics - Stage Wise",
+   "width": "Half"
+  },
+  {
+   "chart": "Leads distribution by Category",
+   "width": "Half"
+  },
+  {
+   "chart": "Leads distribution by Thematic Area",
+   "width": "Half"
+  },
+  {
+   "chart": "Leads distribution by Sources of Connection",
+   "width": "Half"
+  }
+ ],
+ "creation": "2025-04-22 16:30:31.130898",
+ "dashboard_name": "Donor Acquisition",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-04-24 23:29:26.375666",
+ "modified_by": "Administrator",
+ "module": "Donor Acquisition Management",
+ "name": "Donor Acquisition",
+ "owner": "Administrator"
+}
