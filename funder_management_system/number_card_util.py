@@ -7,7 +7,7 @@ def get_conversion_rate_by_fy(financial_year=None):
     if not financial_year:
         financial_year = get_current_financial_year()
 
-    total = fra̵ppe.db.count("Organisation Lead", {
+    total = frappe.db.count("Organisation Lead", {
         "financial_year_of_reachout": financial_year
     })
 
