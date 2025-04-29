@@ -107,6 +107,7 @@ after_install = [
 after_migrate = [
     "funder_management_system.utils.set_currency_permission_using_custom",
     "funder_management_system.utils.enable_permission_for_fms_roles",
+    "funder_management_system.utils.share_custom_number_cards_with_everyone",
     ]
 # Uninstallation
 # ------------

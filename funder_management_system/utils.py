@@ -1,5 +1,6 @@
 import frappe, json
 from datetime import datetime
+from frappe.share import set_permission
 
 def create_financial_year():
     current_year = datetime.now().year
@@ -122,3 +123,22 @@ def enable_permission_for_fms_roles(fms_admin=True):
 
     frappe.db.commit()
     print(f"Permissions set for FMS roles{roles}")
+
+
+def share_custom_number_cards_with_everyone():
+    cards = ["Churn Rate", "Conversion Rate"]
+
+    for card in cards:
+        try:
+            set_permission(
+                doctype="Number Card",
+                name=card,
+                user=None,           
+                permission_to="read",
+                value=1,
+                everyone=1
+            )
+            frappe.db.commit()
+            print(f"Shared {card} with everyone.")
+        except Exception as e:
+            frappe.log_error(title="Failed to Share Number Card with Everyone", message=f"{card}: {str(e)}")
