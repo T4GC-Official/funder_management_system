@@ -1,5 +1,5 @@
 import frappe, json
-from datetime import datetime
+from datetime import datetime, date
 from frappe.share import set_permission
 
 def create_financial_year():
@@ -142,3 +142,16 @@ def share_custom_number_cards_with_everyone():
             print(f"Shared {card} with everyone.")
         except Exception as e:
             frappe.log_error(title="Failed to Share Number Card with Everyone", message=f"{card}: {str(e)}")
+
+def get_current_financial_year():
+    today = date.today()
+    year = today.year
+    month = today.month
+
+    # If current month is Jan-Mar, we're in the tail end of the previous FY
+    if month < 4:
+        financial_year = f"{year-1}-{str(year)[-2:]}"
+    else:
+        financial_year = f"{year}-{str(year+1)[-2:]}"  # e.g., 2025-26
+
+    return financial_year
