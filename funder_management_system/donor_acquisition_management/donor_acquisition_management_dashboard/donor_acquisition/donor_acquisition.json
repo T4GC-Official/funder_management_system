@@ -4,10 +4,10 @@
    "card": "Total Leads"
   },
   {
-   "card": "Conversion Rate"
+   "card": "Conversion Rate in Current Financial Year"
   },
   {
-   "card": "Churn Rate"
+   "card": "Churn Rate In Current Financial Year"
   }
  ],
  "charts": [
@@ -32,10 +32,10 @@
  "dashboard_name": "Donor Acquisition",
  "docstatus": 0,
  "doctype": "Dashboard",
- "idx": 0,
+ "idx": 1,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2025-04-24 23:29:26.375666",
+ "modified": "2025-04-29 12:16:43.911550",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "Donor Acquisition",

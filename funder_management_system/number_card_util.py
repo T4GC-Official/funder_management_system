@@ -20,11 +20,7 @@ def get_conversion_rate_by_fy(financial_year=None):
 
     return {
         "value": f"{rate:.2f}",
-        "fieldtype": "Percent",
-        "description": "Conversion Rate",
-        "indicator": "Green" if rate >= 50 else "Orange",
-        "confirmed": confirmed,
-        "financial_year": financial_year
+        "fieldtype": "Percent"
     }
 
 
@@ -46,9 +42,5 @@ def get_churn_rate_fy(financial_year=None):
 
     return {
         "value": f"{churn_rate:.2f}",
-        "fieldtype": "Percent",
-        "description": "Conversion Rate",
-        "indicator": "Green" if churn_rate >= 50 else "Orange",
-        "churn": churn_leads,
-        "financial_year": financial_year
+        "fieldtype": "Percent"
     }

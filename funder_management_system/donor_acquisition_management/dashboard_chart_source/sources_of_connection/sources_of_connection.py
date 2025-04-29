@@ -33,5 +33,5 @@ def get(
                 "values": datapoints
             }
         ],
-        
+
     }
