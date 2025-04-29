@@ -126,7 +126,7 @@ def enable_permission_for_fms_roles(fms_admin=True):
 
 
 def share_custom_number_cards_with_everyone():
-    cards = ["Churn Rate", "Conversion Rate"]
+    cards = ["Churn Rate In Current Financial Year", "Conversion Rate in Current Financial Year"]
 
     for card in cards:
         try:
