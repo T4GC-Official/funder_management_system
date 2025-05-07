@@ -178,7 +178,7 @@ def setup_website_customizations():
     """
 
     try:
-        settings = frappe.get_single("Website Settings")
+        website_settings = frappe.get_single("Website Settings")
         system_settings = frappe.get_single("System Settings")
         if system_settings.login_with_email_link:
             system_settings.login_with_email_link = 0
@@ -190,12 +190,12 @@ def setup_website_customizations():
         
         print("Updating Website Settings for Fundraising Management System")
         # Check if the settings are already set
-        system_settings.app_name = "Fundraising Management System"
-        system_settings.title_prefix = "Fundraising Management System"
-        system_settings.app_logo = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
-        system_settings.home_page = "/app/main-workspace"
+        website_settings.app_name = "Fundraising Management System"
+        website_settings.title_prefix = "Fundraising Management System"
+        website_settings.app_logo = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
+        website_settings.home_page = "/app/main-workspace"
         
-        system_settings.save()
+        website_settings.save()
         frappe.db.commit()
         print("Website Settings updated for Fundraising Management System")
         
