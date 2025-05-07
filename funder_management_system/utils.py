@@ -126,7 +126,13 @@ def enable_permission_for_fms_roles(fms_admin=True):
 
 
 def share_custom_number_cards_with_everyone():
-    cards = ["Churn Rate In Current Financial Year", "Conversion Rate in Current Financial Year"]
+    cards = ["Churn Rate In Current Financial Year", 
+             "Conversion Rate in Current Financial Year",
+             "Total Active Donors - Currrent FY",
+             "Total Active Grant Agreements - Currrent FY",
+             "Total Funds Received – Current FY",
+             "Total Expenses - Current FY"]
+    
 
     for card in cards:
         try:
@@ -155,3 +161,72 @@ def get_current_financial_year():
         financial_year = f"{year}-{str(year+1)[-2:]}"  # e.g., 2025-26
 
     return financial_year
+
+def setup_website_customizations():
+    """
+    Customize the website settings and system settings for the Fundraising Management System.
+
+    This function updates the website settings such as app name, title prefix,
+    app logo, and home page if they are not already set. If any of the settings 
+    are updated, the changes are saved and committed to the database.
+
+    If an error occurs during the update process, it logs the error and prints 
+    a failure message.
+
+    Raises:
+        Logs the exception if the website settings cannot be updated.
+    """
+
+    try:
+        settings = frappe.get_single("Website Settings")
+        system_settings = frappe.get_single("System Settings")
+        if system_settings.login_with_email_link:
+            system_settings.login_with_email_link = 0
+            system_settings.save()
+            frappe.db.commit()
+            print("Disabled the login with email link button")
+        else:
+            print("Login with email link button is already disabled")
+        
+        print("Updating Website Settings for Fundraising Management System")
+        # Check if the settings are already set
+
+        for field, value in {
+            "app_name": "Fundraising Management System",
+            "title_prefix": "Fundraising Management System",
+            "app_logo": "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png",
+            "home_page": "/app/main-workspace"
+        }.items():
+            if getattr(settings, field):
+                print(f"Skipping {field}, already set")
+            else:
+                print(f"Setting {field}")
+                setattr(settings, field, value)
+
+        if any([not getattr(settings, field) for field in ["app_name", "title_prefix", "app_logo", "home_page"]]):
+            settings.save()
+            frappe.db.commit()
+            print("Website Settings updated for Fundraising Management System")
+    except Exception:
+        frappe.log_error(frappe.get_traceback(), "Website Settings Setup Failed")
+        print("Failed to update Website Settings. Check error logs.")
+
+def total_conversion(total: float) -> dict:
+    """
+    Format the total conversion value into a human-readable format.
+    """
+    if total is None:
+        return {
+            "value": "0.00",
+            "fieldtype": "Data"
+        }
+    if total >= 10000000:
+        formatted_total = f"{total / 10000000:.2f}Cr"
+    elif total >= 100000:
+        formatted_total = f"{total / 100000:.2f}L"
+    else:
+        formatted_total = f"{total:.2f}"
+    return {
+        "value": formatted_total,
+        "fieldtype": "Data"
+    }

@@ -1,0 +1,34 @@
+{
+ "cards": [
+  {
+   "card": "Total Funds Received \u2013 Current FY"
+  },
+  {
+   "card": "Total Expenses - Current FY"
+  },
+  {
+   "card": "Total Active Donors - Currrent FY"
+  },
+  {
+   "card": "Total Active Grant Agreements - Currrent FY"
+  }
+ ],
+ "charts": [
+  {
+   "chart": "Top 5 Donors - Current FY",
+   "width": "Full"
+  }
+ ],
+ "creation": "2025-05-05 12:45:40.126272",
+ "dashboard_name": "Fundraising Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-05-05 14:49:24.279657",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Fundraising Dashboard",
+ "owner": "Administrator"
+}

@@ -1,0 +1,13 @@
+{
+ "creation": "2025-05-05 14:16:57.926153",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2025-05-05 14:16:57.926153",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Top Donors",
+ "owner": "Administrator",
+ "source_name": "Top Donors",
+ "timeseries": 0
+}

@@ -1,0 +1,22 @@
+{
+ "creation": "2025-05-05 13:18:00.344416",
+ "currency": "",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "filters_json": "null",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 0,
+ "is_standard": 1,
+ "label": "Total Funds Received \u2013 Current FY",
+ "method": "funder_management_system.number_card_util.get_total_funds_received_current_fy",
+ "modified": "2025-05-05 13:41:02.186619",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Total Funds Received \u2013 Current FY",
+ "owner": "Administrator",
+ "report_function": "Sum",
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Daily",
+ "type": "Custom"
+}

@@ -1,0 +1,22 @@
+{
+ "creation": "2025-05-05 14:48:57.640987",
+ "currency": "",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "filters_json": "null",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 0,
+ "is_standard": 1,
+ "label": "Total Active Grant Agreements - Currrent FY",
+ "method": "funder_management_system.number_card_util.get_total_active_grant_agreements_current_fy",
+ "modified": "2025-05-05 14:50:14.054745",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Total Active Grant Agreements - Currrent FY",
+ "owner": "Administrator",
+ "report_function": "Sum",
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Daily",
+ "type": "Custom"
+}
