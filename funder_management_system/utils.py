@@ -130,7 +130,7 @@ def share_custom_number_cards_with_everyone():
              "Conversion Rate in Current Financial Year",
              "Total Active Donors - Currrent FY",
              "Total Active Grant Agreements - Currrent FY",
-             "Total Funds Received – Current FY",
+             "Total Funds Received - Current FY",
              "Total Expenses - Current FY"]
     
 
@@ -190,23 +190,15 @@ def setup_website_customizations():
         
         print("Updating Website Settings for Fundraising Management System")
         # Check if the settings are already set
-
-        for field, value in {
-            "app_name": "Fundraising Management System",
-            "title_prefix": "Fundraising Management System",
-            "app_logo": "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png",
-            "home_page": "/app/main-workspace"
-        }.items():
-            if getattr(settings, field):
-                print(f"Skipping {field}, already set")
-            else:
-                print(f"Setting {field}")
-                setattr(settings, field, value)
-
-        if any([not getattr(settings, field) for field in ["app_name", "title_prefix", "app_logo", "home_page"]]):
-            settings.save()
-            frappe.db.commit()
-            print("Website Settings updated for Fundraising Management System")
+        system_settings.app_name = "Fundraising Management System"
+        system_settings.title_prefix = "Fundraising Management System"
+        system_settings.app_logo = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
+        system_settings.home_page = "/app/main-workspace"
+        
+        system_settings.save()
+        frappe.db.commit()
+        print("Website Settings updated for Fundraising Management System")
+        
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Website Settings Setup Failed")
         print("Failed to update Website Settings. Check error logs.")
