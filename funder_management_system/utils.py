@@ -128,7 +128,7 @@ def enable_permission_for_fms_roles(fms_admin=True):
 def share_custom_number_cards_with_everyone():
     cards = ["Churn Rate In Current Financial Year", 
              "Conversion Rate in Current Financial Year",
-             "Total Active Donors - Currrent FY",
+             "Total Active Donors - Current FY",
              "Total Active Grant Agreements - Currrent FY",
              "Total Funds Received - Current FY",
              "Total Expenses - Current FY"]

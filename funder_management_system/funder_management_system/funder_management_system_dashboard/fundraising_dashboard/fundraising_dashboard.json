@@ -7,7 +7,7 @@
    "card": "Total Expenses - Current FY"
   },
   {
-   "card": "Total Active Donors - Currrent FY"
+   "card": "Total Active Donors - Current FY"
   },
   {
    "card": "Total Active Grant Agreements - Currrent FY"
@@ -26,7 +26,7 @@
  "idx": 0,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2025-05-05 14:49:24.279657",
+ "modified": "2025-05-07 15:03:19.489061",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Fundraising Dashboard",
