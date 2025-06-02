@@ -4,8 +4,15 @@ from frappe.model.document import Document # type: ignore
 # Copyright (c) 2025, Tech4Good Community and contributors
 
 class OrganisationLead(Document):
-	pass
+    pass
+    # def validate(self):
+    #     self.prevent_reverting_to_new()
 
+    # def prevent_reverting_to_new(self):
+    #     if self.lead_stage == "New Lead":
+    #         stages = [entry.lead_stage for entry in self.table_lead_history]
+    #         if "New Lead" in stages and any(stage != "New Lead" for stage in stages):
+    #             frappe.throw("Cannot revert to 'New Lead' stage if the lead has already progressed to other stages.")
 
 @frappe.whitelist()
 def create_donor_from_lead(lead_name):
