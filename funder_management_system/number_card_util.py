@@ -3,6 +3,20 @@ from funder_management_system.utils import get_current_financial_year, total_con
 
 
 @frappe.whitelist()
+def get_total_leads_by_finanacial_year():
+    current_fy = get_current_financial_year()
+
+    total = frappe.db.count("Organisation Lead", {
+        "financial_year_of_reachout": current_fy
+    })
+
+    return {
+        "value": total,
+        "label": "Total Leads",
+        "fieldtype": "Int"
+    }
+
+@frappe.whitelist()
 def get_conversion_rate_by_fy(financial_year=None):
     if not financial_year:
         financial_year = get_current_financial_year()
