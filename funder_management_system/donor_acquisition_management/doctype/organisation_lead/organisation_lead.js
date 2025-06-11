@@ -3,7 +3,6 @@ frappe.ui.form.on("Organisation Lead", {
     onload_post_render: function (frm) {
         frm.trigger("lead_description");
         frm.trigger("update_lead_stage_dropdown_options");
-        console.log("Onload Post Render Triggered");
     },
     onload: function (frm) {
         if (frm.is_new()) {
@@ -16,7 +15,6 @@ frappe.ui.form.on("Organisation Lead", {
     },
     after_save: function (frm) {
         frm.trigger("update_lead_stage_dropdown_options");
-        console.log("After Save Triggered");
     },
     refresh: function (frm) {
         frm.get_field("table_lead_history").grid.cannot_add_rows = true;
@@ -138,17 +136,13 @@ frappe.ui.form.on("Organisation Lead", {
 
        save_lead_history: function (frm) {
         let { lead_stage, financial_year, lead_category, disposition_note } = frm.doc;
-        let existing_stages = (frm.doc.table_lead_history || []).map(row => row.lead_stage);
 
         let last_lead_history = frm.doc.table_lead_history?.slice(-1)[0];
-        console.log("Last Lead History:", last_lead_history);
-        console.log("Current Lead Stage:", lead_stage);
         if (last_lead_history?.lead_stage !== lead_stage) {
             let lead_history = frm.add_child("table_lead_history");
             Object.assign(lead_history, { lead_stage, financial_year, lead_category, note: disposition_note });
             frm.refresh_field("table_lead_history");
             frm.trigger("update_lead_stage_dropdown_options");
-            console.log("Lead History Updated:", lead_history);
             frm.dirty(true);
             frm.save();
         }
@@ -179,7 +173,6 @@ frappe.ui.form.on("Organisation Lead", {
     }
 });
 function enhance_text_function(text) {
-    console.log("Enhancing text:", text);
     //return "**Enhanced:** " + text.toUpperCase(); // Example: Converts to uppercase and adds prefix
     const data = { text };
     return fetch("http://127.0.0.1:11434/api/generate", {
@@ -213,7 +206,6 @@ function enhance_text_function(text) {
         return finalResponse;
     })
     .catch(error => {
-        console.error("Error:", error);
         return text;
     });
 }
