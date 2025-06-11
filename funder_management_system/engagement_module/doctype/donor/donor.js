@@ -6,7 +6,6 @@ frappe.ui.form.on("Donor", {
         frm.get_field("table_donor_history").grid.cannot_add_rows = true;
         frm.trigger("item_frequency");
         frm.trigger("load_engagement_checklist");
-        frm.trigger("save_donor_history");
     },
     before_save: function (frm) {
         frm.trigger("save_donor_history");
