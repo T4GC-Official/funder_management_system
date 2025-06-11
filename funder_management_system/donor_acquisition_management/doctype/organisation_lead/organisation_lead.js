@@ -1,8 +1,10 @@
 frappe.ui.form.on("Organisation Lead", {
+    // ✅ Ensures descriptions are loaded once the form is rendered
     onload_post_render: function (frm) {
         frm.trigger("lead_description");
+        frm.trigger("update_lead_stage_dropdown_options");
+        console.log("Onload Post Render Triggered");
     },
-
     onload: function (frm) {
         if (frm.is_new()) {
             frm.trigger("fetch_compliance_checklist");
@@ -10,20 +12,38 @@ frappe.ui.form.on("Organisation Lead", {
     },
 
     before_save: function (frm) {
-        frm.trigger("validate_stage_change_and_save_history");
+        frm.trigger("save_lead_history");
     },
-
+    after_save: function (frm) {
+        frm.trigger("update_lead_stage_dropdown_options");
+        console.log("After Save Triggered");
+    },
     refresh: function (frm) {
         frm.get_field("table_lead_history").grid.cannot_add_rows = true;
         frm.refresh_field("table_lead_history");
+        // Add button inside the large text field
+        // frm.fields_dict.disposition_note.$wrapper.append(`
+        //     <button class="btn btn-sm btn-primary enhance-text-btn" 
+        //         style="margin-top: 5px;">Enhance Note</button>
+        // `);
+
+        // // Add click event to the button
+        // frm.fields_dict.disposition_note.$wrapper.find('.enhance-text-btn').click(function() {
+        //     let text = frm.doc.disposition_note || "";
+        //     let enhanced_text = enhance_text_function(text); // Call enhancement function
+        //     frm.set_value("disposition_note", enhanced_text);
+        // });
+
     },
 
+    // Ensures website URL is refreshed if organisation name is removed
     organisation_name: function (frm) {
         if (!frm.doc.organisation_name) {
             frm.refresh_field("website_url");
         }
     },
 
+    // Optimized Lead Description Logic
     lead_description: function (frm) {
         const descriptions = {
             "New Lead": "No outreach has happened to the lead for the current financial year.",
@@ -37,9 +57,8 @@ frappe.ui.form.on("Organisation Lead", {
         frm.set_df_property("lead_stage", "description", descriptions[frm.doc.lead_stage] || "Select a lead stage to see details.");
     },
 
-    lead_stage: function (frm) {
-        frm.trigger("lead_description");
 
+    lead_stage: function (frm) {
         if (!frm.doc.lead_name && frm.doc.lead_stage === "Confirmed Lead") {
             frappe.msgprint({
                 title: __("Please Create an Organisation Lead"),
@@ -50,25 +69,40 @@ frappe.ui.form.on("Organisation Lead", {
             return;
         }
 
+        frm.trigger("lead_description");
+
         if (frm.doc.lead_stage === "Confirmed Lead") {
             frappe.confirm(
                 `Changing the Lead Status to "Confirmed Lead" for <strong>${frm.doc.lead_name}</strong> will create a new Donor record. <br>
-                Do you want to proceed with this step?`,
+                Do you want to proceed with this step? <br><hr> 
+                Click <strong>Yes</strong>: Create Donor <br><hr> 
+                Click <strong>No</strong>: Cancel and review the lead details.`,
                 () => {
                     frappe.call({
                         method: "funder_management_system.donor_acquisition_management.doctype.organisation_lead.organisation_lead.create_donor_from_lead",
                         args: { lead_name: frm.doc.name },
                         callback: function (r) {
-                            if (r.message?.status === "success") {
-                                frappe.show_alert({ message: __("Donor created successfully!"), indicator: "green" });
-                                frm.set_value("lead_stage", "Confirmed Lead");
-                                frm.save();
-                            } else if (r.message?.status === "duplicate") {
-                                frappe.msgprint(__('Donor already exists! Reloading...'));
-                                frm.reload_doc();
-                            } else {
-                                frappe.msgprint(__('Failed to create donor.'));
-                                frm.reload_doc();
+                            if (r.message) {
+                                if (r.message.status === "success") {
+                                    frappe.show_alert({
+                                        message: __("Donor created successfully!"),
+                                        indicator: "green"
+                                    });
+                    
+                                    frm.set_value("lead_stage", "Confirmed Lead");
+                                    frm.save();                    
+        
+        
+                                }
+        
+                                else if (r.message.status === "duplicate") {
+                                    frappe.msgprint(__('Donor already exists! Reloading...'));
+                                    frm.reload_doc();  
+                                } 
+                                else {
+                                    frappe.msgprint(__('Failed to create donor.'));
+                                    frm.reload_doc();
+                                }
                             }
                         }
                     });
@@ -79,6 +113,7 @@ frappe.ui.form.on("Organisation Lead", {
                 }
             );
         }
+
     },
 
     fetch_compliance_checklist: function (frm) {
@@ -101,32 +136,84 @@ frappe.ui.form.on("Organisation Lead", {
         });
     },
 
-    validate_stage_change_and_save_history: function (frm) {
-        const current_stage = frm.doc.lead_stage;
-        const history = frm.doc.table_lead_history || [];
+       save_lead_history: function (frm) {
+        let { lead_stage, financial_year, lead_category, disposition_note } = frm.doc;
+        let existing_stages = (frm.doc.table_lead_history || []).map(row => row.lead_stage);
 
-        const has_new = history.some(row => row.lead_stage === "New Lead");
-        const has_other = history.some(row => row.lead_stage !== "New Lead");
-
-        if (current_stage === "New Lead" && has_new && has_other) {
-            frappe.msgprint({
-                title: __("Invalid Stage Change"),
-                message: __("You cannot revert to 'New Lead' as it has already moved to other stages."),
-                indicator: "red"
-            });
-            setTimeout(() => frm.reload_doc(), 1000);
-            throw new Error("Invalid stage change");
+        let last_lead_history = frm.doc.table_lead_history?.slice(-1)[0];
+        console.log("Last Lead History:", last_lead_history);
+        console.log("Current Lead Stage:", lead_stage);
+        if (last_lead_history?.lead_stage !== lead_stage) {
+            let lead_history = frm.add_child("table_lead_history");
+            Object.assign(lead_history, { lead_stage, financial_year, lead_category, note: disposition_note });
+            frm.refresh_field("table_lead_history");
+            frm.trigger("update_lead_stage_dropdown_options");
+            console.log("Lead History Updated:", lead_history);
+            frm.dirty(true);
+            frm.save();
         }
+    },
+    update_lead_stage_dropdown_options: function (frm) {
 
-
-        const lead_history = frm.add_child("table_lead_history");
-        Object.assign(lead_history, {
-            lead_stage: current_stage,
-            financial_year: frm.doc.financial_year,
-            lead_category: frm.doc.lead_category,
-            note: frm.doc.disposition_note
-        });
-
-        frm.refresh_field("table_lead_history");
+        let existing_stages = (frm.doc.table_lead_history || []).map(row => row.lead_stage);
+        
+        if (existing_stages.includes("New Lead")) {
+            frm.set_df_property("lead_stage", "options", [
+                "Warm Lead",
+                "Hot Lead",
+                "Confirmed Lead",
+                "Cold Lead",
+                "Dropped Lead"
+            ]);
+        } 
+        if (frm.doc.lead_stage === "New Lead") {
+            frm.set_df_property("lead_stage", "options", [
+                "New Lead",
+                "Warm Lead",
+                "Hot Lead",
+                "Confirmed Lead",
+                "Cold Lead",
+                "Dropped Lead"
+            ]);
+        }
     }
 });
+function enhance_text_function(text) {
+    console.log("Enhancing text:", text);
+    //return "**Enhanced:** " + text.toUpperCase(); // Example: Converts to uppercase and adds prefix
+    const data = { text };
+    return fetch("http://127.0.0.1:11434/api/generate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        const reader = response.body.getReader();
+        const stream = new ReadableStream({
+            async *[Symbol.asyncIterator]() {
+                let result;
+                while (!(result = await reader.read()).done) {
+                    yield result.value;
+                }
+            }
+        });
+        const decoder = new TextDecoder("utf-8");
+        const streamReader = stream.pipeThrough(new TransformStream({
+            transform(chunk, controller) {
+                controller.enqueue(decoder.decode(chunk));
+            }
+        }));
+        return new Response(streamReader).text();
+    })
+    .then(text => {
+        const responses = text.split(/{"model":"DeepSeek-R1:latest","created_at":"[0-9TZ:-]+"}/);
+        const finalResponse = responses[responses.length - 1];
+        return finalResponse;
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        return text;
+    });
+}
