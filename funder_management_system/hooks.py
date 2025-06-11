@@ -1,5 +1,5 @@
-app_name = "funder_management_system"
-app_title = "Funder Management System"
+app_name = "Fundraising Management System"
+app_title = "Fundraising Management System"
 app_publisher = "Tech4Good Community"
 app_description = "FMS"
 app_email = "hello@tech4goodcommunity.com"
@@ -103,13 +103,13 @@ doctype_list_js = {"Expense Item": "public/js/expense_item_list.js"}
 #before_install = ["funder_management_system.utils.enable_developer_mode"]
 after_install = [
     "funder_management_system.utils.create_financial_year",
-    "funder_management_system.utils.setup_website_customizations"
+    "funder_management_system.utils.update_settings"
     ]
 after_migrate = [
     "funder_management_system.utils.set_currency_permission_using_custom",
     "funder_management_system.utils.enable_permission_for_fms_roles",
     "funder_management_system.utils.share_custom_number_cards_with_everyone",
-    "funder_management_system.utils.setup_website_customizations"
+    "funder_management_system.utils.update_settings"
     ]
 # Uninstallation
 # ------------

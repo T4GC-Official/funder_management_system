@@ -162,46 +162,68 @@ def get_current_financial_year():
 
     return financial_year
 
-def setup_website_customizations():
+def update_settings():
+   
     """
-    Customize the website settings and system settings for the Fundraising Management System.
+    Set up website customizations.
 
-    This function updates the website settings such as app name, title prefix,
-    app logo, and home page if they are not already set. If any of the settings 
-    are updated, the changes are saved and committed to the database.
+    This function sets up various website customizations, such as the app name,
+    title prefix, app logo, home page, disable signup, and footer options.
 
-    If an error occurs during the update process, it logs the error and prints 
-    a failure message.
+    It also sets up system settings, such as denying multiple sessions,
+    session expiry, allowed file extensions, max file size, and other options.
 
-    Raises:
-        Logs the exception if the website settings cannot be updated.
+    Finally, it sets up navbar settings.
+
+    If any of these updates fail, the function logs an error and prints a
+    message indicating failure.
     """
-
+    image_loc = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
+    
     try:
+        # Website Settings
         website_settings = frappe.get_single("Website Settings")
-        system_settings = frappe.get_single("System Settings")
-        if system_settings.login_with_email_link:
-            system_settings.login_with_email_link = 0
-            system_settings.save()
-            frappe.db.commit()
-            print("Disabled the login with email link button")
-        else:
-            print("Login with email link button is already disabled")
-        
-        print("Updating Website Settings for Fundraising Management System")
-        # Check if the settings are already set
         website_settings.app_name = "Fundraising Management System"
         website_settings.title_prefix = "Fundraising Management System"
-        website_settings.app_logo = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
+        website_settings.app_logo = image_loc
         website_settings.home_page = "/app/main-workspace"
-        
+        website_settings.disable_signup = 1
+        website_settings.show_footer_on_login = 1
+        website_settings.banner_image = image_loc
+        website_settings.splash_image = image_loc
+        website_settings.favicon = image_loc
+        website_settings.copyright = "Tech4Good Community"
+        website_settings.footer_powered = "Fundraising Management System"
         website_settings.save()
+        print("Website Settings updated.")
+
+        # System Settings
+        system_settings = frappe.get_single("System Settings")
+        system_settings.deny_multiple_sessions = 1
+        system_settings.session_expiry = "24:00"
+        system_settings.allowed_file_extensions = "csv,jpg,png,svg,pdf,gif"
+        system_settings.max_file_size = 5
+        system_settings.allow_error_traceback = 0
+        system_settings.login_with_email_link = 0
+        system_settings.save()
+        print("System Settings updated.")
+
+        # Navbar Settings
+        try:
+            navbar_settings = frappe.get_single("Navbar Settings")
+            navbar_settings.app_logo = image_loc
+            navbar_settings.save()
+            print("Navbar Settings updated.")
+        except Exception:
+            print("Navbar Settings doctype not found or update failed.")
+
         frappe.db.commit()
-        print("Website Settings updated for Fundraising Management System")
-        
+        print("All settings updated and committed successfully.")
+
     except Exception:
         frappe.log_error(frappe.get_traceback(), "Website Settings Setup Failed")
-        print("Failed to update Website Settings. Check error logs.")
+        print("Failed to update settings. Check error logs.")
+
 
 def total_conversion(total: float) -> dict:
     """
