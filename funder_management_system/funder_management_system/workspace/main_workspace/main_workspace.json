@@ -9,7 +9,7 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "",
- "idx": 2,
+ "idx": 145,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Main Workspace",
@@ -186,7 +186,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-05-07 15:23:00.726342",
+ "modified": "2025-06-11 19:32:07.799376",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
@@ -216,8 +216,8 @@
    "color": "Grey",
    "doc_view": "List",
    "label": "Fundraising Dashboard",
-   "link_to": "Fundraising Dashboard",
-   "type": "Dashboard"
+   "link_to": "test-dashboard",
+   "type": "Page"
   },
   {
    "color": "Grey",

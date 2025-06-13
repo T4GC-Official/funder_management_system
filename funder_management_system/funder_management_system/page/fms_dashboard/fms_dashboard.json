@@ -1,0 +1,23 @@
+{
+ "content": null,
+ "creation": "2025-05-26 14:35:31.246107",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-05-26 14:35:31.246107",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "fms-dashboard",
+ "owner": "Administrator",
+ "page_name": "fms-dashboard",
+ "roles": [
+  {
+   "role": "Fundraising Admin"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 1,
+ "title": "Test One"
+}

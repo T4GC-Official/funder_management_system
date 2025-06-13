@@ -1,0 +1,13 @@
+{
+ "creation": "2025-04-30 16:46:08.005977",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2025-04-30 16:46:08.005977",
+ "modified_by": "Administrator",
+ "module": "Budget Planning",
+ "name": "Underspending Analysis",
+ "owner": "Administrator",
+ "source_name": "Underspending Analysis",
+ "timeseries": 0
+}

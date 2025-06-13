@@ -1,0 +1,13 @@
+{
+ "creation": "2025-04-30 17:07:48.008616",
+ "docstatus": 0,
+ "doctype": "Dashboard Chart Source",
+ "idx": 0,
+ "modified": "2025-04-30 17:07:48.008616",
+ "modified_by": "Administrator",
+ "module": "Budget Planning",
+ "name": "Overspending Analysis",
+ "owner": "Administrator",
+ "source_name": "Overspending Analysis",
+ "timeseries": 0
+}

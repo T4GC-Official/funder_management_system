@@ -148,7 +148,7 @@ def share_custom_number_cards_with_everyone():
             print(f"Shared {card} with everyone.")
         except Exception as e:
             frappe.log_error(title="Failed to Share Number Card with Everyone", message=f"{card}: {str(e)}")
-
+@frappe.whitelist()
 def get_current_financial_year():
     today = date.today()
     year = today.year

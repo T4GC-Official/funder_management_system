@@ -1,0 +1,41 @@
+{
+ "cards": [],
+ "charts": [
+  {
+   "chart": "Yearly Budget Plan Distributed Category Wise",
+   "width": "Full"
+  },
+  {
+   "chart": "Yearly Budget Plan Distributed Sub Category Wise",
+   "width": "Full"
+  },
+  {
+   "chart": "Budget Category Allocated vs Over Utilised",
+   "width": "Full"
+  },
+  {
+   "chart": "Budget Plan Level Overspent",
+   "width": "Full"
+  },
+  {
+   "chart": "Budget Category Allocated vs Under Utilised",
+   "width": "Full"
+  },
+  {
+   "chart": "Budget Plan Level Underspent (\u20b9)",
+   "width": "Full"
+  }
+ ],
+ "creation": "2025-05-07 16:14:29.888442",
+ "dashboard_name": "Cashflow Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-05-07 16:17:24.532686",
+ "modified_by": "Administrator",
+ "module": "Budget Planning",
+ "name": "Cashflow Dashboard",
+ "owner": "Administrator"
+}

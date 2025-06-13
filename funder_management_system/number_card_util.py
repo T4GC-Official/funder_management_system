@@ -3,18 +3,20 @@ from funder_management_system.utils import get_current_financial_year, total_con
 
 
 @frappe.whitelist()
-def get_total_leads_by_finanacial_year():
-    current_fy = get_current_financial_year()
+def get_total_leads_by_finanacial_year(financial_year=None):
+    if not financial_year:
+        financial_year = get_current_financial_year()
 
-    total = frappe.db.count("Organisation Lead", {
-        "financial_year_of_reachout": current_fy
+    total_leads = frappe.db.count("Organisation Lead", {
+        "financial_year_of_reachout": financial_year
     })
 
     return {
-        "value": total,
+        "value": total_leads,
         "label": "Total Leads",
         "fieldtype": "Int"
     }
+
 
 @frappe.whitelist()
 def get_conversion_rate_by_fy(financial_year=None):
@@ -33,6 +35,7 @@ def get_conversion_rate_by_fy(financial_year=None):
     rate = (confirmed / total * 100) if total else 0
 
     return {
+        "label": "Conversion Rate",
         "value": f"{rate:.2f}",
         "fieldtype": "Percent"
     }
@@ -56,6 +59,7 @@ def get_churn_rate_fy(financial_year=None):
 
     return {
         "value": f"{churn_rate:.2f}",
+        "label": "Churn Rate",
         "fieldtype": "Percent"
     }
 
@@ -72,9 +76,7 @@ def get_total_funds_received_current_fy():
     """, (current_fy,))[0][0] or 0
 
     return total_conversion(total)
-        
 
- 
 
 @frappe.whitelist()
 def get_total_expenditure_current_fy():
@@ -84,7 +86,7 @@ def get_total_expenditure_current_fy():
     FROM `tabExpense Item`
     WHERE docstatus=1 AND financial_year = %s
     """, (current_fy,))[0][0] or 0
-    
+
     return total_conversion(total)
 
 @frappe.whitelist()
@@ -108,10 +110,10 @@ def get_total_active_donors_current_fy():
         "fieldtype": "Int"
     }
 
+
 @frappe.whitelist()
 def get_total_active_grant_agreements_current_fy():
     current_fy = get_current_financial_year()
-
     start_year = int(current_fy.split('-')[0])
     fy_start = frappe.utils.getdate(f"{start_year}-04-01")
     fy_end = frappe.utils.getdate(f"{start_year + 1}-03-31")
