@@ -1,0 +1,19 @@
+{
+ "content": null,
+ "creation": "2025-06-16 13:16:16.429904",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-06-16 13:16:16.429904",
+ "modified_by": "Administrator",
+ "module": "Budget Planning",
+ "name": "cashflow-dashboard",
+ "owner": "Administrator",
+ "page_name": "cashflow-dashboard",
+ "roles": [],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 1,
+ "title": "Cashflow Dashboard"
+}
