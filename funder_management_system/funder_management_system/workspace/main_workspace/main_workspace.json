@@ -186,7 +186,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-06-16 17:48:20.281080",
+ "modified": "2025-06-18 03:35:08.149616",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
@@ -208,16 +208,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Budget vs Utilisation Report",
-   "link_to": "Budget vs Utilisation Report",
-   "type": "Report"
+   "label": "Donor Acquisition Dashboard",
+   "link_to": "donor-acquisition-ma",
+   "type": "Page"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Donor Acquisition Dashboard",
-   "link_to": "donor-acquisition-dashboard",
-   "type": "Page"
+   "label": "Budget vs Utilisation Report",
+   "link_to": "Budget vs Utilisation Report",
+   "type": "Report"
   },
   {
    "color": "Grey",
