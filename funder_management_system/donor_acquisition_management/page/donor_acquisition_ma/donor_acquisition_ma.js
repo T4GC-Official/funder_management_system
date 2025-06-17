@@ -181,7 +181,12 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 							colors: config.chartColors
 						});
 					} else {
-						el.innerHTML = `<p class="text-muted">No data available  ${config.chartTitle}.</p>`;
+						el.innerHTML = `
+						<div class="col-md-6 mb-4">
+					<div id="${chartId}" class="dashboard-chart-box">Data not available for ${config.chartTitle}</div>
+				</div>
+						
+						`;
 					}
 				}
 			});
