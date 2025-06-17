@@ -1,0 +1,23 @@
+{
+ "content": null,
+ "creation": "2025-06-18 03:23:39.441208",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2025-06-18 03:23:39.441208",
+ "modified_by": "Administrator",
+ "module": "Donor Acquisition Management",
+ "name": "donor-acquisition-ma",
+ "owner": "Administrator",
+ "page_name": "donor-acquisition-ma",
+ "roles": [
+  {
+   "role": "Fundraising Admin"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 1,
+ "title": "Donor Acquisition Management Dashboard"
+}

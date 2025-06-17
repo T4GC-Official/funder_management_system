@@ -1,0 +1,15 @@
+<div class="row number-cards">
+    {% for card in cards %}
+    <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-4">
+        <div class="number-card">
+            <div class="card-label">{{ card.label }}</div>
+            <div class="card-value">
+                {{ card.value }}{% if card.fieldtype == "Percent" %}%{% endif %}
+            </div>
+            {% if card.footer %}
+            <div class="card-footer">{{ card.footer }}</div>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
