@@ -104,7 +104,7 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 
 	function load_cards(financial_years) {
 		frappe.call({
-			method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_dashboard.donor_acquisition_dashboard.get_number_cards",
+			method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_number_cards",
 			args: { financial_years: JSON.stringify(financial_years) },
 			callback: function (r) {
 				if (r.message) {
@@ -119,25 +119,25 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 		const chartConfigs = [
 			{
 				chartTitle: "Leads distribution by Sources of Connection",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_dashboard.donor_acquisition_dashboard.get_leads_by_sources_of_connection",
+				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_sources_of_connection",
 				chartType: "bar",
 				chartColors: ['#5e64ff']
 			},
 			{
 				chartTitle: "Leads distribution by Thematic Area",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_dashboard.donor_acquisition_dashboard.get_leads_by_thematic_area",
+				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_thematic_area",
 				chartType: "donut",
 				chartColors: ['#ff6f61']
 			},
 			{
 				chartTitle: "Leads distribution by Category",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_dashboard.donor_acquisition_dashboard.get_leads_by_category",
+				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_category",
 				chartType: "donut",
 				chartColors: ['#6c757d']
 			},
 			{
 				chartTitle: "Lead Funnel Metrics - Stage Wise",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_dashboard.donor_acquisition_dashboard.get_leads_by_lead_stages",
+				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_lead_stages",
 				chartType: "pie",
 				chartColors: ['#28a745']
 			}
