@@ -2,8 +2,9 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
 		title: 'Donor Acquisition Dashboard',
-		single_column: true
+		single_column: true,
 	});
+	
 
 	page.set_secondary_action('Refresh', () => {
 		filterWrapper.find('#generate-dashboard-btn').click();
@@ -155,7 +156,7 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 		];
 
 		chartConfigs.forEach((config, index) => {
-			const chartId = `dashboard-chart-${index + 1}`;
+			const chartId = `dashboard-donor-acquisition-chart-${index + 1}`;
 			const chartCol = $(`
 				<div class="col-md-6 mb-4">
 					<div id="${chartId}" class="dashboard-chart-box">Loading chart...</div>

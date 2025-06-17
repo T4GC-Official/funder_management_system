@@ -161,7 +161,7 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 			}
 		]
 		chartConfigs.forEach((config, index) => {
-			const chartId = `dashboard-chart-${index + 1}`;
+			const chartId = `dashboard-cashflow-chart-${index + 1}`;
 			const chartCol = $(`
 				<div class="col-md-6 mb-4">
 					<div id="${chartId}" class="dashboard-chart-box">Loading chart...</div>
