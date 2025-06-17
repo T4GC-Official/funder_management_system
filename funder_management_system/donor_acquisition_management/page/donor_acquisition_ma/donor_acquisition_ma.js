@@ -12,6 +12,17 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 	page.set_primary_action('Go to Leads', () => {
 		frappe.set_route('List', 'Organisation Lead');
 	});
+	page.add_inner_button('Budget vs Utilisation Report', () => {
+		frappe.set_route('query-report', 'Budget vs Utilisation Report');
+	}, 'Visit Reports');
+	
+	page.add_inner_button('Donor vs Utilisation Report', () => {
+		frappe.set_route('query-report', 'Donation vs Utilisation Report');
+	}, 'Visit Reports');
+	
+	page.add_inner_button('Budget Plan Report', () => {
+		frappe.set_route('query-report', 'Budget Plan Report');
+	}, 'Visit Reports');
 
 	// Style buttons
 	setTimeout(() => {
