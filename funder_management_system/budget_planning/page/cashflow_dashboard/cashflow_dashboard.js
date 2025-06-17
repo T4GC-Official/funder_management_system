@@ -186,7 +186,7 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 							colors: config.chartColors
 						});
 					} else {
-						el.innerHTML = `<p class="text-muted">No data available.</p>`;
+						el.innerHTML = `<p class="text-muted">No data available for ${config.chartTitle}.</p>`;
 					}
 				}
 			});
