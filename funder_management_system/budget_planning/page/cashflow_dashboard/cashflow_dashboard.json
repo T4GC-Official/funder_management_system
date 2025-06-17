@@ -3,14 +3,18 @@
  "creation": "2025-06-16 13:16:16.429904",
  "docstatus": 0,
  "doctype": "Page",
- "idx": 0,
- "modified": "2025-06-16 13:16:16.429904",
+ "idx": 2,
+ "modified": "2025-06-18 04:38:54.795632",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "cashflow-dashboard",
  "owner": "Administrator",
  "page_name": "cashflow-dashboard",
- "roles": [],
+ "roles": [
+  {
+   "role": "Fundraising Admin"
+  }
+ ],
  "script": null,
  "standard": "Yes",
  "style": null,
