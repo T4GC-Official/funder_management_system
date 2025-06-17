@@ -8,6 +8,7 @@ class UtilisationRecord(Document):
     pass
 
 
+
 @frappe.whitelist()
 def check_if_child_table_is_updated(document_name):
     try:
@@ -34,3 +35,4 @@ def count_expense_items(urn):
         2: frappe.db.count('Expense Item', filters={'urn': urn, 'docstatus': 2})   # Cancelled
     }
     return counts
+
