@@ -42,6 +42,7 @@
   "create_expense_record",
   "section_break_ppmd",
   "utilisation_child_table",
+  "grand_total",
   "section_break_yriv",
   "info_budget_col",
   "grant_table_view_section",
@@ -255,11 +256,18 @@
   {
    "fieldname": "column_break_khcu",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "grand_total",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Grand Total",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-09 22:50:46.379121",
+ "modified": "2025-06-18 07:12:49.731243",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
