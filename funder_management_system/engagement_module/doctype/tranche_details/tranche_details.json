@@ -42,7 +42,9 @@
    "in_list_view": 1,
    "label": "Status",
    "options": "Pending - On Time\nPending - Delayed\nReceived - On Time\nReceived - Delayed",
-   "reqd": 1
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "tranche_financial_year",
@@ -91,12 +93,13 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-22 10:59:57.147526",
+ "modified": "2025-06-18 07:15:26.619261",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Tranche Details",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []

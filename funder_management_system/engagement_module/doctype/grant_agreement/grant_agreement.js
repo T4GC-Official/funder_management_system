@@ -32,6 +32,25 @@ before_save: function(frm) {
         }
     }
 
+    if (frm.doc.tranche_table){
+        // write a logic to update the tranche_status based on the due_date and received_on date
+        for (let i = 0; i < frm.doc.tranche_table.length; i++) {
+            let row = frm.doc.tranche_table[i];
+            if (row.due_date && row.received_on) {
+                if (row.received_on <= row.due_date) {
+                    row.tranche_status = "Received - On Time";
+                } else {
+                    row.tranche_status = "Received - Delayed";
+                }
+            } else if (row.due_date && !row.received_on) {
+                row.tranche_status = "Pending - On Time";
+            } else {
+                row.tranche_status = "Pending - On Time"; // Default status if no due date or received on date
+            }
+        }
+        frm.refresh_field("tranche_table");
+    }
+
 
 
 
