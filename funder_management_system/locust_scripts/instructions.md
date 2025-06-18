@@ -37,7 +37,6 @@ The script tests 20 different doctypes across 5 main modules:
 - **GET List**: Retrieves lists of records for all doctypes
 - **GET Specific**: Fetches individual records by ID
 - **PUT Update**: Modifies existing records with test data
-- **POST Create**: Creates new records (currently commented out)
 
 #### **Custom API Endpoints (15 endpoints):**
 - Number card utilities (leads, conversion rates, churn rates)
