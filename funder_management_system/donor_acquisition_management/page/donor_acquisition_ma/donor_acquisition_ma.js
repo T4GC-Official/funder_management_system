@@ -130,13 +130,13 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 	function load_charts(financial_years) {
 		const chartConfigs = [
 			{
-				chartTitle: "Leads distribution by Sources of Connection",
+				chartTitle: "Sources of Connection Distribution",
 				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_sources_of_connection",
 				chartType: "bar",
 				chartColors: ['#5e64ff']
 			},
 			{
-				chartTitle: "Leads distribution by Thematic Area",
+				chartTitle: "Thematic Area Distribution",
 				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_thematic_area",
 				chartType: "donut",
 				chartColors: ['#ff6f61']
