@@ -44,7 +44,7 @@ def get_data():
     for donor in donors:
         available_amount = sum((grant.total_grant_amount or 0) - (grant.total_grant_amount_utilised or 0) for grant in frappe.get_all("Grant Agreement", filters={"donor": donor["name"]}, fields=["total_grant_amount", "total_grant_amount_utilised"]))
         report_data.append({
-            "entity": donor["donor_name"],
+            "entity": f"<a href='/app/donor/{donor.name}'>Donor - {donor['donor_name']}</a>",
             "indent": 0,
             "status": None,
             "total_amount": sum((grant.total_grant_amount or 0) for grant in frappe.get_all("Grant Agreement", filters={"donor": donor["name"]}, fields=["total_grant_amount"])),
@@ -60,14 +60,14 @@ def get_data():
 
         grant_agreements = frappe.get_all("Grant Agreement",
                                           filters={"donor": donor["name"]},
-                                          fields=["name", "grant_name", "total_grant_amount", "total_tranche_amount_received", "total_grant_amount_utilised"])
+                                          fields=["name", "grant_name", "total_grant_amount", "total_tranche_amount_received", "total_grant_amount_utilised","grant_agreement_status"],)
 
         for grant in grant_agreements:
             available_amount = grant["total_grant_amount"] - grant["total_grant_amount_utilised"]
             report_data.append({
-                "entity": f"{grant['grant_name']}",
+                "entity": f"<a href='/app/grant-agreement/{grant['name']}'>GA - {grant['grant_name']}</a>",
                 "indent": 1,
-                "status": None,
+                "status": grant["grant_agreement_status"],
                 "total_amount": grant["total_grant_amount"],
                 "received_amount": grant["total_tranche_amount_received"],
                 "utilised_amount": grant["total_grant_amount_utilised"],

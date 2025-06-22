@@ -14,7 +14,7 @@ frappe.ui.form.on('Grant Agreement', {
         frm.set_df_property("donor", "only_select", 1);
     },
     before_save: function (frm) {
-
+        frm.trigger("update_grant_agreement_status");
         if (frm.doc.tranche_table) {
             const today = frappe.datetime.get_today();
 
@@ -93,6 +93,18 @@ frappe.ui.form.on('Grant Agreement', {
         frm.trigger("check_total_tranche_amount");
         frm.trigger("check_tranche_amount_type");
 
+    },
+
+    update_grant_agreement_status: function (frm) {
+         if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_start_date > frappe.datetime.get_today()) {
+            frm.set_value("grant_agreement_status", "Upcoming");
+        }
+        else if (frm.doc.grant_agreement_start_date && frm.doc.grant_agreement_end_date && frm.doc.grant_agreement_start_date <= frappe.datetime.get_today() && frm.doc.grant_agreement_end_date >= frappe.datetime.get_today()) {
+            frm.set_value("grant_agreement_status", "Active");
+        }
+        else {
+            frm.set_value("grant_agreement_status", "Expired");
+        }
     },
 
     number_of_tranche: function (frm) {

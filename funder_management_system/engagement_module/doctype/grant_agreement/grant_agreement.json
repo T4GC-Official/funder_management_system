@@ -25,6 +25,8 @@
   "grant_agreement_end_date",
   "column_break_zycf",
   "grant_agreement_type",
+  "column_break_nufi",
+  "grant_agreement_status",
   "section_break_tsvg",
   "grant_agreement_signed_on",
   "total_number_of_tranches",
@@ -166,8 +168,11 @@
    "default": "Single Year",
    "fieldname": "grant_agreement_type",
    "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Grant Agreement Type",
-   "options": "Single Year\nMulti Year"
+   "options": "Single Year\nMulti Year",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_kofh",
@@ -225,11 +230,27 @@
   {
    "fieldname": "column_break_jzzg",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "Active",
+   "fieldname": "grant_agreement_status",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Active\nExpired\nUpcoming",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_nufi",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-07 15:10:18.248871",
+ "modified": "2025-06-23 03:35:22.306917",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Grant Agreement",
