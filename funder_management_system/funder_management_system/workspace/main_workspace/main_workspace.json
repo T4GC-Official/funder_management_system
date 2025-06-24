@@ -9,7 +9,7 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "",
- "idx": 148,
+ "idx": 156,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Main Workspace",
@@ -126,26 +126,6 @@
    "type": "Link"
   },
   {
-   "description": "This module enables users to access all compliance and regulatory documents in a single repository as well as add renewal reminders for relevant documents.",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Organisation Toolkit",
-   "link_count": 1,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Document List",
-   "link_count": 0,
-   "link_to": "Document List",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
    "description": "This module allows members of the fundraising team to create a new organisation lead, track their relevant details and stages till conversion to a confirmed Donor.",
    "hidden": 0,
    "is_query_report": 0,
@@ -184,9 +164,39 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "description": "This module enables users to access all compliance and regulatory documents in a single repository as well as add renewal reminders for relevant documents.",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Organisation Toolkit",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Document List",
+   "link_count": 0,
+   "link_to": "Document List",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "FMS Roles & Permission Manager",
+   "link_count": 0,
+   "link_to": "fms-permission-manag",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-06-18 03:35:08.149616",
+ "modified": "2025-06-24 12:51:54.773152",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",

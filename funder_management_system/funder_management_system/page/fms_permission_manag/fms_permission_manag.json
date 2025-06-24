@@ -1,0 +1,23 @@
+{
+ "creation": "2013-01-01 11:00:01.000000", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "icon": "fa fa-lock", 
+ "idx": 1, 
+ "modified": "2013-07-11 14:43:43.000000", 
+ "modified_by": "Administrator", 
+ "module": "Funder Management System",
+ "name": "fms-permission-manag", 
+ "owner": "Administrator", 
+ "page_name": "fms-permission-manag", 
+ "roles": [
+  {
+   "role": "Fundraising Admin"
+  }
+ ], 
+"script": null,
+ "style": null,
+ "system_page": 0,
+ "standard": "Yes", 
+ "title": "FMS Role Permissions Manager"
+}

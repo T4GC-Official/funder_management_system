@@ -22,7 +22,77 @@ def create_financial_year():
             doc.insert(ignore_permissions=True)
 
     frappe.db.commit()
-    
+
+
+def setup_fms_permissions():
+    """Create FMS roles and setup limited permission access for FMS Admin."""
+
+    fms_roles = ["Fundraising Admin", "Budget Planner"]
+
+    # Step 1: Create roles if not exist
+    for role_name in fms_roles:
+        if not frappe.db.exists("Role", role_name):
+            role = frappe.get_doc({
+                "doctype": "Role",
+                "role_name": role_name,
+                "desk_access": 1,
+                "module": "Funder Management System",
+                "is_custom": 1
+            })
+            role.insert(ignore_permissions=True)
+            print(f" Role '{role_name}' created.")
+
+    # Step 2: Give 'Fundraising Admin' permission on Role DocType
+    if not frappe.db.exists("Custom DocPerm", {
+        "parent": "Role",
+        "role": "Fundraising Admin",
+        "read": 1,
+        "create": 1,
+        "write": 1,
+        "permlevel": 0
+    }):
+        frappe.get_doc({
+            "doctype": "Custom DocPerm",
+            "parent": "Role",
+            "parenttype": "DocType",
+            "parentfield": "permissions",
+            "role": "Fundraising Admin",
+            "read": 1,
+            "create": 1,
+            "write": 1,
+            "permlevel": 0
+        }).insert(ignore_permissions=True)
+        print(" Granted 'Fundraising Admin' read/write/create on 'Role'")
+
+    # Step 3: Give 'Fundraising Admin' permission on Custom DocPerm DocType
+    if not frappe.db.exists("Custom DocPerm", {
+        "parent": "Custom DocPerm",
+        "role": "Fundraising Admin",
+        "read": 1,
+        "create": 1,
+        "write": 1,
+        "permlevel": 0
+    }):
+        frappe.db.insert({
+            "doctype": "Custom DocPerm",
+            "parent": "Custom DocPerm",
+            "parenttype": "DocType",
+            "parentfield": "permissions",
+            "role": "Fundraising Admin",
+            "read": 1,
+            "create": 1,
+            "write": 1,
+            "permlevel": 0
+        }, ignore_permissions=True)
+
+        print(" Inserted permission for 'Fundraising Admin' on 'Custom DocPerm' using frappe.db.insert")
+
+    frappe.db.commit()
+
+
+
+
+
 def set_currency_permission_using_custom():
     """Set or update Currency DocType permissions for Fundraising Admin role."""
     doctype = "Currency"
