@@ -38,7 +38,7 @@
    "fieldtype": "Phone",
    "in_list_view": 1,
    "label": "Phone",
-   "options": "Phone +91"
+   "options": "Phone"
   },
   {
    "fieldname": "designation",
@@ -76,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-25 17:24:21.714527",
+ "modified": "2025-06-25 17:27:41.858036",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",
