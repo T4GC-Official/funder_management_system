@@ -35,12 +35,10 @@
   },
   {
    "fieldname": "phone",
-   "fieldtype": "Data",
+   "fieldtype": "Phone",
    "in_list_view": 1,
    "label": "Phone",
-   "length": 13,
-   "options": "Phone",
-   "placeholder": "+91 ___ ___ ___"
+   "options": "Phone +91"
   },
   {
    "fieldname": "designation",
@@ -78,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-02 14:04:11.010816",
+ "modified": "2025-06-25 17:24:21.714527",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",
