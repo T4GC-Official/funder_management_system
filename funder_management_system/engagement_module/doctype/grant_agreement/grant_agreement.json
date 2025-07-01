@@ -250,7 +250,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-23 03:35:22.306917",
+ "modified": "2025-06-26 05:43:34.010647",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Grant Agreement",
@@ -284,6 +284,7 @@
   }
  ],
  "row_format": "Dynamic",
+ "show_preview_popup": 1,
  "show_title_field_in_link": 1,
  "sort_field": "creation",
  "sort_order": "DESC",

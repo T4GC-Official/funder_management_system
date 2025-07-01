@@ -271,10 +271,14 @@ def update_settings():
         system_settings = frappe.get_single("System Settings")
         system_settings.deny_multiple_sessions = 1
         system_settings.session_expiry = "24:00"
-        system_settings.allowed_file_extensions = "csv,jpg,png,svg,pdf,gif"
+        system_settings.allowed_file_extensions = "csv\njpg\npng\nsvg\npdf\ngif"
         system_settings.max_file_size = 5
         system_settings.allow_error_traceback = 0
         system_settings.login_with_email_link = 0
+        system_settings.link_field_results_limit = 50  # defalut is 10 and max is 50
+        system_settings.reset_password_link_expiry_duration = "10m" # minutes
+        system_settings.enable_password_policy = 1
+        system_settings.minimum_password_score = 4
         system_settings.save()
         print("System Settings updated.")
 
@@ -314,3 +318,89 @@ def total_conversion(total: float) -> dict:
         "value": formatted_total,
         "fieldtype": "Data"
     }
+
+
+@frappe.whitelist()
+def get_module_profile(module_profile: str):
+    """Return only modules belonging to the `funder_management_system` app for the given Module Profile."""
+
+    module_profile = frappe.get_doc(
+        "Module Profile", {"module_profile_name": module_profile})
+
+    # Get all modules allowed in this profile
+    blocked_modules = module_profile.get("block_modules") or []
+    allowed_modules = frappe.get_all("Module Def", filters={
+        "app_name": "funder_management_system",
+        "name": ["not in", blocked_modules]
+    }, pluck="name")
+
+    return allowed_modules
+
+
+@frappe.whitelist()
+def get_all_roles():
+    """Return roles created by session user and static FMS roles."""
+
+    base_roles = ["Fundraising Admin", "Budget Planner", "System Manager"]
+    active_domains = frappe.get_active_domains()
+
+    # Fetch custom roles created by the current session user
+    custom_roles = frappe.get_all(
+        "Role",
+        filters={
+            "owner": frappe.session.user,
+            "disabled": 0,
+        },
+        or_filters={
+            "restrict_to_domain": ["in", active_domains],
+            "restrict_to_domain": ""
+        },
+        fields=["name"]
+    )
+
+    all_roles = base_roles + [r.name for r in custom_roles]
+
+    # Get role docs for output
+    roles = frappe.get_all(
+        "Role",
+        filters={
+            "name": ["in", base_roles],
+            "disabled": 0
+        },
+        fields=["name"],
+        order_by="name"
+    )
+
+    return sorted([role.get("name") for role in roles])
+
+
+def normalize_financial_years(financial_years):
+    """Helper function to parse and normalize financial_years input."""
+    if not financial_years:
+        return []
+
+    if isinstance(financial_years, str):
+        try:
+            parsed = json.loads(financial_years)
+            return parsed if isinstance(parsed, list) else [parsed]
+        except json.JSONDecodeError:
+            return [financial_years]
+
+    if isinstance(financial_years, list):
+        return financial_years
+
+    return []
+
+
+def get_fy_date_ranges_from_doctype(financial_years):
+    """Fetch start and end dates for the given financial years from the Financial Year doctype"""
+    if not financial_years:
+        return []
+
+    fy_docs = frappe.get_all(
+        "Financial Year",
+        filters={"name": ["in", financial_years]},
+        fields=["year_start_date", "year_end_date"]
+    )
+
+    return [(d.year_start_date, d.year_end_date) for d in fy_docs]

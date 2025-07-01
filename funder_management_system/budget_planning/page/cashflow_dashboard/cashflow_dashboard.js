@@ -1,4 +1,4 @@
-frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
+frappe.pages['cashflow-dashboard'].on_page_load = function (wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
 		title: 'Cashflow Dashboard',
@@ -16,16 +16,16 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 	page.add_inner_button('Budget vs Utilisation Report', () => {
 		frappe.set_route('query-report', 'Budget vs Utilisation Report');
 	}, 'Visit Reports');
-	
+
 	page.add_inner_button('Donor vs Utilisation Report', () => {
 		frappe.set_route('query-report', 'Donation vs Utilisation Report');
 	}, 'Visit Reports');
-	
+
 	page.add_inner_button('Budget Plan Report', () => {
 		frappe.set_route('query-report', 'Budget Plan Report');
 	}, 'Visit Reports');
-	
-	
+
+
 
 
 	// Style buttons
@@ -54,7 +54,7 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 			</div>
 		</div>
 	`).appendTo(contentWrapper);
-	
+
 	const filterFields = {};
 	let allYears = [];
 	let currentYear = null;
@@ -83,7 +83,6 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 		}
 	}
 
-	// Load data
 	frappe.db.get_list('Financial Year', { fields: ['name'] }).then(res => {
 		allYears = res.map(d => d.name);
 
@@ -98,7 +97,7 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 		});
 	});
 
-	// ⬅️ Append to content wrapper with padding
+	
 	const cardsWrapper = $('<div class="number-cards-wrapper mb-4"></div>').appendTo(contentWrapper);
 	const chartsWrapper = $('<div id="charts-wrapper" class="row mb-4"></div>').appendTo(contentWrapper);
 
@@ -128,10 +127,9 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 				}
 			}
 		});
-		}
+	}
 
-	function load_charts(financial_years)
-	{
+	function load_charts(financial_years) {
 		const chartConfigs = [
 			{
 				chartTitle: "Yearly Budget Plan Distributed Category Wise",
@@ -183,8 +181,18 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 							},
 							type: config.chartType,
 							height: 300,
-							colors: config.chartColors
+							colors: config.chartColors,
+							axisOptions: {
+								yAxisMode: 'tick',
+								xAxisMode: 'tick',
+								shortenYAxisNumbers: true,
+								numberFormatter: frappe.utils.format_chart_axis_number // use your custom formatter
+							},
+							tooltipOptions: {
+								formatTooltipY: frappe.utils.format_chart_axis_number
+							}
 						});
+
 					} else {
 						el.innerHTML = `<p class="text-muted">No data available for ${config.chartTitle}.</p>`;
 					}
@@ -192,5 +200,5 @@ frappe.pages['cashflow-dashboard'].on_page_load = function(wrapper) {
 			});
 		});
 	}
-	
+
 };

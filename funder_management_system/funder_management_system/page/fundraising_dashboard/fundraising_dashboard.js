@@ -1,26 +1,25 @@
-frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
+frappe.pages['fundraising-dashboard'].on_page_load = function (wrapper) {
 	var page = frappe.ui.make_app_page({
 		parent: wrapper,
-		title: 'Donor Acquisition Dashboard',
-		single_column: true,
+		title: 'Fundraising Dashboard',
+		single_column: true
 	});
-	
 
 	page.set_secondary_action('Refresh', () => {
 		filterWrapper.find('#generate-dashboard-btn').click();
 	});
 
-	page.set_primary_action('Go to Leads', () => {
-		frappe.set_route('List', 'Organisation Lead');
+	page.set_primary_action('Go to Grant Agreements', () => {
+		frappe.set_route('List', 'Grant Agreement');
 	});
 	page.add_inner_button('Budget vs Utilisation Report', () => {
 		frappe.set_route('query-report', 'Budget vs Utilisation Report');
 	}, 'Visit Reports');
-	
+
 	page.add_inner_button('Donor vs Utilisation Report', () => {
 		frappe.set_route('query-report', 'Donation vs Utilisation Report');
 	}, 'Visit Reports');
-	
+
 	page.add_inner_button('Budget Plan Report', () => {
 		frappe.set_route('query-report', 'Budget Plan Report');
 	}, 'Visit Reports');
@@ -36,21 +35,21 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 
 	// Filter Section
 	const filterWrapper = $(`
-		<div class="filter-cards-wrapper mt-1 mb-4">
-			<div class="card no-border no-shadow">
-				<div class="card-body">
-					<div class="row align-items-end">
-						<div class="col-md-4">
-							<div id="financial-year-field"></div>
-						</div>
-						<div class="col-md-4 mb-4 text-end">
-							<button class="btn btn-primary" id="generate-dashboard-btn">Generate Dashboard</button>
-						</div>
+	<div class="filter-cards-wrapper mt-1 mb-4">
+		<div class="card no-border no-shadow">
+			<div class="card-body">
+				<div class="row align-items-end">
+					<div class="col-md-4">
+						<div id="financial-year-field"></div>
+					</div>
+					<div class="col-md-4 mb-4 text-end">
+						<button class="btn btn-primary" id="generate-dashboard-btn">Generate Dashboard</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	`).appendTo(contentWrapper);
+	</div>
+`).appendTo(contentWrapper);
 
 	const filterFields = {};
 	let allYears = [];
@@ -116,11 +115,11 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 
 	function load_cards(financial_years) {
 		frappe.call({
-			method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_number_cards",
+			method: "funder_management_system.funder_management_system.page.fundraising_dashboard.fundraising_dashboard.get_number_cards",
 			args: { financial_years: JSON.stringify(financial_years) },
 			callback: function (r) {
 				if (r.message) {
-					const html = frappe.render_template("donor_acquisition_ma", { cards: r.message });
+					const html = frappe.render_template("fundraising_dashboard", { cards: r.message });
 					cardsWrapper.html(html);
 				}
 			}
@@ -130,38 +129,30 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 	function load_charts(financial_years) {
 		const chartConfigs = [
 			{
-				chartTitle: "Sources of Connection Distribution",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_sources_of_connection",
+				chartTitle: "Top Donors For Selected Financial Years",
+				method: "funder_management_system.funder_management_system.page.fundraising_dashboard.fundraising_dashboard.get_top_donors",
 				chartType: "bar",
-				chartColors: ['#003366']
+				chartColors: ['#004D4D'],
+				yAxisLabels: false
 			},
 			{
-				chartTitle: "Thematic Area Distribution",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_thematic_area",
-				chartType: "donut",
-				chartColors: ['#ff6f61']
-			},
-			{
-				chartTitle: "Leads distribution by Category",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_category",
-				chartType: "donut",
-				chartColors: ['#7c868e']
-			},
-			{
-				chartTitle: "Lead Funnel Metrics - Stage Wise",
-				method: "funder_management_system.donor_acquisition_management.page.donor_acquisition_ma.donor_acquisition_ma.get_leads_by_lead_stages",
-				chartType: "pie",
-				chartColors: ['#28a745']
+				chartTitle: "Funds Received vs Utilised - Donor Wise For Selected Financial Years",
+				method: "funder_management_system.funder_management_system.page.fundraising_dashboard.fundraising_dashboard.get_funds_received_vs_utilised",
+				chartType: "bar",
+				chartColors: ['#B1380B', '#4394E5']
 			}
 		];
 
+		const chartsWrapper = $('#charts-wrapper');
+		chartsWrapper.empty();
+
 		chartConfigs.forEach((config, index) => {
-			const chartId = `dashboard-donor-acquisition-chart-${index + 1}`;
+			const chartId = `dashboard-fundraising-dashboard-chart-${index + 1}`;
 			const chartCol = $(`
-				<div class="col-md-6 mb-4">
-					<div id="${chartId}" class="dashboard-chart-box">Loading chart...</div>
-				</div>
-			`);
+			<div class="col-md-12 mb-4">
+				<div id="${chartId}" class="dashboard-chart-box pl-4">Loading chart...</div>
+			</div>
+		`);
 			chartsWrapper.append(chartCol);
 
 			frappe.call({
@@ -178,13 +169,29 @@ frappe.pages['donor-acquisition-ma'].on_page_load = function(wrapper) {
 							},
 							type: config.chartType,
 							height: 300,
-							colors: config.chartColors
+							colors: config.chartColors,
+							axisOptions: {
+								yAxisMode: 'tick',
+								xAxisMode: 'tick',
+								shortenYAxisNumbers: true,
+								numberFormatter: frappe.utils.format_chart_axis_number // use your custom formatter
+							},
+							tooltipOptions: {
+								formatTooltipY: frappe.utils.format_chart_axis_number
+							}
 						});
+
+
+
+
+
 					} else {
-						el.innerHTML = `<p class="text-muted">No data available  ${config.chartTitle}.</p>`;
+						el.innerHTML = `<p class="text-muted">No data available for ${config.chartTitle}.</p>`;
 					}
 				}
 			});
 		});
 	}
+
+
 };

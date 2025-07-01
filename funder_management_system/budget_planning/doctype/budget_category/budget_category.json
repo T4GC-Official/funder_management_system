@@ -4,6 +4,7 @@
  "allow_rename": 1,
  "autoname": "field:budget_category",
  "creation": "2025-01-24 13:20:10.378468",
+ "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -19,9 +20,10 @@
    "unique": 1
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-07 14:33:43.303870",
+ "modified": "2025-06-25 01:56:05.647544",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Category",

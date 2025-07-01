@@ -128,10 +128,10 @@
    "options": "Budget Plan Template"
   }
  ],
- "index_web_pages_for_search": 1,
+ "force_re_route_to_default_view": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-07 14:32:56.833859",
+ "modified": "2025-06-26 01:47:34.575875",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Plan",
@@ -182,7 +182,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",

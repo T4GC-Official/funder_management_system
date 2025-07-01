@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_events_in_timeline": 1,
  "allow_rename": 1,
  "autoname": "field:urn",
  "creation": "2025-02-25 13:47:01.975850",
@@ -265,9 +266,10 @@
    "read_only": 1
   }
  ],
+ "force_re_route_to_default_view": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-18 07:12:49.731243",
+ "modified": "2025-06-26 05:46:18.343835",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Utilisation Record",
@@ -311,5 +313,8 @@
  "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

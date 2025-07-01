@@ -17,16 +17,20 @@
   {
    "chart": "Top 5 Donors - Current FY",
    "width": "Full"
+  },
+  {
+   "chart": "Test",
+   "width": "Half"
   }
  ],
  "creation": "2025-05-05 12:45:40.126272",
  "dashboard_name": "Fundraising Dashboard",
  "docstatus": 0,
  "doctype": "Dashboard",
- "idx": 0,
+ "idx": 2,
  "is_default": 0,
  "is_standard": 1,
- "modified": "2025-05-07 15:03:19.489061",
+ "modified": "2025-06-30 13:17:01.835155",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Fundraising Dashboard",

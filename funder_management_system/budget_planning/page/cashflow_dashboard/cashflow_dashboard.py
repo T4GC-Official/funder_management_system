@@ -1,7 +1,7 @@
 import frappe
 from frappe import _
 import json
-from funder_management_system.utils import total_conversion
+from funder_management_system.utils import total_conversion, normalize_financial_years
 dashboard_logger = frappe.logger("dashboard", allow_site=True, file_count=10)
 
 @frappe.whitelist()
@@ -64,24 +64,6 @@ def get_total_budget(financial_years=None):
 
 
 
-
-
-def normalize_financial_years(financial_years):
-    """Helper function to parse and normalize financial_years input."""
-    if not financial_years:
-        return []
-
-    if isinstance(financial_years, str):
-        try:
-            parsed = json.loads(financial_years)
-            return parsed if isinstance(parsed, list) else [parsed]
-        except json.JSONDecodeError:
-            return [financial_years]
-
-    if isinstance(financial_years, list):
-        return financial_years
-
-    return []
 
 @frappe.whitelist()
 def get_budget_category_wise(financial_years=None):

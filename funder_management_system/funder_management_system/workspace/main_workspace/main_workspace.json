@@ -9,7 +9,7 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "",
- "idx": 156,
+ "idx": 177,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Main Workspace",
@@ -196,7 +196,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-06-24 12:51:54.773152",
+ "modified": "2025-06-27 13:40:28.101732",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
@@ -232,16 +232,16 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Cashflow Dashboard",
-   "link_to": "cashflow-dashboard",
+   "label": "Fundraising Dashboard",
+   "link_to": "fundraising-dashboard",
    "type": "Page"
   },
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Fundraising Dashboard",
-   "link_to": "Fundraising Dashboard",
-   "type": "Dashboard"
+   "label": "Cashflow Dashboard",
+   "link_to": "cashflow-dashboard",
+   "type": "Page"
   },
   {
    "color": "Grey",

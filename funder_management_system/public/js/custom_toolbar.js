@@ -20,6 +20,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 item.remove();
                 console.log("Framework removed from sidebar.");
             }
+            if (appName === "website" || (appTitle && appTitle.innerText.trim() === "Website")) {
+                item.remove();
+                console.log("Website removed from sidebar.");
+            }
+            const menu = document.querySelector('.app-switcher-menu');
+            const firstDivider = menu?.querySelector('.divider');
+
+            if (firstDivider) {
+                firstDivider.remove();
+            }
+
         });
     }
 
