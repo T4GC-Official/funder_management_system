@@ -9,7 +9,7 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "",
- "idx": 177,
+ "idx": 183,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Main Workspace",
@@ -170,7 +170,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Organisation Toolkit",
-   "link_count": 2,
+   "link_count": 1,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -184,19 +184,9 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "FMS Roles & Permission Manager",
-   "link_count": 0,
-   "link_to": "fms-permission-manag",
-   "link_type": "Page",
-   "onboard": 0,
-   "type": "Link"
   }
  ],
- "modified": "2025-06-27 13:40:28.101732",
+ "modified": "2025-07-02 08:24:38.690525",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",

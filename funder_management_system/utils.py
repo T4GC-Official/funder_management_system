@@ -1,6 +1,9 @@
-import frappe, json
+import frappe
+import json
+from frappe import _
 from datetime import datetime, date
 from frappe.share import set_permission
+
 
 def create_financial_year():
     current_year = datetime.now().year
@@ -90,9 +93,6 @@ def setup_fms_permissions():
     frappe.db.commit()
 
 
-
-
-
 def set_currency_permission_using_custom():
     """Set or update Currency DocType permissions for Fundraising Admin role."""
     doctype = "Currency"
@@ -133,14 +133,16 @@ def set_currency_permission_using_custom():
 
         frappe.db.commit()
     except Exception as e:
-        frappe.log_error(f"Error setting permissions for {role} on {doctype}: {e}")
-    
-    
+        frappe.log_error(
+            f"Error setting permissions for {role} on {doctype}: {e}")
+
+
 # write a generic function to add data import permission on FMS doctypes the user will pass the doctype name and the role name
 def set_import_permission(doctype, role, permissions):
     try:
-        existing_perm = frappe.get_all("Custom DocPerm", 
-                                       filters={"parent": doctype, "role": role}, 
+        existing_perm = frappe.get_all("Custom DocPerm",
+                                       filters={
+                                           "parent": doctype, "role": role},
                                        fields=["name"])
         if not existing_perm:
             custom_perm = frappe.get_doc({
@@ -158,11 +160,14 @@ def set_import_permission(doctype, role, permissions):
             })
             custom_perm.insert(ignore_permissions=True)
     except Exception as e:
-        frappe.log_error(f"Error setting permissions for {role} on {doctype}: {e}")
-        
+        frappe.log_error(
+            f"Error setting permissions for {role} on {doctype}: {e}")
+
+
 def skip_setup_wizard():
     """Automatically skip the setup wizard after install."""
-    frappe.db.set_value("System Settings", "System Settings", "setup_complete", 1)
+    frappe.db.set_value("System Settings",
+                        "System Settings", "setup_complete", 1)
     frappe.db.commit()
     print("Setup wizard skipped!")
 
@@ -172,9 +177,10 @@ def set_default_workspace(doc, method):
     if not doc.default_workspace:  # Only set if not already defined
         doc.default_workspace = "Main Workspace"
         doc.save(ignore_permissions=True)  # Correct way to update
-        frappe.msgprint(f"Default workspace set to 'Main Workspace' for {doc.name}")
+        frappe.msgprint(
+            f"Default workspace set to 'Main Workspace' for {doc.name}")
 
-    
+
 def enable_permission_for_fms_roles(fms_admin=True):
     if not fms_admin:
         return
@@ -195,21 +201,62 @@ def enable_permission_for_fms_roles(fms_admin=True):
     print(f"Permissions set for FMS roles{roles}")
 
 
+def enable_page_permissions():
+    role_page_mappings = {
+        "Fundraising Dashboard": "Fundraising Dashboard",
+        "Donor Acquisition Dashboard": "Donor Acquisition Dashboard",
+        "Cashflow Dashboard": "Cashflow Dashboard"
+    }
+
+    for role, page_title in role_page_mappings.items():
+        # Step 1: Add generic Page doctype permission
+        if not frappe.get_all("Custom DocPerm", filters={
+            "parent": "Page",
+            "role": role,
+            "permlevel": 0,
+            "read": 1
+        }):
+            from frappe.permissions import add_permission
+            add_permission("Page", role, permlevel=0)
+            print(f"Read permission on Page doctype added for role: {role}")
+        else:
+            print(f"Read permission on Page already exists for role: {role}")
+
+        # Step 2: Add role access to specific Page
+        page_records = frappe.get_all(
+            "Page", filters={"title": page_title}, fields=["name"])
+        if not page_records:
+            print(f"Page titled '{page_title}' not found.")
+            continue
+
+        page_doc = frappe.get_doc("Page", page_records[0].name)
+        existing_roles = [r.role for r in page_doc.roles]
+
+        if role not in existing_roles:
+            page_doc.append("roles", {"role": role})
+            page_doc.save(ignore_permissions=True)
+            print(f"Role {role} granted access to page: {page_title}")
+        else:
+            print(f"Role {role} already has access to page: {page_title}")
+
+    frappe.db.commit()
+    print("All permissions processed.")
+
+
 def share_custom_number_cards_with_everyone():
-    cards = ["Churn Rate In Current Financial Year", 
+    cards = ["Churn Rate In Current Financial Year",
              "Conversion Rate in Current Financial Year",
              "Total Active Donors - Current FY",
              "Total Active Grant Agreements - Currrent FY",
              "Total Funds Received - Current FY",
              "Total Expenses - Current FY"]
-    
 
     for card in cards:
         try:
             set_permission(
                 doctype="Number Card",
                 name=card,
-                user=None,           
+                user=None,
                 permission_to="read",
                 value=1,
                 everyone=1
@@ -217,7 +264,10 @@ def share_custom_number_cards_with_everyone():
             frappe.db.commit()
             print(f"Shared {card} with everyone.")
         except Exception as e:
-            frappe.log_error(title="Failed to Share Number Card with Everyone", message=f"{card}: {str(e)}")
+            frappe.log_error(
+                title="Failed to Share Number Card with Everyone", message=f"{card}: {str(e)}")
+
+
 @frappe.whitelist()
 def get_current_financial_year():
     today = date.today()
@@ -232,8 +282,8 @@ def get_current_financial_year():
 
     return financial_year
 
+
 def update_settings():
-   
     """
     Set up website customizations.
 
@@ -249,7 +299,7 @@ def update_settings():
     message indicating failure.
     """
     image_loc = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
-    
+
     try:
         # Website Settings
         website_settings = frappe.get_single("Website Settings")
@@ -276,7 +326,7 @@ def update_settings():
         system_settings.allow_error_traceback = 0
         system_settings.login_with_email_link = 0
         system_settings.link_field_results_limit = 50  # defalut is 10 and max is 50
-        system_settings.reset_password_link_expiry_duration = "10m" # minutes
+        system_settings.reset_password_link_expiry_duration = "10m"  # minutes
         system_settings.enable_password_policy = 1
         system_settings.minimum_password_score = 4
         system_settings.save()
@@ -295,7 +345,8 @@ def update_settings():
         print("All settings updated and committed successfully.")
 
     except Exception:
-        frappe.log_error(frappe.get_traceback(), "Website Settings Setup Failed")
+        frappe.log_error(frappe.get_traceback(),
+                         "Website Settings Setup Failed")
         print("Failed to update settings. Check error logs.")
 
 
@@ -340,16 +391,27 @@ def get_module_profile(module_profile: str):
 @frappe.whitelist()
 def get_all_roles():
     """Return roles created by session user and static FMS roles."""
-
-    base_roles = ["Fundraising Admin", "Budget Planner", "System Manager"]
+    user = frappe.session.user
+    
+    if user!="Administrator":
+        base_roles = ["Fundraising Admin",
+                      "Budget Planner",
+                      "Fundraising-Dashboard",
+                      "Donor Acquisition Dashboard",
+                      "Cashflow Dashboard",
+                      "Fundraising Dashboard",
+                      ]
+    else:
+        base_roles = []
+    
     active_domains = frappe.get_active_domains()
-
     # Fetch custom roles created by the current session user
     custom_roles = frappe.get_all(
         "Role",
         filters={
             "owner": frappe.session.user,
             "disabled": 0,
+            "default_app": "FMS",
         },
         or_filters={
             "restrict_to_domain": ["in", active_domains],
@@ -358,20 +420,7 @@ def get_all_roles():
         fields=["name"]
     )
 
-    all_roles = base_roles + [r.name for r in custom_roles]
-
-    # Get role docs for output
-    roles = frappe.get_all(
-        "Role",
-        filters={
-            "name": ["in", base_roles],
-            "disabled": 0
-        },
-        fields=["name"],
-        order_by="name"
-    )
-
-    return sorted([role.get("name") for role in roles])
+    return base_roles + [r.name for r in custom_roles]
 
 
 def normalize_financial_years(financial_years):
@@ -404,3 +453,21 @@ def get_fy_date_ranges_from_doctype(financial_years):
     )
 
     return [(d.year_start_date, d.year_end_date) for d in fy_docs]
+
+
+def validate_fundraising_admin(doc, method):
+    fundraising_admin_role = "Fundraising Admin"
+
+    if not doc.name:
+        old_roles = set()
+    else:
+        old_roles = set(frappe.get_all("Has Role", filters={
+                        "parent": doc.name}, pluck="role"))
+
+    new_roles = set([r.role for r in doc.roles] or [])
+    if doc.is_fundraising_admin and fundraising_admin_role not in new_roles:
+        frappe.msgprint(
+            _("You cannot remove the Fundraising Admin role while 'Is Fundraising Admin' is checked."),
+            indicator='red'
+        )
+        doc.append("roles", {"role": fundraising_admin_role})

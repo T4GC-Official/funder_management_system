@@ -114,7 +114,8 @@ after_migrate = [
     "funder_management_system.utils.update_settings",
     "funder_management_system.utils.setup_fms_permissions",
     "funder_management_system.role_custom_field.add_custom_fields",
-
+    "funder_management_system.utils.enable_page_permissions",
+    "funder_management_system.role_management.add_fms_admin_permissions_to_user_doctype",
     ]
 # Uninstallation
 # ------------
@@ -172,7 +173,8 @@ after_migrate = [
 # Hook on document methods and events
 doc_events = {
     "User": {
-        "after_insert":"funder_management_system.utils.set_default_workspace"}
+        "after_insert":"funder_management_system.utils.set_default_workspace",
+        "before_save": "funder_management_system.utils.validate_fundraising_admin"}
 }
 
 
@@ -216,10 +218,10 @@ scheduler_events = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.core.doctype.user.user.get_module_profile": "funder_management_system.utils.get_module_profile",
-#    "frappe.core.doctype.user.user.get_all_roles": "funder_management_system.utils.get_all_roles",
-# }
+override_whitelisted_methods = {
+	#"frappe.core.doctype.user.user.get_module_profile": "funder_management_system.utils.get_module_profile",
+   "frappe.core.doctype.user.user.get_all_roles": "funder_management_system.utils.get_all_roles",
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
