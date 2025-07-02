@@ -394,6 +394,7 @@ def get_all_roles():
                       "Fundraising Dashboard",
                       "Donor Acquisition Dashboard",
                       "Cashflow Dashboard",
+                      "Workspace Manager",
                       ]
     else:
         base_roles = []
@@ -403,7 +404,6 @@ def get_all_roles():
     custom_roles = frappe.get_all(
         "Role",
         filters={
-            "owner": frappe.session.user,
             "disabled": 0,
             "default_app": "FMS",
         },
