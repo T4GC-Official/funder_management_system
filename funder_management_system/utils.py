@@ -3,7 +3,7 @@ import json
 from frappe import _
 from datetime import datetime, date
 from frappe.share import set_permission
-
+from role_management import create_roles_if_missing
 
 def create_financial_year():
     current_year = datetime.now().year
@@ -66,7 +66,7 @@ def setup_fms_permissions():
                 "write": 1,
                 "permlevel": 0
             }).insert(ignore_permissions=True)
-            print(" Granted 'Fundraising Admin' read/write/create on 'Role'")
+            print("Granted 'Fundraising Admin' read/write/create on 'Role'")
 
         # Use frappe.get_doc().insert()
         if not frappe.db.exists("Custom DocPerm", {
@@ -89,7 +89,7 @@ def setup_fms_permissions():
                 "permlevel": 0
             }).insert(ignore_permissions=True)
 
-            print(" Inserted permission for 'Fundraising Admin' on 'Custom DocPerm'")
+            print("Inserted permission for 'Fundraising Admin' on 'Custom DocPerm'")
 
     except Exception as e:
         print(f"Error setting up FMS permissions: {e}")
@@ -206,6 +206,7 @@ def enable_permission_for_fms_roles(fms_admin=True):
 
 
 def enable_page_permissions():
+    create_roles_if_missing()
     role_page_mappings = {
         "Fundraising Dashboard": "Fundraising Dashboard",
         "Donor Acquisition Dashboard": "Donor Acquisition Dashboard",
