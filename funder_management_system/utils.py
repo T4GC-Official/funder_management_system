@@ -3,7 +3,7 @@ import json
 from frappe import _
 from datetime import datetime, date
 from frappe.share import set_permission
-from .role_management import create_roles_if_missing
+from .role_management import create_roles_if_missing,patch_roles_with_default_app
 
 def create_financial_year():
     current_year = datetime.now().year
@@ -207,6 +207,7 @@ def enable_permission_for_fms_roles(fms_admin=True):
 
 def enable_page_permissions():
     create_roles_if_missing()
+    patch_roles_with_default_app(["Fundraising Admin", "Budget Planner"])
     role_page_mappings = {
         "Fundraising Dashboard": "Fundraising Dashboard",
         "Donor Acquisition Dashboard": "Donor Acquisition Dashboard",

@@ -62,3 +62,28 @@ def create_roles_if_missing():
 
             }).insert(ignore_permissions=True)
             print(f"Created missing role: {role}")
+
+
+def patch_roles_with_default_app(role_names, default_app="FMS"):
+    """
+    Ensures that each role in the list has the 'default_app' field set.
+
+    :param role_names: List of role names to patch
+    :param default_app: App name to set as default_app (defaults to "FMS")
+    """
+    for role_name in role_names:
+        if not frappe.db.exists("Role", role_name):
+            print(f"Role '{role_name}' does not exist. Skipping.")
+            continue
+
+        try:
+            role_doc = frappe.get_doc("Role", role_name)
+
+            if not role_doc.default_app:
+                role_doc.default_app = default_app
+                role_doc.save(ignore_permissions=True)
+                print(f"Patched role '{role_name}' with default_app = '{default_app}'")
+            else:
+                print(f"!Role '{role_name}' already has default_app = '{role_doc.default_app}'")
+        except Exception as e:
+            print(f"Error patching role '{role_name}': {e}")
