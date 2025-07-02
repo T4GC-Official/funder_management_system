@@ -401,7 +401,7 @@ def get_all_roles():
     if user!="Administrator":
         base_roles = ["Fundraising Admin",
                       "Budget Planner",
-                      "Fundraising-Dashboard",
+                      "Fundraising Dashboard",
                       "Donor Acquisition Dashboard",
                       "Cashflow Dashboard",
                       "Fundraising Dashboard",
