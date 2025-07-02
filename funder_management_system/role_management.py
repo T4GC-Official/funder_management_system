@@ -1,5 +1,6 @@
 import frappe
 
+
 def add_fms_admin_permissions_to_user_doctype():
     role = "Fundraising Admin"
     doctype = "User"
@@ -33,11 +34,14 @@ def add_fms_admin_permissions_to_user_doctype():
                 })
                 doc.insert(ignore_permissions=True)
                 frappe.db.commit()
-                print(f"Permission added for {role} on {doctype} at level {perm_level}")
+                print(
+                    f"Permission added for {role} on {doctype} at level {perm_level}")
             else:
-                print(f"Permission already exists for {role} on {doctype} at level {perm_level}")
+                print(
+                    f"Permission already exists for {role} on {doctype} at level {perm_level}")
         except Exception as e:
-            print(f"Error adding permission for {role} on {doctype} at level {perm_level}: {e}")
+            print(
+                f"Error adding permission for {role} on {doctype} at level {perm_level}: {e}")
 
 
 def create_roles_if_missing():
@@ -53,6 +57,8 @@ def create_roles_if_missing():
                 "doctype": "Role",
                 "role_name": role,
                 "desk_access": 1,
-                "is_custom": 1
+                "is_custom": 1,
+                "default_app": "FMS",
+
             }).insert(ignore_permissions=True)
             print(f"Created missing role: {role}")
