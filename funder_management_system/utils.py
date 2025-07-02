@@ -27,75 +27,60 @@ def create_financial_year():
     frappe.db.commit()
 
 
-def setup_fms_permissions():
-    """Create FMS roles and setup limited permission access for FMS Admin."""
+def add_permissions(role, doctype, permissions):
+    """
+    Adds specified permissions to a role on a given Doctype using Custom DocPerm.
 
+    :param role: str, role name
+    :param doctype: str, target doctype to add permission on
+    :param permissions: dict, permission flags like {"read": 1, "write": 1}
+    """
+    permlevel = permissions.get("permlevel", 0)
+
+    # Check if a matching Custom DocPerm already exists
+    filters = {
+        "parent": doctype,
+        "role": role,
+        "permlevel": permlevel,
+    }
+    filters.update({key: 1 for key in permissions if key != "permlevel"})
+
+    if frappe.get_all("Custom DocPerm", filters=filters):
+        print(f"! Permissions already exist for role '{role}' on '{doctype}'. Skipping.")
+        return
+
+    # Insert permission
+    doc = frappe.get_doc({
+        "doctype": "Custom DocPerm",
+        "parent": doctype,
+        "parenttype": "DocType",
+        "parentfield": "permissions",
+        "role": role,
+        "permlevel": permlevel,
+        **{key: 1 for key in permissions if key != "permlevel"}
+    })
+
+    doc.insert(ignore_permissions=True)
+    print(f"Granted {list(permissions.keys())} on '{doctype}' to role '{role}'")
+
+def setup_fms_permissions():
+    """
+    Sets up FMS-related roles and grants appropriate permissions.
+    """
     fms_roles = ["Fundraising Admin", "Budget Planner"]
+    create_roles_if_missing(fms_roles)
 
     try:
-        # Step 1: Create roles if not exist
-        for role_name in fms_roles:
-            if not frappe.db.exists("Role", role_name):
-                role = frappe.get_doc({
-                    "doctype": "Role",
-                    "role_name": role_name,
-                    "desk_access": 1,
-                    "module": "Funder Management System",
-                    "is_custom": 1
-                })
-                role.insert(ignore_permissions=True)
-                print(f" Role '{role_name}' created.")
-
-        # Step 2: Give 'Fundraising Admin' permission on Role DocType
-        if not frappe.db.exists("Custom DocPerm", {
-            "parent": "Role",
-            "role": "Fundraising Admin",
-            "read": 1,
-            "create": 1,
-            "write": 1,
-            "permlevel": 0
-        }):
-            frappe.get_doc({
-                "doctype": "Custom DocPerm",
-                "parent": "Role",
-                "parenttype": "DocType",
-                "parentfield": "permissions",
-                "role": "Fundraising Admin",
-                "read": 1,
-                "create": 1,
-                "write": 1,
-                "permlevel": 0
-            }).insert(ignore_permissions=True)
-            print("Granted 'Fundraising Admin' read/write/create on 'Role'")
-
-        # Use frappe.get_doc().insert()
-        if not frappe.db.exists("Custom DocPerm", {
-            "parent": "Custom DocPerm",
-            "role": "Fundraising Admin",
-            "read": 1,
-            "create": 1,
-            "write": 1,
-            "permlevel": 0
-        }):
-            frappe.get_doc({
-                "doctype": "Custom DocPerm",
-                "parent": "Custom DocPerm",
-                "parenttype": "DocType",
-                "parentfield": "permissions",
-                "role": "Fundraising Admin",
-                "read": 1,
-                "create": 1,
-                "write": 1,
-                "permlevel": 0
-            }).insert(ignore_permissions=True)
-
-            print("Inserted permission for 'Fundraising Admin' on 'Custom DocPerm'")
-
+        # Grant permissions
+        add_permissions("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1})
+        add_permissions("Fundraising Admin", "Role Profile", {"read": 1})
+        add_permissions("Fundraising Admin", "Custom DocPerm", {"read": 1, "write": 1, "create": 1})
     except Exception as e:
+        frappe.log_error(title="FMS Permission Setup Error", message=str(e))
         print(f"Error setting up FMS permissions: {e}")
 
     frappe.db.commit()
-
+    print("All FMS permissions applied successfully.")
 
 def set_currency_permission_using_custom():
     """Set or update Currency DocType permissions for Fundraising Admin role."""
@@ -206,7 +191,11 @@ def enable_permission_for_fms_roles(fms_admin=True):
 
 
 def enable_page_permissions():
-    create_roles_if_missing()
+    create_roles_if_missing([
+        "Fundraising Dashboard",
+        "Donor Acquisition Dashboard",
+        "Cashflow Dashboard"
+    ])
     patch_roles_with_default_app(["Fundraising Admin", "Budget Planner"])
     role_page_mappings = {
         "Fundraising Dashboard": "Fundraising Dashboard",
@@ -405,7 +394,6 @@ def get_all_roles():
                       "Fundraising Dashboard",
                       "Donor Acquisition Dashboard",
                       "Cashflow Dashboard",
-                      "Fundraising Dashboard",
                       ]
     else:
         base_roles = []

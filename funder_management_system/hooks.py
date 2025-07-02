@@ -116,6 +116,7 @@ after_migrate = [
     "funder_management_system.role_custom_field.add_custom_fields",
     "funder_management_system.utils.enable_page_permissions",
     "funder_management_system.role_management.add_fms_admin_permissions_to_user_doctype",
+    "funder_management_system.role_management.set_dashboard_permission",
     ]
 # Uninstallation
 # ------------
