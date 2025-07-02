@@ -3,7 +3,7 @@ import json
 from frappe import _
 from datetime import datetime, date
 from frappe.share import set_permission
-from role_management import create_roles_if_missing
+from .role_management import create_roles_if_missing
 
 def create_financial_year():
     current_year = datetime.now().year
