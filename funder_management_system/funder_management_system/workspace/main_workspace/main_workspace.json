@@ -9,7 +9,7 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "",
- "idx": 183,
+ "idx": 185,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "Main Workspace",
@@ -186,7 +186,7 @@
    "type": "Link"
   }
  ],
- "modified": "2025-07-02 08:24:38.690525",
+ "modified": "2025-07-03 04:04:03.761520",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Main Workspace",
@@ -195,14 +195,7 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [
-  {
-   "role": "Fundraising Admin"
-  },
-  {
-   "role": "Budget Planner"
-  }
- ],
+ "roles": [],
  "sequence_id": 1.0,
  "shortcuts": [
   {

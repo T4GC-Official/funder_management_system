@@ -110,6 +110,7 @@ after_migrate = [
     "funder_management_system.utils.update_settings",
     "funder_management_system.utils.setup_fms_permissions",
     "funder_management_system.role_custom_field.add_custom_fields",
+    "funder_management_system.permission_utils.setup_modules_roles",
 ]
 # Uninstallation
 # ------------
