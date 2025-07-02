@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 2,
- "modified": "2025-07-01 15:40:16.085918",
+ "modified": "2025-07-03 00:56:54.200947",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "cashflow-dashboard",
@@ -16,6 +16,9 @@
   },
   {
    "role": "Cashflow Dashboard"
+  },
+  {
+   "role": "Cashflow Dashboard Viewer"
   }
  ],
  "script": null,

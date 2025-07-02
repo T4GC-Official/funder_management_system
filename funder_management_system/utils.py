@@ -3,7 +3,8 @@ import json
 from frappe import _
 from datetime import datetime, date
 from frappe.share import set_permission
-from .role_management import create_roles_if_missing,patch_roles_with_default_app
+from .role_management import create_roles_if_missing, patch_roles_with_default_app
+
 
 def create_financial_year():
     current_year = datetime.now().year
@@ -27,16 +28,15 @@ def create_financial_year():
     frappe.db.commit()
 
 
-def add_permissions(role, doctype, permissions):
+def add_permissions(role, doctype, permissions, permlevel=0):
     """
     Adds specified permissions to a role on a given Doctype using Custom DocPerm.
 
     :param role: str, role name
     :param doctype: str, target doctype to add permission on
     :param permissions: dict, permission flags like {"read": 1, "write": 1}
+    :param permlevel: int, permission level, default is 0
     """
-    permlevel = permissions.get("permlevel", 0)
-
     # Check if a matching Custom DocPerm already exists
     filters = {
         "parent": doctype,
@@ -46,7 +46,8 @@ def add_permissions(role, doctype, permissions):
     filters.update({key: 1 for key in permissions if key != "permlevel"})
 
     if frappe.get_all("Custom DocPerm", filters=filters):
-        print(f"! Permissions already exist for role '{role}' on '{doctype}'. Skipping.")
+        print(
+            f"! Permissions already exist for role '{role}' on '{doctype}' at level {permlevel}. Skipping.")
         return
 
     # Insert permission
@@ -61,104 +62,60 @@ def add_permissions(role, doctype, permissions):
     })
 
     doc.insert(ignore_permissions=True)
-    print(f"Granted {list(permissions.keys())} on '{doctype}' to role '{role}'")
+    print(
+        f"Granted {list(permissions.keys())} on '{doctype}' to role '{role}' at level {permlevel}")
+
 
 def setup_fms_permissions():
     """
     Sets up FMS-related roles and grants appropriate permissions.
     """
-    fms_roles = ["Fundraising Admin", "Budget Planner"]
+    fms_roles = ["Cashflow Dashboard Viewer",
+                 "Funsraising Dashboard Viewer",
+                 "Donor Acquisition Dashboard Viewer"]
     create_roles_if_missing(fms_roles)
 
     try:
         # Grant permissions
-        add_permissions("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1})
-        add_permissions("Fundraising Admin", "Role Profile", {"read": 1})
-        add_permissions("Fundraising Admin", "Custom DocPerm", {"read": 1, "write": 1, "create": 1})
+        permissions_map = [
+            ("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1}),
+            ("Fundraising Admin", "Role Profiles", {"read": 1," write": 1, "create": 1, "delete": 1}),
+            ("Fundraising Admin", "Custom DocPerm", {"read": 1, "write": 1, "create": 1}),
+            ("Fundraising Admin", "User", {"read": 1, "write": 1, "create": 1, "delete": 1}),
+            ("Fundraising Admin", "User", {"read": 1, "write": 1}, 1), # permission level 1
+            ("Fundraising Admin", "User", {"select": 1}),
+            ("Fundraising Admin", "LDAP Settings", {"read": 1,
+             "write": 1, "create": 1, "delete": 1}),
+            ("Fundraising Admin", "Currency", {"read": 1, "write": 1, "create": 1, "delete": 1}),
+            ("Fundraising Admin", "Page", {"read": 1}),
+            ("Fundraising Admin", "Module Profile", {"read": 1}),
+            ("Fundraising Admin", "Data Import", {"read": 1, "write": 1, "create": 1, "delete": 1}),
+            ("Fundraising Admin", "Data Export", {"read": 1, "write": 1}),
+            ("Fundraising Admin", "Error Log", {"read": 1, "write": 1}),
+            ("Fundraising Admin", "Financial Year", {"read": 1, "write": 1, "create": 1, "delete": 1}),
+            ("Cashflow Dashboard Viewer", "Financial Year", {"read": 1}),
+            ("Funsraising Dashboard Viewer", "Financial Year", {"read": 1}),
+            ("Donor Acquisition Dashboard Viewer", "Financial Year", {"read": 1}),
+            ("Cashflow Dashboard Viewer", "Page", {"read": 1}),
+            ("Funsraising Dashboard Viewer", "Page", {"read": 1}),
+            ("Donor Acquisition Dashboard Viewer", "Page", {"read": 1}),
+        ]
+
+
+        for perm in permissions_map:
+            if len(perm) == 3:
+                role, doctype, perms = perm
+                level = 0
+            else:
+                role, doctype, perms, level = perm
+            add_permissions(role, doctype, perms, level)
+
     except Exception as e:
         frappe.log_error(title="FMS Permission Setup Error", message=str(e))
         print(f"Error setting up FMS permissions: {e}")
 
     frappe.db.commit()
     print("All FMS permissions applied successfully.")
-
-def set_currency_permission_using_custom():
-    """Set or update Currency DocType permissions for Fundraising Admin role."""
-    doctype = "Currency"
-    role = "Fundraising Admin"
-
-    try:
-        existing_permissions = frappe.get_all(
-            "Custom DocPerm",
-            filters={"parent": doctype, "role": role},
-            fields=["name"]
-        )
-
-        if existing_permissions:
-            # Update existing permissions
-            for perm in existing_permissions:
-                docperm = frappe.get_doc("Custom DocPerm", perm.name)
-                docperm.read = 1
-                docperm.write = 1
-                docperm.create = 1
-                docperm.delete = 1
-                docperm.save(ignore_permissions=True)
-            print(f"Updated existing permissions for {role} on {doctype}")
-        else:
-            # Create a new Custom DocPerm entry
-            custom_perm = frappe.get_doc({
-                "doctype": "Custom DocPerm",
-                "parent": doctype,
-                "parenttype": "DocType",
-                "parentfield": "permissions",
-                "role": role,
-                "read": 1,
-                "write": 1,
-                "create": 1,
-                "delete": 1
-            })
-            custom_perm.insert(ignore_permissions=True)
-            print(f"Added new permissions for {role} on {doctype}")
-
-        frappe.db.commit()
-    except Exception as e:
-        frappe.log_error(
-            f"Error setting permissions for {role} on {doctype}: {e}")
-
-
-# write a generic function to add data import permission on FMS doctypes the user will pass the doctype name and the role name
-def set_import_permission(doctype, role, permissions):
-    try:
-        existing_perm = frappe.get_all("Custom DocPerm",
-                                       filters={
-                                           "parent": doctype, "role": role},
-                                       fields=["name"])
-        if not existing_perm:
-            custom_perm = frappe.get_doc({
-                "doctype": "Custom DocPerm",
-                "parent": doctype,
-                "parenttype": "DocType",
-                "parentfield": "permissions",
-                "role": role,
-                "read": 1 if "read" in permissions else 0,
-                "write": 1 if "write" in permissions else 0,
-                "create": 1 if "create" in permissions else 0,
-                "delete": 1 if "delete" in permissions else 0,
-                "export": 1 if "export" in permissions else 0,
-                "import": 1 if "import" in permissions else 0
-            })
-            custom_perm.insert(ignore_permissions=True)
-    except Exception as e:
-        frappe.log_error(
-            f"Error setting permissions for {role} on {doctype}: {e}")
-
-
-def skip_setup_wizard():
-    """Automatically skip the setup wizard after install."""
-    frappe.db.set_value("System Settings",
-                        "System Settings", "setup_complete", 1)
-    frappe.db.commit()
-    print("Setup wizard skipped!")
 
 
 def set_default_workspace(doc, method):
@@ -169,73 +126,6 @@ def set_default_workspace(doc, method):
         frappe.msgprint(
             f"Default workspace set to 'Main Workspace' for {doc.name}")
 
-
-def enable_permission_for_fms_roles(fms_admin=True):
-    if not fms_admin:
-        return
-
-    roles = ["Fundraising Admin"]
-    permissions_map = {
-        "Page": ["read"],
-        "Data Import": ["read", "write", "create", "delete"],
-        "Data Export": ["read", "write"],
-        "Error Log": ["read", "write"],
-    }
-
-    for doctype, permissions in permissions_map.items():
-        for role in roles:
-            set_import_permission(doctype, role, permissions)
-
-    frappe.db.commit()
-    print(f"Permissions set for FMS roles{roles}")
-
-
-def enable_page_permissions():
-    create_roles_if_missing([
-        "Fundraising Dashboard",
-        "Donor Acquisition Dashboard",
-        "Cashflow Dashboard"
-    ])
-    patch_roles_with_default_app(["Fundraising Admin", "Budget Planner"])
-    role_page_mappings = {
-        "Fundraising Dashboard": "Fundraising Dashboard",
-        "Donor Acquisition Dashboard": "Donor Acquisition Dashboard",
-        "Cashflow Dashboard": "Cashflow Dashboard"
-    }
-
-    for role, page_title in role_page_mappings.items():
-        # Step 1: Add generic Page doctype permission
-        if not frappe.get_all("Custom DocPerm", filters={
-            "parent": "Page",
-            "role": role,
-            "permlevel": 0,
-            "read": 1
-        }):
-            from frappe.permissions import add_permission
-            add_permission("Page", role, permlevel=0)
-            print(f"Read permission on Page doctype added for role: {role}")
-        else:
-            print(f"Read permission on Page already exists for role: {role}")
-
-        # Step 2: Add role access to specific Page
-        page_records = frappe.get_all(
-            "Page", filters={"title": page_title}, fields=["name"])
-        if not page_records:
-            print(f"Page titled '{page_title}' not found.")
-            continue
-
-        page_doc = frappe.get_doc("Page", page_records[0].name)
-        existing_roles = [r.role for r in page_doc.roles]
-
-        if role not in existing_roles:
-            page_doc.append("roles", {"role": role})
-            page_doc.save(ignore_permissions=True)
-            print(f"Role {role} granted access to page: {page_title}")
-        else:
-            print(f"Role {role} already has access to page: {page_title}")
-
-    frappe.db.commit()
-    print("All permissions processed.")
 
 
 def share_custom_number_cards_with_everyone():
@@ -324,6 +214,13 @@ def update_settings():
         system_settings.reset_password_link_expiry_duration = "10m"  # minutes
         system_settings.enable_password_policy = 1
         system_settings.minimum_password_score = 4
+        if not system_settings.language:
+            system_settings.language = frappe.defaults.get_global_default(
+                "language") or "en"
+        if not system_settings.time_zone:
+            system_settings.time_zone = frappe.defaults.get_global_default(
+                "time_zone") or "Asia/Kolkata"
+
         system_settings.save()
         print("System Settings updated.")
 
@@ -342,7 +239,8 @@ def update_settings():
     except Exception:
         frappe.log_error(frappe.get_traceback(),
                          "Website Settings Setup Failed")
-        print(f"Failed to update settings. Check error logs.{frappe.get_traceback()}")
+        print(
+            f"Failed to update settings. Check error logs.{frappe.get_traceback()}")
 
 
 def total_conversion(total: float) -> dict:
@@ -385,36 +283,52 @@ def get_module_profile(module_profile: str):
 
 @frappe.whitelist()
 def get_all_roles():
-    """Return roles created by session user and static FMS roles."""
-    user = frappe.session.user
-    
-    if user!="Administrator":
-        base_roles = ["Fundraising Admin",
-                      "Budget Planner",
-                      "Fundraising Dashboard",
-                      "Donor Acquisition Dashboard",
-                      "Cashflow Dashboard",
-                      "Workspace Manager",
-                      ]
-    else:
-        base_roles = []
-    
+    """return all roles"""
     active_domains = frappe.get_active_domains()
-    # Fetch custom roles created by the current session user
-    custom_roles = frappe.get_all(
+
+    roles = frappe.get_all(
         "Role",
         filters={
+            "name": ("not in", frappe.permissions.AUTOMATIC_ROLES),
             "disabled": 0,
-            "default_app": "FMS",
         },
-        or_filters={
-            "restrict_to_domain": ["in", active_domains],
-            "restrict_to_domain": ""
-        },
-        fields=["name"]
+        or_filters={"ifnull(restrict_to_domain, '')": "",
+                    "restrict_to_domain": ("in", active_domains)},
+        order_by="name",
     )
 
-    return base_roles + [r.name for r in custom_roles]
+    final = sorted([role.get("name") for role in roles])
+
+    if frappe.session.user != "Administrator":
+        excluded_roles = [
+            "Accounts Manager",
+            "Accounts User",
+            "Blogger",
+            "Commit Project Member",
+            "Dashboard Manager",
+            "Knowledge Base Contributor",
+            "Knowledge Base Editor",
+            "Maintenance Manager",
+            "Maintenance User",
+            "Marketing Manager",
+            "Newsletter Manager",
+            "Prepared Report User",
+            "Purchase Manager",
+            "Purchase Master Manager",
+            "Purchase User",
+            "Report Manager",
+            "Sales Manager",
+            "Sales Master Manager",
+            "Sales User",
+            "Script Manager",
+            "System Manager",
+            "Website Manager",
+            "Inbox User",
+            "Translator",
+        ]
+        final = [role for role in final if role not in excluded_roles]
+
+    return final
 
 
 def normalize_financial_years(financial_years):
@@ -451,12 +365,6 @@ def get_fy_date_ranges_from_doctype(financial_years):
 
 def validate_fundraising_admin(doc, method):
     fundraising_admin_role = "Fundraising Admin"
-
-    if not doc.name:
-        old_roles = set()
-    else:
-        old_roles = set(frappe.get_all("Has Role", filters={
-                        "parent": doc.name}, pluck="role"))
 
     new_roles = set([r.role for r in doc.roles] or [])
     if doc.is_fundraising_admin and fundraising_admin_role not in new_roles:

@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2025-07-01 15:41:17.829705",
+ "modified": "2025-07-03 00:56:54.086669",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "donor-acquisition-ma",
@@ -16,6 +16,9 @@
   },
   {
    "role": "Donor Acquisition Dashboard"
+  },
+  {
+   "role": "Donor Acquisition Dashboard Viewer"
   }
  ],
  "script": null,

@@ -25,17 +25,17 @@ app_logo_url = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb
 fixtures = [{
     "dt": "Thematic Area"
 },
-{
+    {
     "dt": "Category"
 },
-{
+    {
     "dt": "Source of Connection"
 },
-{
+    {
     "dt": "Compliance Checklist"
 },
-{
-	"dt": "Engagement Checklist Master"
+    {
+    "dt": "Engagement Checklist Master"
 }]
 # Includes in <head>
 # ------------------
@@ -101,23 +101,16 @@ doctype_list_js = {"Expense Item": "public/js/expense_item_list.js"}
 # Installation
 # ------------
 
-#before_install = ["funder_management_system.utils.enable_developer_mode"]
+# before_install = ["funder_management_system.utils.enable_developer_mode"]
 after_install = [
     "funder_management_system.utils.create_financial_year",
     "funder_management_system.utils.update_settings",
-    "funder_management_system.utils.setup_fms_permissions",
-    ]
+]
 after_migrate = [
-    "funder_management_system.utils.set_currency_permission_using_custom",
-    "funder_management_system.utils.enable_permission_for_fms_roles",
-    "funder_management_system.utils.share_custom_number_cards_with_everyone",
     "funder_management_system.utils.update_settings",
     "funder_management_system.utils.setup_fms_permissions",
     "funder_management_system.role_custom_field.add_custom_fields",
-    "funder_management_system.utils.enable_page_permissions",
-    "funder_management_system.role_management.add_fms_admin_permissions_to_user_doctype",
-    "funder_management_system.role_management.set_dashboard_permission",
-    ]
+]
 # Uninstallation
 # ------------
 
@@ -174,7 +167,7 @@ after_migrate = [
 # Hook on document methods and events
 doc_events = {
     "User": {
-        "after_insert":"funder_management_system.utils.set_default_workspace",
+        "after_insert": "funder_management_system.utils.set_default_workspace",
         "before_save": "funder_management_system.utils.validate_fundraising_admin"}
 }
 
@@ -190,16 +183,16 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-#to-do change the all to daily for funder_management_system.task.daily.grant_agreement_daily
+# to-do change the all to daily for funder_management_system.task.daily.grant_agreement_daily
 
 scheduler_events = {
-	"all": [
-	 	"funder_management_system.task.daily.grant_agreement_daily",
-   		"funder_management_system.task.daily.organisation_toolkit_daily"
-	 ],
-	"daily": [
-		"funder_management_system.task.daily.donor_daily",
-	]}
+    "all": [
+        "funder_management_system.task.daily.grant_agreement_daily",
+        "funder_management_system.task.daily.organisation_toolkit_daily"
+    ],
+    "daily": [
+        "funder_management_system.task.daily.donor_daily",
+    ]}
 # 	"hourly": [
 # 		"funder_management_system.tasks.hourly"
 # 	],
@@ -220,8 +213,8 @@ scheduler_events = {
 # ------------------------------
 #
 override_whitelisted_methods = {
-	#"frappe.core.doctype.user.user.get_module_profile": "funder_management_system.utils.get_module_profile",
-   "frappe.core.doctype.user.user.get_all_roles": "funder_management_system.utils.get_all_roles",
+    # "frappe.core.doctype.user.user.get_module_profile": "funder_management_system.utils.get_module_profile",
+    "frappe.core.doctype.user.user.get_all_roles": "funder_management_system.utils.get_all_roles",
 }
 #
 # each overriding function accepts a `data` argument;
@@ -287,4 +280,3 @@ override_whitelisted_methods = {
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
-
