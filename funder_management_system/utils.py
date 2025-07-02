@@ -352,7 +352,7 @@ def update_settings():
     except Exception:
         frappe.log_error(frappe.get_traceback(),
                          "Website Settings Setup Failed")
-        print("Failed to update settings. Check error logs.")
+        print(f"Failed to update settings. Check error logs.{frappe.get_traceback()}")
 
 
 def total_conversion(total: float) -> dict:
