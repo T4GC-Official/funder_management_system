@@ -9,8 +9,8 @@ def add_custom_fields():
                 "fieldtype": "Select",
                 "insert_after": "desk_access",  # Position field after desk_access
                 "options": "\nFMS",             # Only one option: FMS
-                "reqd": 1,
-                "read_only": 1,
+                "reqd": 0,
+                "read_only": 0,
                 "description": (
                     "This field is used to indicate that this role is associated with the FMS App. "
                     "It is set to FMS by default and cannot be changed."
