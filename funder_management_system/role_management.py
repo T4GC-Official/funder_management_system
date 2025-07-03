@@ -10,7 +10,6 @@ def create_roles_if_missing(roles):
                 "role_name": role,
                 "desk_access": 1,
                 "is_custom": 1,
-                "default_app": "FMS",
 
             }).insert(ignore_permissions=True)
             print(f"Created missing role: {role}")

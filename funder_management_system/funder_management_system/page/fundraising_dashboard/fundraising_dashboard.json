@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2025-07-03 00:56:53.968330",
+ "modified": "2025-07-03 05:39:57.028952",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "fundraising-dashboard",
@@ -18,10 +18,7 @@
    "role": "Budget Planner"
   },
   {
-   "role": "Fundraising Dashboard"
-  },
-  {
-   "role": "Fundraising Dashboard Viewer"
+   "role": "Fundraising Dashboard Access"
   }
  ],
  "script": null,

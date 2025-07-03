@@ -70,16 +70,16 @@ def setup_fms_permissions():
     """
     Sets up FMS-related roles and grants appropriate permissions.
     """
-    fms_roles = ["Cashflow Dashboard Viewer",
-                 "Funsraising Dashboard Viewer",
-                 "Donor Acquisition Dashboard Viewer"]
+    fms_roles = ["Cashflow Dashboard Access",
+                 "Fundraising Dashboard Access",
+                 "Donor Acquisition Dashboard Access"]
     create_roles_if_missing(fms_roles)
 
     try:
         # Grant permissions
         permissions_map = [
             ("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1}),
-            ("Fundraising Admin", "Role Profiles", {"read": 1," write": 1, "create": 1, "delete": 1}),
+            ("Fundraising Admin", "Role Profiles", {"read": 1,"write": 1, "create": 1, "delete": 1}),
             ("Fundraising Admin", "Custom DocPerm", {"read": 1, "write": 1, "create": 1}),
             ("Fundraising Admin", "User", {"read": 1, "write": 1, "create": 1, "delete": 1}),
             ("Fundraising Admin", "User", {"read": 1, "write": 1}, 1), # permission level 1
@@ -93,12 +93,12 @@ def setup_fms_permissions():
             ("Fundraising Admin", "Data Export", {"read": 1, "write": 1}),
             ("Fundraising Admin", "Error Log", {"read": 1, "write": 1}),
             ("Fundraising Admin", "Financial Year", {"read": 1, "write": 1, "create": 1, "delete": 1}),
-            ("Cashflow Dashboard Viewer", "Financial Year", {"read": 1}),
-            ("Funsraising Dashboard Viewer", "Financial Year", {"read": 1}),
-            ("Donor Acquisition Dashboard Viewer", "Financial Year", {"read": 1}),
-            ("Cashflow Dashboard Viewer", "Page", {"read": 1}),
-            ("Funsraising Dashboard Viewer", "Page", {"read": 1}),
-            ("Donor Acquisition Dashboard Viewer", "Page", {"read": 1}),
+            ("Cashflow Dashboard Access", "Financial Year", {"read": 1}),
+            ("Fundraising Dashboard Access", "Financial Year", {"read": 1}),
+            ("Donor Acquisition Dashboard Access", "Financial Year", {"read": 1}),
+            ("Cashflow Dashboard Access", "Page", {"read": 1}),
+            ("Fundraising Dashboard Access", "Page", {"read": 1}),
+            ("Donor Acquisition Dashboard Access", "Page", {"read": 1}),
         ]
 
 
