@@ -41,7 +41,8 @@ fixtures = [{
 # ------------------
 
 # include js, css files in header of desk.html
-app_include_js = "/assets/funder_management_system/js/custom_toolbar.js"
+app_include_js = ["/assets/funder_management_system/js/custom_toolbar.js",
+                  "/assets/funder_management_system/js/fms_user_extension.js"]
 
 # app_include_css = "/assets/funder_management_system/css/funder_management_system.css"
 # app_include_js = "/assets/funder_management_system/js/funder_management_system.js"

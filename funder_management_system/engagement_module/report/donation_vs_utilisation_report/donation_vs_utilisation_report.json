@@ -10,7 +10,7 @@
  "idx": 3,
  "is_standard": "Yes",
  "letterhead": null,
- "modified": "2025-06-25 17:31:48.305628",
+ "modified": "2025-07-03 05:49:50.348978",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Donation vs Utilisation Report",
@@ -25,6 +25,9 @@
   },
   {
    "role": "Fundraising Admin"
+  },
+  {
+   "role": "Donation vs Utilisation Report Access"
   }
  ],
  "timeout": 0

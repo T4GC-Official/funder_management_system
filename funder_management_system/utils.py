@@ -373,3 +373,14 @@ def validate_fundraising_admin(doc, method):
             indicator='red'
         )
         doc.append("roles", {"role": fundraising_admin_role})
+
+
+@frappe.whitelist()
+def get_fms_modules():
+    """Return modules belonging to FMS App."""
+    modules = frappe.get_all(
+        "Module Def",
+        filters={"app_name": "funder_management_system"},
+        pluck="module_name"
+    )
+    return modules

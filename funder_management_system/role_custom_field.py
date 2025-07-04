@@ -7,8 +7,9 @@ def add_custom_fields():
                 "fieldname": "is_fundraising_admin",
                 "label": "Is Fundraising Admin",
                 "fieldtype": "Check",
-                "insert_after": "enabled",
+                "insert_after": "role_profile_name",
                 "default": 0,
+                "read_only_depends_on": "eval:!frappe.user.has_role('Fundraising Admin')",
                 "description": "Indicates whether the user is an FMS fundraising administrator."
             }
         ]

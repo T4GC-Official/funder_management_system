@@ -10,7 +10,7 @@
  "idx": 3,
  "is_standard": "Yes",
  "letterhead": null,
- "modified": "2025-06-25 17:31:53.859067",
+ "modified": "2025-07-03 05:48:55.503848",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Plan Report",
@@ -28,6 +28,9 @@
   },
   {
    "role": "Fundraising Admin"
+  },
+  {
+   "role": "Budget Plan Report Access"
   }
  ],
  "timeout": 0
