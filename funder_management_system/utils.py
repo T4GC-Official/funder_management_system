@@ -66,7 +66,7 @@ def add_permissions(role, doctype, permissions, permlevel=0):
         f"Granted {list(permissions.keys())} on '{doctype}' to role '{role}' at level {permlevel}")
 
 
-def setup_fms_permissions():
+def setup_fms_dashboard_permissions():
     """
     Sets up FMS-related roles and grants appropriate permissions.
     """
@@ -78,21 +78,7 @@ def setup_fms_permissions():
     try:
         # Grant permissions
         permissions_map = [
-            ("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1}),
-            ("Fundraising Admin", "Role Profiles", {"read": 1,"write": 1, "create": 1, "delete": 1}),
-            ("Fundraising Admin", "Custom DocPerm", {"read": 1, "write": 1, "create": 1}),
-            ("Fundraising Admin", "User", {"read": 1, "write": 1, "create": 1, "delete": 1}),
-            ("Fundraising Admin", "User", {"read": 1, "write": 1}, 1), # permission level 1
-            ("Fundraising Admin", "User", {"select": 1}),
-            ("Fundraising Admin", "LDAP Settings", {"read": 1,
-             "write": 1, "create": 1, "delete": 1}),
-            ("Fundraising Admin", "Currency", {"read": 1, "write": 1, "create": 1, "delete": 1}),
-            ("Fundraising Admin", "Page", {"read": 1}),
-            ("Fundraising Admin", "Module Profile", {"read": 1}),
-            ("Fundraising Admin", "Data Import", {"read": 1, "write": 1, "create": 1, "delete": 1}),
-            ("Fundraising Admin", "Data Export", {"read": 1, "write": 1}),
-            ("Fundraising Admin", "Error Log", {"read": 1, "write": 1}),
-            ("Fundraising Admin", "Financial Year", {"read": 1, "write": 1, "create": 1, "delete": 1}),
+           
             ("Cashflow Dashboard Access", "Financial Year", {"read": 1}),
             ("Fundraising Dashboard Access", "Financial Year", {"read": 1}),
             ("Donor Acquisition Dashboard Access", "Financial Year", {"read": 1}),
@@ -384,3 +370,20 @@ def get_fms_modules():
         pluck="module_name"
     )
     return modules
+
+@frappe.whitelist()
+def limit_maximum_users(doc, method):
+    max_users = int(frappe.local.conf.get("max_users", 20))
+    total_users = frappe.db.count("User", {"enabled": 1})
+
+    if total_users > max_users:
+         frappe.throw(_("Maximum number of users reached. Allowed: {0}").format(max_users))
+
+def limit_storage_quota(doc, method):
+    max_storage_quota = int(frappe.local.conf.get("max_storage_quota_in_mb", 10240))
+    max_storage_bytes = max_storage_quota * 1024 * 1024
+
+    total_file_storage = frappe.db.sql("""SELECT sum(file_size) FROM `tabFile`""")[0][0]
+    if total_file_storage + doc.file_size > max_storage_bytes:
+        frappe.throw(_("You have reached your storage limit of {0} MB. Please delete unused files or upgrade your plan.").format(max_storage_quota))
+

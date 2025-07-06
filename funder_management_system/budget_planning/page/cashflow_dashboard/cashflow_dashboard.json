@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 2,
- "modified": "2025-07-03 05:38:18.084116",
+ "modified": "2025-07-05 17:43:34.412464",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "cashflow-dashboard",
@@ -16,6 +16,21 @@
   },
   {
    "role": "Cashflow Dashboard Access"
+  },
+  {
+   "role": "Fundraising Manager"
+  },
+  {
+   "role": "Fundraising Team Member"
+  },
+  {
+   "role": "Programme Manager"
+  },
+  {
+   "role": "Auditor"
+  },
+  {
+   "role": "Dashboard View Access"
   }
  ],
  "script": null,

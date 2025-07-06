@@ -42,7 +42,8 @@ fixtures = [{
 
 # include js, css files in header of desk.html
 app_include_js = ["/assets/funder_management_system/js/custom_toolbar.js",
-                  "/assets/funder_management_system/js/fms_user_extension.js"]
+                  "/assets/funder_management_system/js/fms_user_extension.js",
+                  "/assets/funder_management_system/js/fms_role_extension.js",]
 
 # app_include_css = "/assets/funder_management_system/css/funder_management_system.css"
 # app_include_js = "/assets/funder_management_system/js/funder_management_system.js"
@@ -62,7 +63,10 @@ app_include_js = ["/assets/funder_management_system/js/custom_toolbar.js",
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_list_js = {"Expense Item": "public/js/expense_item_list.js"}
+doctype_list_js = {"Expense Item": "public/js/expense_item_list.js",
+                   "Report": "public/js/report_list.js",
+                   "Dashboard List": "public/js/dashboard_listview.js",}
+
 # doctype_js = {"doctype" : "public/js/doctype.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -109,9 +113,9 @@ after_install = [
 ]
 after_migrate = [
     "funder_management_system.utils.update_settings",
-    "funder_management_system.utils.setup_fms_permissions",
+    "funder_management_system.utils.setup_fms_dashboard_permissions",
     "funder_management_system.role_custom_field.add_custom_fields",
-    "funder_management_system.permission_utils.setup_modules_roles",
+    "funder_management_system.setup_role_permissions.setup_module_specific_roles",
 ]
 # Uninstallation
 # ------------
@@ -145,12 +149,14 @@ after_migrate = [
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
+permission_query_conditions = {
+	"Report": "funder_management_system.report_permission.get_permission_query_conditions",
+    "Page": "funder_management_system.page_list_view_permissions.get_permission_query_conditions",
+}
+
 # has_permission = {
-#     "Expense Item": "funder_management_system.utils.has_permission"
+#     "Report": "funder_management_system.report_permission.has_permission",
+#     "Page": "funder_management_system.page_list_view_permissions.has_permission",
 # }
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
@@ -170,7 +176,12 @@ after_migrate = [
 doc_events = {
     "User": {
         "after_insert": "funder_management_system.utils.set_default_workspace",
-        "before_save": "funder_management_system.utils.validate_fundraising_admin"}
+        "before_save": ["funder_management_system.utils.validate_fundraising_admin",
+                        "funder_management_system.utils.limit_maximum_users"]},
+    "File" : {
+        "before_save" : "funder_management_system.utils.limit_storage_quota",
+    }
+
 }
 
 
@@ -215,7 +226,6 @@ scheduler_events = {
 # ------------------------------
 #
 override_whitelisted_methods = {
-    # "frappe.core.doctype.user.user.get_module_profile": "funder_management_system.utils.get_module_profile",
     "frappe.core.doctype.user.user.get_all_roles": "funder_management_system.utils.get_all_roles",
 }
 #

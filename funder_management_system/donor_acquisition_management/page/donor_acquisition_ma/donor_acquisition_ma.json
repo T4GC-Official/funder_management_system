@@ -4,7 +4,7 @@
  "docstatus": 0,
  "doctype": "Page",
  "idx": 0,
- "modified": "2025-07-03 05:38:01.286015",
+ "modified": "2025-07-05 17:42:53.447819",
  "modified_by": "Administrator",
  "module": "Donor Acquisition Management",
  "name": "donor-acquisition-ma",
@@ -16,6 +16,21 @@
   },
   {
    "role": "Donor Acquisition Dashboard Access"
+  },
+  {
+   "role": "Programme Manager"
+  },
+  {
+   "role": "Auditor"
+  },
+  {
+   "role": "Fundraising Manager"
+  },
+  {
+   "role": "Fundraising Team Member"
+  },
+  {
+   "role": "Dashboard View Access"
   }
  ],
  "script": null,
