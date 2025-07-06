@@ -172,20 +172,22 @@ def get_budget_category_wise_utilisation(financial_years=None):
     placeholders = ','.join(['%s'] * len(years))
 
     result = frappe.db.sql(f"""
-        SELECT 
-            ei.category, 
-            SUM(ei.utilised_amount) AS total_utilized_amount, 
-            SUM(bb.sub_total) AS total_allocated_amount
-        FROM `tabExpense Item` ei
-        JOIN `tabBudget Plan` bp ON ei.budget_plan = bp.name
-        JOIN `tabBudget Breakdown` bb 
-            ON ei.category = bb.budget_category 
-           AND ei.budget_plan = bb.parent
-        WHERE bp.docstatus = 1 
-          AND ei.docstatus = 1 
-          AND bp.financial_year IN ({placeholders})
-        GROUP BY ei.category
-        ORDER BY total_utilized_amount DESC
+    SELECT 
+    ei.category, 
+    SUM(ei.utilised_amount) AS total_utilized_amount, 
+    (
+        SELECT SUM(bb.sub_total)
+        FROM `tabBudget Breakdown` bb
+        WHERE bb.budget_category = ei.category
+          AND bb.parent = ei.budget_plan
+    ) AS total_allocated_amount
+    FROM `tabExpense Item` ei
+    JOIN `tabBudget Plan` bp ON ei.budget_plan = bp.name
+    WHERE bp.docstatus = 1 
+    AND ei.docstatus = 1 
+    AND bp.financial_year IN ({placeholders})
+    GROUP BY ei.category
+    ORDER BY total_utilized_amount DESC
     """, tuple(years), as_dict=True)
 
     labels = [row["category"] for row in result]
