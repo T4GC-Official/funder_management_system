@@ -309,6 +309,7 @@ def get_all_roles():
             "Script Manager",
             "System Manager",
             "Website Manager",
+            "Workspace Manager",
             "Inbox User",
             "Translator",
         ]

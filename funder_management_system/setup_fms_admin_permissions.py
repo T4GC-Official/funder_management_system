@@ -2,7 +2,7 @@ import frappe
 from .utils import create_roles_if_missing, add_permissions
 
 
-def setup_modules_roles():
+def setup_fms_admin_modules_roles():
     """
     Sets up FMS-related roles and grants appropriate permissions.
     """
@@ -113,27 +113,27 @@ def setup_utilisation_module_roles():
     """
     # format: (role, doctype, permissions, permission level)
     role_doctypes_permissions_level_mapping = [
-        ("Utilisation Module Full Access", "Expense Item",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Expense Item",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                              "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access",
+        ("Fundraising Admin",
          "Expense Item Child Table",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                        "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access", "Utilisation Record",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Utilisation Record",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                                    "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access", "Financial Year",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Financial Year",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                                "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access", "Donor",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Donor",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                       "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access", "Grant Agreement", "select_read", 0),
-        ("Utilisation Module Full Access", "Budget Plan",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Grant Agreement", "select_read", 0),
+        ("Fundraising Admin", "Budget Plan",  {"select": 1, "read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                             "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access", "Budget Category",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Budget Category",  {"select": 1,"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                                 "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access", "Budget Sub-Category",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Budget Sub-Category",  {"select": 1,"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                                     "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access", "Currency",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
+        ("Fundraising Admin", "Currency",  {"select": 1,"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                          "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Utilisation Module Full Access",
+        ("Fundraising Admin",
          "Engagement Checklist Master",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                           "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
     ]
@@ -163,32 +163,41 @@ def setup_org_toolkit_roles():
 
 def setup_fms_fundraising_admin_must_have_role():
     permissions_map = [
-        ("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1}),
+        ("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1},0),
         ("Fundraising Admin", "Role Profiles", {
-            "read": 1, "write": 1, "create": 1, "delete": 1}),
+            "read": 1, "write": 1, "create": 1, "delete": 1},0),
         ("Fundraising Admin", "Custom DocPerm",
-         {"read": 1, "write": 1, "create": 1}),
+         {"read": 1, "write": 1, "create": 1},0),
         ("Fundraising Admin", "User", {
-            "read": 1, "write": 1, "create": 1, "delete": 1}),
+            "read": 1, "write": 1, "create": 1, "delete": 1},0),
         # permission level 1
         ("Fundraising Admin", "User", {"read": 1, "write": 1}, 1),
-        ("Fundraising Admin", "User", {"select": 1}),
+        ("Fundraising Admin", "User", {"select": 1},0),
         ("Fundraising Admin", "LDAP Settings", {"read": 1,
-                                                "write": 1, "create": 1, "delete": 1}),
+                                                "write": 1, "create": 1, "delete": 1},0),
         ("Fundraising Admin", "Currency", {
-            "read": 1, "write": 1, "create": 1, "delete": 1}),
-        ("Fundraising Admin", "Page", {"read": 1}),
-        ("Fundraising Admin", "Module Profile", {"read": 1}),
+            "read": 1, "write": 1, "create": 1, "delete": 1},0),
+        ("Fundraising Admin", "Page", {"read": 1},0),
+        ("Fundraising Admin", "Module Profile", {"read": 1},0),
         ("Fundraising Admin", "Data Import", {
-            "read": 1, "write": 1, "create": 1, "delete": 1}),
-        ("Fundraising Admin", "Data Export", {"read": 1, "write": 1}),
-        ("Fundraising Admin", "Error Log", {"read": 1, "write": 1}),
-        ("Fundraising Admin", "Dashboard List", {"read": 1}),
+            "read": 1, "write": 1, "create": 1, "delete": 1},0),
+        ("Fundraising Admin", "Data Export", {"read": 1, "write": 1},0),
+        ("Fundraising Admin", "Error Log", {"read": 1, "write": 1},0),
+        ("Fundraising Admin", "Dashboard List", {"read": 1},0),
         ("Fundraising Admin", "Financial Year", {
-            "read": 1, "write": 1, "create": 1, "delete": 1}),]
+            "read": 1, "write": 1, "create": 1, "delete": 1},0),
+        
+        ("Fundraising Admin", "Report", {"report":1}, 0),
+        ("Fundraising Admin", "Budget Plan",  {"report":1}, 0),
+        ("Fundraising Admin", "Financial Year",  {"read":1}, 0),
+        ("Fundraising Admin", "Currency",  {"read":1}, 0),
+        ("Fundraising Admin", "Expense Item",  {"report":1}, 0),
+        ("Fundraising Admin", "Donor",  {"report":1}, 0),
+        
+        ]
 
     try:
         for role, doctype, permissions, permlevel in permissions_map:
             add_permissions(role, doctype, permissions, permlevel)
     except Exception as e:
-        frappe.log_error(f"Error setting up Fundraising Admin permissions: {e}")
+        print(f"Error setting up Fundraising Admin permissions: {e}")

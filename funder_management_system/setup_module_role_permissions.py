@@ -1,6 +1,6 @@
 import frappe
 from .utils import create_roles_if_missing, add_permissions
-
+from .setup_fms_admin_permissions import setup_fms_admin_modules_roles
 
 PERMISSION_SETS = {
     "full_access": {
@@ -30,6 +30,7 @@ PERMISSION_SETS = {
 
 
 def setup_module_specific_roles():
+    setup_fms_admin_modules_roles()
     fms_roles = [
         "Budget Allocation Full Access",
         "Budget Allocation View Access",
@@ -287,5 +288,32 @@ def setup_fms_dashboard_permissions():
         for role, doctype, permission_key, permlevel in permissions_map:
             add_permissions(
                 role, doctype, PERMISSION_SETS[permission_key], permlevel)
+        add_dashboard_list_entries()
     except Exception as e:
         frappe.log_error(f"Error setting up Reports roles: {e}")
+        
+def add_dashboard_list_entries():
+    dashboard_pages = [
+        {
+            "name": "Fundraising Dashboard",
+            "page": "fundraising-dashboard"
+        },
+        {
+            "name": "Donor Acquisition Dashboard",
+            "page": "donor-acquisition-ma"
+        },
+        {
+            "name": "Cashflow Dashboard",
+            "page": "cashflow-dashboard"
+        }
+    ]
+
+    for entry in dashboard_pages:
+        if not frappe.db.exists("Dashboard List", entry["name"]):
+            doc = frappe.get_doc({
+                "doctype": "Dashboard List",
+                "name": entry["name"],
+                "dashboard": entry["page"]
+            })
+            doc.insert(ignore_permissions=True)
+            frappe.db.commit()
