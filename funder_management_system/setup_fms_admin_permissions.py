@@ -33,7 +33,7 @@ def setup_budget_allocation_module_roles():
         ("Fundraising Admin", "Budget Plan Template", {
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Budget Plan", {
-         "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1, "report": 1}, 0),
+         "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1, "report": 1, "submit":1, "cancel":1}, 0), #Added Submit and Cancel permissions
         ("Fundraising Admin", "Budget Breakdown", {
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Workspace", {
@@ -164,8 +164,7 @@ def setup_org_toolkit_roles():
 def setup_fms_fundraising_admin_must_have_role():
     permissions_map = [
         ("Fundraising Admin", "Role", {"read": 1, "write": 1, "create": 1},0),
-        ("Fundraising Admin", "Role Profiles", {
-            "read": 1, "write": 1, "create": 1, "delete": 1},0),
+        ("Fundraising Admin", "Role Profile", {"read": 1, "write": 1, "create": 1, "delete": 1},0), #Typo Role profiles, changed to Role Profile
         ("Fundraising Admin", "Custom DocPerm",
          {"read": 1, "write": 1, "create": 1},0),
         ("Fundraising Admin", "User", {
@@ -173,6 +172,7 @@ def setup_fms_fundraising_admin_must_have_role():
         # permission level 1
         ("Fundraising Admin", "User", {"read": 1, "write": 1}, 1),
         ("Fundraising Admin", "User", {"select": 1},0),
+        ("Fundraising Admin", "Role Profile", {"read":1, "write":1},1), #Role Profile requires level 1 permission for fundraising admin
         ("Fundraising Admin", "LDAP Settings", {"read": 1,
                                                 "write": 1, "create": 1, "delete": 1},0),
         ("Fundraising Admin", "Currency", {
