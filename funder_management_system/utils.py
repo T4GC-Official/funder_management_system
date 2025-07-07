@@ -388,3 +388,12 @@ def limit_storage_quota(doc, method):
     if total_file_storage + doc.file_size > max_storage_bytes:
         frappe.throw(_("You have reached your storage limit of {0} MB. Please delete unused files or upgrade your plan.").format(max_storage_quota))
 
+
+
+def delete_web_pages():
+    web_pages = frappe.get_all("Web Page", pluck="name")
+    for page in web_pages:
+        frappe.delete_doc("Web Page", page)
+
+    frappe.db.commit()
+    print("Deleted all web pages")

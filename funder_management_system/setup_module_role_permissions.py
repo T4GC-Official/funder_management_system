@@ -6,9 +6,10 @@ PERMISSION_SETS = {
     "full_access": {
         "read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
         "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1
+        ,"print": 1
     },
     "view_access": {
-        "read": 1, "report": 1, "export": 1
+        "read": 1, "report": 1, "export": 1,"print": 1,"share": 1,"email": 1
     },
     "select_read_write": {
         "read": 1, "select": 1, "write": 1,

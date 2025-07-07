@@ -6,7 +6,7 @@ def setup_fms_admin_modules_roles():
     """
     Sets up FMS-related roles and grants appropriate permissions.
     """
-    fms_roles = ["Fundraising Adminr"]
+    fms_roles = ["Fundraising Admin"]
 
     create_roles_if_missing(fms_roles)
     setup_budget_allocation_module_roles()
