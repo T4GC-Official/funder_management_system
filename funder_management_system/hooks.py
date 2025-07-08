@@ -116,7 +116,7 @@ after_migrate = [
     "funder_management_system.utils.setup_fms_dashboard_permissions",
     "funder_management_system.role_custom_field.add_custom_fields",
     "funder_management_system.setup_module_role_permissions.setup_module_specific_roles",
-    "funder_management_system.utils.delete_web_pages"
+    "funder_management_system.utils.delete_web_from"
 ]
 # Uninstallation
 # ------------

@@ -395,13 +395,14 @@ def limit_storage_quota(doc, method):
 
 
 
-def delete_web_pages():
-    web_pages = frappe.get_all("Web Page", pluck="name")
-    for page in web_pages:
-        frappe.delete_doc("Web Page", page)
+def delete_web_from():
+    web_forms = frappe.get_all("Web Form", pluck="name")
+    print(f"Deleting {len(web_forms)} unused web forms...")
+    for form in web_forms:
+        frappe.delete_doc("Web Form", form)
 
     frappe.db.commit()
-    print("Deleted all web pages")
+    print("Deleted all web forms")
     
     
 # write a method to delete a specific user from the system
