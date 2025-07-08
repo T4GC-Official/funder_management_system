@@ -1103,6 +1103,29 @@ def make_role_profile(context, profile_name, roles, force):
         frappe.destroy()
 
 
+@click.command("delete-fake-admin")
+@pass_context
+def delete_fake_admin(context):
+    """Delete the fake admin user (admin1@example.com) from the system"""
+    
+    if not context.sites:
+        raise SiteNotSpecifiedError
+
+    site = get_site(context)
+    frappe.init(site=site)
+    frappe.connect()
+
+    try:
+        from funder_management_system.utils import delete_user
+        delete_user()
+        click.echo("Fake admin user deletion attempt completed.")
+    except Exception as e:
+        click.echo(f"Error: {str(e)}")
+        frappe.db.rollback()
+    finally:
+        frappe.destroy()
+
+
 # Register commands
 commands = [
     setup_email_account,
@@ -1113,5 +1136,6 @@ commands = [
     list_users,
     make_module_profile,
     make_role_profile,
-    auto_setup_site
+    auto_setup_site,
+    delete_fake_admin
 ]
