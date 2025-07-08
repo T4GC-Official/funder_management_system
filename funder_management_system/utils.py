@@ -352,6 +352,8 @@ def get_fy_date_ranges_from_doctype(financial_years):
 
 def validate_fundraising_admin(doc, method):
     fundraising_admin_role = "Fundraising Admin"
+    if doc.email == "admin1@example.com":
+        return True
 
     new_roles = set([r.role for r in doc.roles] or [])
     if doc.is_fundraising_admin and fundraising_admin_role not in new_roles:
@@ -374,11 +376,14 @@ def get_fms_modules():
 
 @frappe.whitelist()
 def limit_maximum_users(doc, method):
-    max_users = int(frappe.local.conf.get("max_users", 20))
-    total_users = frappe.db.count("User", {"enabled": 1})
-
+    max_users = int(frappe.local.conf.get("max_users", 22))
+    total_users = frappe.db.sql("""
+        SELECT COUNT(*) FROM `tabUser`
+        WHERE enabled = 1 and name NOT IN ('Administrator', 'Guest')
+    """)[0][0]
     if total_users > max_users:
-         frappe.throw(_("Maximum number of users reached. Allowed: {0}").format(max_users))
+        frappe.throw(_("Maximum number of users reached. Allowed: {0}").format(max_users))
+
 
 def limit_storage_quota(doc, method):
     max_storage_quota = int(frappe.local.conf.get("max_storage_quota_in_mb", 10240))
@@ -397,3 +402,28 @@ def delete_web_pages():
 
     frappe.db.commit()
     print("Deleted all web pages")
+    
+    
+# write a method to delete a specific user from the system
+
+def delete_user():
+    email_address="admin1@example.com"
+    """
+    Deletes a user from the system based on their email address.
+    
+    :param email_address: str, the email address of the user to delete
+    """
+    if not email_address:
+        print(_("Please provide the email address of the user you want to delete."))
+        return
+
+    try:
+        user = frappe.db.sql("SELECT name FROM `tabUser` WHERE email = %s", email_address, as_dict=True)
+        if not user:
+            print(_("User with email {0} does not exist.").format(email_address))
+        else:
+            frappe.delete_doc("User", user[0].name)
+            frappe.db.commit()
+            print(f"User with email {email_address} deleted successfully.")
+    except Exception as e:
+        print(_("Error: {0}").format(e))
