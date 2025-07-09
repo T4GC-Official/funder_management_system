@@ -43,8 +43,8 @@ fixtures = [{
 # include js, css files in header of desk.html
 app_include_js = ["/assets/funder_management_system/js/custom_toolbar.js",
                   "/assets/funder_management_system/js/fms_user_extension.js",
-                  "/assets/funder_management_system/js/fms_role_extension.js",]
-
+                  "/assets/funder_management_system/js/fms_role_extension.js",
+                  "/assets/funder_management_system/js/form_timeline_extension.js"]
 # app_include_css = "/assets/funder_management_system/css/funder_management_system.css"
 # app_include_js = "/assets/funder_management_system/js/funder_management_system.js"
 
@@ -65,9 +65,10 @@ app_include_js = ["/assets/funder_management_system/js/custom_toolbar.js",
 # include js in doctype views
 doctype_list_js = {"Expense Item": "public/js/expense_item_list.js",
                    "Report": "public/js/report_list.js",
-                   "Dashboard List": "public/js/dashboard_listview.js",}
+                   "Dashboard List": "public/js/dashboard_listview.js",
+                   }
 
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {"ToDo": "public/js/custom_todo_script.js",}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -113,7 +114,6 @@ after_install = [
 ]
 after_migrate = [
     "funder_management_system.utils.update_settings",
-    "funder_management_system.utils.setup_fms_dashboard_permissions",
     "funder_management_system.role_custom_field.add_custom_fields",
     "funder_management_system.setup_module_role_permissions.setup_module_specific_roles",
     "funder_management_system.utils.delete_web_from",

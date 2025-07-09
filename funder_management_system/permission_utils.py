@@ -7,10 +7,7 @@ def setup_modules_roles():
     """
     Sets up FMS-related roles and grants appropriate permissions.
     """
-    fms_roles = ["Fundraising Manager",
-                 "Fundraising Team Member",
-                 "Programme Manager",
-                 "Auditor"]
+    fms_roles = ["Fundraising Admin"]
     
     create_roles_if_missing(fms_roles)
     setup_budget_allocation_module_roles()
@@ -29,7 +26,6 @@ def setup_budget_allocation_module_roles():
         
         ("Fundraising Admin", "Budget Category", {"read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Budget Sub-Category", {"read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
-        ("Fundraising Admin", "Financial Year", {"read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Currency", {"read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Budget Plan Template", {"read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Budget Plan", {"read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1, "report": 1}, 0),

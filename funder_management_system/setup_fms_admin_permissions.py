@@ -23,12 +23,10 @@ def setup_budget_allocation_module_roles():
     role_doctypes_permissions_level_mapping = [
 
         ("Fundraising Admin", "Budget Category", {
-         "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
+         "read": 1, "write": 1, "create": 1, "delete": 1, "select": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Budget Sub-Category",
-         {"read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
+         {"read": 1, "write": 1, "create": 1, "delete": 1, "select": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Financial Year", {
-         "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
-        ("Fundraising Admin", "Currency", {
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Budget Plan Template", {
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
@@ -40,6 +38,7 @@ def setup_budget_allocation_module_roles():
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Custom HTML Block", {
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
+        ("Fundraising Admin", "Currency", {"read": 1, "export": 1}, 0),
 
 
     ]
@@ -72,6 +71,7 @@ def setup_donor_acquisition_module_roles():
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
         ("Fundraising Admin", "Category", {
          "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
+        ("Fundraising Admin", "Designation", {  "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1}, 0),
 
     ]
 
@@ -120,19 +120,11 @@ def setup_utilisation_module_roles():
                                        "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
         ("Fundraising Admin", "Utilisation Record",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                                    "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Fundraising Admin", "Financial Year",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
-                                                               "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Fundraising Admin", "Donor",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
-                                                      "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
         ("Fundraising Admin", "Grant Agreement", "select_read", 0),
-        ("Fundraising Admin", "Budget Plan",  {"select": 1, "read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
-                                                            "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
         ("Fundraising Admin", "Budget Category",  {"select": 1,"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                                 "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
         ("Fundraising Admin", "Budget Sub-Category",  {"select": 1,"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                                                     "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
-        ("Fundraising Admin", "Currency",  {"select": 1,"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
-                                                         "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
         ("Fundraising Admin",
          "Engagement Checklist Master",  {"read": 1, "write": 1, "create": 1, "delete": 1, "submit": 1,
                                           "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1}, 0),
@@ -175,8 +167,6 @@ def setup_fms_fundraising_admin_must_have_role():
         ("Fundraising Admin", "Role Profile", {"read":1, "write":1},1), #Role Profile requires level 1 permission for fundraising admin
         ("Fundraising Admin", "LDAP Settings", {"read": 1,
                                                 "write": 1, "create": 1, "delete": 1},0),
-        ("Fundraising Admin", "Currency", {
-            "read": 1, "write": 1, "create": 1, "delete": 1},0),
         ("Fundraising Admin", "Page", {"read": 1},0),
         ("Fundraising Admin", "Module Profile", {"read": 1},0),
         ("Fundraising Admin", "Data Import", {
@@ -184,16 +174,7 @@ def setup_fms_fundraising_admin_must_have_role():
         ("Fundraising Admin", "Data Export", {"read": 1, "write": 1},0),
         ("Fundraising Admin", "Error Log", {"read": 1, "write": 1},0),
         ("Fundraising Admin", "Dashboard List", {"read": 1},0),
-        ("Fundraising Admin", "Financial Year", {
-            "read": 1, "write": 1, "create": 1, "delete": 1},0),
-        
         ("Fundraising Admin", "Report", {"report":1}, 0),
-        ("Fundraising Admin", "Budget Plan",  {"report":1}, 0),
-        ("Fundraising Admin", "Financial Year",  {"read":1}, 0),
-        ("Fundraising Admin", "Currency",  {"read":1}, 0),
-        ("Fundraising Admin", "Expense Item",  {"report":1}, 0),
-        ("Fundraising Admin", "Donor",  {"report":1}, 0),
-        
         ]
 
     try:

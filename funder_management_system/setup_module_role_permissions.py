@@ -1,5 +1,5 @@
 import frappe
-from .utils import create_roles_if_missing, add_permissions
+from .utils import create_roles_if_missing, add_permissions, setup_fms_dashboard_permissions
 from .setup_fms_admin_permissions import setup_fms_admin_modules_roles
 
 PERMISSION_SETS = {
@@ -27,6 +27,10 @@ PERMISSION_SETS = {
     "read_only": {
         "read": 1
     },
+    "todo_access": {
+        "read": 1, "write": 1, "create": 1, "delete": 1,
+       "report": 1,
+    },
 }
 
 
@@ -43,6 +47,7 @@ def setup_module_specific_roles():
         "Utilisation Module View Access",
         "Org Toolkit Full Access",
         "Org Toolkit View Access",
+        "To Do Access",
     ]
     create_roles_if_missing(fms_roles)
     setup_budget_allocation_module_roles()
@@ -52,6 +57,7 @@ def setup_module_specific_roles():
     setup_org_toolkit_roles()
     setup_reports_access_roles()
     setup_fms_dashboard_permissions()
+    setup_fms_todo_permissions()
 
 
 def setup_budget_allocation_module_roles():
@@ -61,7 +67,7 @@ def setup_budget_allocation_module_roles():
         ("Budget Allocation Full Access", "Budget Category", "full_access", 0),
         ("Budget Allocation Full Access", "Budget Sub-Category", "full_access", 0),
         ("Budget Allocation Full Access", "Financial Year", "full_access", 0),
-        ("Budget Allocation Full Access", "Currency", "full_access", 0),
+        ("Budget Allocation Full Access", "Currency", "read_only", 0),
         ("Budget Allocation Full Access", "Budget Plan", "full_access", 0),
         ("Budget Allocation Full Access", "Budget Plan Template", "full_access", 0),
         ("Budget Allocation Full Access", "Budget Breakdown", "full_access", 0),
@@ -72,7 +78,7 @@ def setup_budget_allocation_module_roles():
         ("Budget Allocation View Access", "Budget Category", "view_access", 0),
         ("Budget Allocation View Access", "Budget Sub-Category", "view_access", 0),
         ("Budget Allocation View Access", "Financial Year", "view_access", 0),
-        ("Budget Allocation View Access", "Currency", "view_access", 0),
+        ("Budget Allocation View Access", "Currency", "read_only", 0),
         ("Budget Allocation View Access", "Budget Plan", "view_access", 0),
         ("Budget Allocation View Access", "Budget Plan Template", "view_access", 0),
         ("Budget Allocation View Access", "Budget Breakdown", "view_access", 0),
@@ -264,35 +270,7 @@ def setup_reports_access_roles():
                 role, doctype, PERMISSION_SETS[permission_key], permlevel)
     except Exception as e:
         frappe.log_error(f"Error setting up Reports roles: {e}")
-        
-        
-def setup_fms_dashboard_permissions():
-    """
-    Sets up FMS-related roles and grants appropriate permissions.
-    """
-    fms_roles = ["Cashflow Dashboard Access",
-                 "Fundraising Dashboard Access",
-                 "Donor Acquisition Dashboard Access"]
-    create_roles_if_missing(fms_roles)
-
-        # Grant permissions
-    permissions_map = [
-        ("Cashflow Dashboard Access", "Financial Year", "read_only", 0),
-        ("Fundraising Dashboard Access", "Financial Year", "read_only", 0),
-        ("Donor Acquisition Dashboard Access", "Financial Year", "read_only", 0),
-        ("Cashflow Dashboard Access", "Page", "read_only", 0),
-        ("Fundraising Dashboard Access", "Page", "read_only", 0),
-        ("Donor Acquisition Dashboard Access", "Page", "read_only", 0),
-    ]
-
-    try:
-        for role, doctype, permission_key, permlevel in permissions_map:
-            add_permissions(
-                role, doctype, PERMISSION_SETS[permission_key], permlevel)
-        add_dashboard_list_entries()
-    except Exception as e:
-        frappe.log_error(f"Error setting up Reports roles: {e}")
-        
+   
 def add_dashboard_list_entries():
     dashboard_pages = [
         {
@@ -318,3 +296,23 @@ def add_dashboard_list_entries():
             })
             doc.insert(ignore_permissions=True)
             frappe.db.commit()
+            
+def setup_fms_todo_permissions():
+    """
+    Sets up permissions for the To Do module.
+    """
+    fms_roles = ["To Do Access"]
+    create_roles_if_missing(fms_roles)
+
+    # Grant permissions
+    permissions_map = [
+        ("To Do Access", "ToDo", "todo_access", 0),
+        ("To Do Access", "Page", "read_only", 0),
+    ]
+
+    try:
+        for role, doctype, permission_key, permlevel in permissions_map:
+            add_permissions(
+                role, doctype, PERMISSION_SETS[permission_key], permlevel)
+    except Exception as e:
+        frappe.log_error(f"Error setting up To Do roles: {e}")
