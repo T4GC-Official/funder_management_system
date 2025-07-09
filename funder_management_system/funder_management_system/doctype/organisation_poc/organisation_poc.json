@@ -9,10 +9,10 @@
  "field_order": [
   "organisation",
   "name1",
+  "email",
   "phone",
   "designation",
   "status",
-  "email",
   "id",
   "preferred_means_of_communication"
  ],
@@ -76,7 +76,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-25 17:27:41.858036",
+ "modified": "2025-07-09 13:30:37.386430",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",

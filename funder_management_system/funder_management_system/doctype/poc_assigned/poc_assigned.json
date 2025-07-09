@@ -7,13 +7,13 @@
  "engine": "InnoDB",
  "field_order": [
   "organisation_poc_name",
+  "email",
   "designation",
   "phone",
   "preferrend_means_of_communication",
   "status",
   "column_break_orfn",
-  "internal_poc_name",
-  "email"
+  "internal_poc_name"
  ],
  "fields": [
   {
@@ -77,7 +77,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-07-07 10:31:38.999347",
+ "modified": "2025-07-09 13:32:03.768816",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "POC Assigned",
