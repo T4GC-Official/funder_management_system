@@ -261,12 +261,9 @@ frappe.ui.form.on('Grant Agreement', {
     </span>
 </p>
     `;
-
-
-
-
-        frm.fields_dict["tranche_progress_bar"].$wrapper.html(html);
-    },
+        if (frm.fields_dict.tranche_progress_bar && frm.fields_dict.tranche_progress_bar.$wrapper) {
+            frm.fields_dict.tranche_progress_bar.$wrapper.html(`<div style="padding:10px;">${html}</div>`);
+        }    },
 
     check_total_tranche_amount: function (frm) {
         let total_tranche_amount = 0;
