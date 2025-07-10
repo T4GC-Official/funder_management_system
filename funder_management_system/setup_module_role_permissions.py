@@ -8,6 +8,8 @@ PERMISSION_SETS = {
         "cancel": 1, "import": 1, "export": 1, "share": 1, "email": 1, "report": 1
         ,"print": 1
     },
+    "budget_paln_access": {
+         "read": 1, "write": 1, "create": 1, "delete": 1, "import": 1, "export": 1, "report": 1, "submit":1,},
     "view_access": {
         "read": 1, "report": 1, "export": 1,"print": 1,"share": 1,"email": 1
     },
@@ -68,7 +70,7 @@ def setup_budget_allocation_module_roles():
         ("Budget Allocation Full Access", "Budget Sub-Category", "full_access", 0),
         ("Budget Allocation Full Access", "Financial Year", "full_access", 0),
         ("Budget Allocation Full Access", "Currency", "read_only", 0),
-        ("Budget Allocation Full Access", "Budget Plan", "full_access", 0),
+        ("Budget Allocation Full Access", "Budget Plan", "budget_paln_access", 0),
         ("Budget Allocation Full Access", "Budget Plan Template", "full_access", 0),
         ("Budget Allocation Full Access", "Budget Breakdown", "full_access", 0),
         ("Budget Allocation Full Access", "Workspace", "full_access", 0),

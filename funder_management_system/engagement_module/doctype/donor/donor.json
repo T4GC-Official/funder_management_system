@@ -132,7 +132,7 @@
    "link_fieldname": "donor"
   }
  ],
- "modified": "2025-06-26 05:39:25.554324",
+ "modified": "2025-07-09 14:53:25.825509",
  "modified_by": "Administrator",
  "module": "Engagement Module",
  "name": "Donor",
@@ -171,5 +171,7 @@
  "states": [],
  "title_field": "donor_name",
  "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1,
  "translated_doctype": 1
 }

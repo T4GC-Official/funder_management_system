@@ -1,7 +1,7 @@
 {
  "app": "funder_management_system",
  "charts": [],
- "content": "[{\"id\":\"2OBISJJN9f\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ToDo\",\"col\":3}},{\"id\":\"YX_Hjacp_I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Import Data\",\"col\":3}},{\"id\":\"k1dN-9mQoo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"AnIIabiXsv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Report List\",\"col\":4}},{\"id\":\"h6Pjk5oh0x\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Dashboard List\",\"col\":4}},{\"id\":\"xEDLsrxh51\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>FMS User Management</b></span>\",\"col\":12}},{\"id\":\"N8ziKHX_rv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"FMS User List\",\"col\":4}},{\"id\":\"zU-nuhzkiI\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cYC85jxxrS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role Profile\",\"col\":3}}]",
+ "content": "[{\"id\":\"YX_Hjacp_I\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Import Data\",\"col\":3}},{\"id\":\"2OBISJJN9f\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ToDo\",\"col\":3}},{\"id\":\"k1dN-9mQoo\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"xEDLsrxh51\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>FMS User Management</b></span>\",\"col\":12}},{\"id\":\"N8ziKHX_rv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"FMS User List\",\"col\":4}},{\"id\":\"zU-nuhzkiI\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"cYC85jxxrS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role Profile\",\"col\":3}}]",
  "creation": "2025-06-26 01:43:39.559175",
  "custom_blocks": [],
  "docstatus": 0,
@@ -16,7 +16,7 @@
  "link_to": "fms-permission-manag",
  "link_type": "Page",
  "links": [],
- "modified": "2025-07-06 15:33:37.838716",
+ "modified": "2025-07-10 10:51:58.375964",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "FMS Tools",
@@ -28,22 +28,6 @@
  "roles": [],
  "sequence_id": 23.0,
  "shortcuts": [
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Report List",
-   "link_to": "Report",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Dashboard List",
-   "link_to": "Dashboard List",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
   {
    "color": "Grey",
    "doc_view": "List",
