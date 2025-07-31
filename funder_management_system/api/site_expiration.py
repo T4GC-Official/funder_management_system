@@ -1,21 +1,72 @@
 import frappe
 from frappe.utils import getdate, nowdate
+import logging
 
-@frappe.whitelist(allow_guest=True)
-def check_site_expiration():
-    site_expiration_date_in_str = frappe.local.conf.get('site_expiration_date')
-    if not site_expiration_date_in_str:
-        return  # No expiration date set
+log = logging.getLogger(__name__)
 
-    site_expiration_date = getdate(site_expiration_date_in_str)
-    current_date = getdate(nowdate())
+def check_and_handle_expiration():
+    """Check if site has expired and handle expiration logic."""
+    try:
+        expiration_date_str = frappe.local.conf.get("site_expiration_date")
+        if not expiration_date_str:
+            return False
 
-    if current_date >= site_expiration_date:
-        html_path = frappe.get_app_path("funder_management_system", "www", "site_expiration.html")
-        with open(html_path, 'r') as file:
-            html_content = file.read()
+        try:
+            expiration_date = getdate(expiration_date_str)
+        except (ValueError, TypeError) as parse_error:
+            log.error(f"Invalid 'site_expiration_date' format: {expiration_date_str}. Error: {parse_error}")
+            return False
 
-        frappe.local.response["type"] = "page"
-        frappe.local.response["http_status_code"] = 403
-        frappe.local.response["data"] = html_content
-        return frappe.local.response
+        if getdate(nowdate()) < expiration_date:
+            return False  # Site not expired
+
+        # Site has expired, handle
+        return _handle_site_expiration()
+
+    except Exception as e:
+        log.error(f"Unexpected error in site expiration check: {e}", exc_info=True)
+        return False
+
+def _handle_site_expiration():
+    """
+    Display expiration message (UI & API)
+    Returns True if expiration was handled
+    """
+    try:
+        # End user session if needed
+        if hasattr(frappe, 'session') and frappe.session and frappe.session.user != "Guest":
+            try:
+                if hasattr(frappe.local, 'login_manager') and frappe.local.login_manager:
+                    frappe.local.login_manager.logout()
+            except Exception as logout_error:
+                log.warning(f"Error during logout: {logout_error}")
+
+        # Universal HTML message
+        msg = (
+            "<b>🚫 Site Access Expired</b><br>"
+            "Your subscription has expired.<br>"
+            "Please contact support at "
+            "<a href='mailto:support@idlistack.in'>support@idlistack.in</a>, "
+            "<a href='https://support.idlistack.in' target='_blank'>support.idlistack.in</a>, "
+            "or reach out to your account manager."
+        )
+
+        frappe.msgprint(
+            msg,
+            title="Site Expired",
+            indicator="red",
+            raise_exception=frappe.PermissionError
+        )
+        # If control continues, just to be safe:
+        return True
+
+    except Exception as e:
+        log.error(f"Error handling site expiration: {e}", exc_info=True)
+        # Fallback simple plain text JSON response
+        frappe.local.response.update({
+            "type": "json",
+            "http_status_code": 403,
+            "message": "Site access has expired.",
+            "exception": "frappe.PermissionError"
+        })
+        return True

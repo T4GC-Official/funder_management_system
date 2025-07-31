@@ -253,7 +253,7 @@ override_whitelisted_methods = {
 # ----------------
 
 before_request = [
-    "funder_management_system.api.site_expiration.check_site_expiration"
+    "funder_management_system.api.site_expiration.check_and_handle_expiration"
 ]
 
 
@@ -301,3 +301,4 @@ before_request = [
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
