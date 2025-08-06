@@ -11,6 +11,7 @@
   "name1",
   "email",
   "phone",
+  "alternate_phone_no",
   "designation",
   "status",
   "id",
@@ -72,11 +73,17 @@
    "in_list_view": 1,
    "label": "Preferred Means of Communication",
    "options": "Preferred Means of Communication"
+  },
+  {
+   "fieldname": "alternate_phone_no",
+   "fieldtype": "Phone",
+   "label": "Alternate Phone No.",
+   "options": "Phone"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-09 13:30:37.386430",
+ "modified": "2025-08-01 12:06:21.718411",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation POC",

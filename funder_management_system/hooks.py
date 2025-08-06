@@ -6,6 +6,8 @@ app_email = "hello@tech4goodcommunity.com"
 app_license = "mit"
 app_logo_url = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
 
+
+
 # Apps
 # ------------------
 
@@ -249,7 +251,12 @@ override_whitelisted_methods = {
 
 # Request Events
 # ----------------
-# before_request = ["funder_management_system.utils.before_request"]
+
+# before_request = [
+#     "funder_management_system.api.site_expiration.check_and_handle_expiration"
+# ]
+
+
 # after_request = ["funder_management_system.utils.after_request"]
 
 # Job Events
@@ -294,3 +301,4 @@ override_whitelisted_methods = {
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
