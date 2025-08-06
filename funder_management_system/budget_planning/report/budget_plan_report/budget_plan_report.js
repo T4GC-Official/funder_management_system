@@ -12,13 +12,13 @@ frappe.query_reports["Budget Plan Report"] = {
 	],
 	onload: function(report) {
         report.page.add_inner_button(__('Go to Main Workspace'), function() {
-            window.location.href = "/app/main-workspace";
+			frappe.set_route('app', 'main-workspace');
         });
 		report.page.add_inner_button(__('Donation vs Utilisation Report'), function() {
-            window.location.href = "/app/query-report/Donation%20vs%20Utilisation%20Report";
+			frappe.set_route('query-report', 'Donation vs Utilisation Report');
         }, __('Reports'));
 		report.page.add_inner_button(__('Budget Vs Utilisation Report'), function() {
-            window.location.href = "/app/query-report/Budget%20vs%20Utilisation%20Report";
+			frappe.set_route('query-report', 'Budget vs Utilisation Report');
         }, __('Reports'));
     }
 };
