@@ -252,9 +252,10 @@ override_whitelisted_methods = {
 # Request Events
 # ----------------
 
-before_request = [
-    "funder_management_system.api.site_expiration.check_and_handle_expiration"
-]
+# before_request = [
+#     "funder_management_system.api.site_expiration.check_and_handle_expiration"
+# ]
+
 
 
 # after_request = ["funder_management_system.utils.after_request"]
