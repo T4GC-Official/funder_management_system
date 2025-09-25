@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "field:budget_sub_category",
+ "autoname": "hash",
  "creation": "2025-01-24 13:21:43.153980",
  "default_view": "List",
  "doctype": "DocType",
@@ -25,19 +25,18 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Budget Sub-Category",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   }
  ],
  "force_re_route_to_default_view": 1,
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-04 17:00:43.853511",
+ "modified": "2025-09-18 17:07:26.153580",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Sub-Category",
- "naming_rule": "By fieldname",
+ "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [
   {
