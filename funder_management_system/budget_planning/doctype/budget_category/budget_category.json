@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "hash",
+ "autoname": "field:budget_category",
  "creation": "2025-01-24 13:20:10.378468",
  "default_view": "List",
  "doctype": "DocType",
@@ -23,11 +23,11 @@
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-09-18 17:05:45.572195",
+ "modified": "2025-10-07 13:24:51.398254",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Category",
- "naming_rule": "Random",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
