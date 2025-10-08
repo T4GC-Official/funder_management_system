@@ -72,6 +72,7 @@
    "label": "Budget Plan Details"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "budget_breakdown",
    "fieldtype": "Table",
    "label": "Budget Breakdown",
@@ -83,6 +84,7 @@
    "label": "Budget Aggregate Details"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_quarter_1_budget",
    "fieldtype": "Currency",
    "label": "Total Quarter 1 Budget",
@@ -91,6 +93,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_quarter_2_budget",
    "fieldtype": "Currency",
    "label": "Total Quarter 2 Budget",
@@ -99,6 +102,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_quarter_3_budget",
    "fieldtype": "Currency",
    "label": "Total Quarter 3 Budget",
@@ -107,6 +111,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_quarter_4_budget",
    "fieldtype": "Currency",
    "label": "Total Quarter 4 Budget",
@@ -115,8 +120,10 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "yearly_budget",
    "fieldtype": "Currency",
+   "ignore_user_permissions": 1,
    "label": "Total Yearly Budget",
    "non_negative": 1,
    "precision": "2",
@@ -132,7 +139,7 @@
  "force_re_route_to_default_view": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-09 12:23:54.177646",
+ "modified": "2025-10-07 16:10:28.390806",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Plan",
