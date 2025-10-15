@@ -191,8 +191,8 @@ def get_budget_category_wise_utilisation(financial_years=None):
     """, tuple(years), as_dict=True)
 
     labels = [row["category"] for row in result]
-    allocated = [row["total_allocated_amount"] for row in result]
-    utilised = [row["total_utilized_amount"] for row in result]
+    allocated = [row["total_allocated_amount"] if row["total_allocated_amount"] is not None else 0 for row in result]
+    utilised = [row["total_utilized_amount"] if row["total_utilized_amount"] is not None else 0 for row in result]
 
     return {
         "labels": labels,

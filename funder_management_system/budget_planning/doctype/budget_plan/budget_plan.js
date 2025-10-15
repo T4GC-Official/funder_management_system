@@ -88,10 +88,10 @@ function update_totals(frm) {
     let total_q1 = 0, total_q2 = 0, total_q3 = 0, total_q4 = 0;
 
     (frm.doc.budget_breakdown || []).forEach(row => {
-        const q1 = row.q1 || row.quarter_1_budget || 0;
-        const q2 = row.q2 || row.quarter_2_budget || 0;
-        const q3 = row.q3 || row.quarter_3_budget || 0;
-        const q4 = row.q4 || row.quarter_4_budget || 0;
+        const q1 = row.quarter_1_budget || 0;
+        const q2 = row.quarter_2_budget || 0;
+        const q3 = row.quarter_3_budget || 0;
+        const q4 = row.quarter_4_budget || 0;
 
         row.sub_total = q1 + q2 + q3 + q4;
         total_q1 += q1;
@@ -108,6 +108,14 @@ function update_totals(frm) {
         yearly_budget: total_q1 + total_q2 + total_q3 + total_q4
     });
 
-    frm.refresh_fields(['budget_breakdown', 'total_quarter_1_budget', 'total_quarter_2_budget', 'total_quarter_3_budget', 'total_quarter_4_budget', 'yearly_budget']);
+    frm.refresh_fields([
+        'budget_breakdown',
+        'total_quarter_1_budget',
+        'total_quarter_2_budget',
+        'total_quarter_3_budget',
+        'total_quarter_4_budget',
+        'yearly_budget'
+    ]);
+
     is_updating_totals = false;
 }

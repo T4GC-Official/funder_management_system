@@ -1,0 +1,65 @@
+{
+ "app": "funder_management_system",
+ "charts": [],
+ "content": "[{\"id\":\"w4o2w9OCNY\",\"type\":\"header\",\"data\":{\"text\":\"<span style=\\\"font-size: 16px;\\\">FMS Tools</span>\",\"col\":12}},{\"id\":\"RRHm4_yM6y\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Import Data\",\"col\":4}},{\"id\":\"0AC_NF58EC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ToDo\",\"col\":3}},{\"id\":\"nROmnK2mp4\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>FMS user Management</b></span>\",\"col\":12}},{\"id\":\"cBFtYJYeBs\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"FMS User List\",\"col\":5}},{\"id\":\"z56AxCJkPg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Role Profile\",\"col\":5}}]",
+ "creation": "2025-10-08 14:54:36.223720",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "tool",
+ "idx": 0,
+ "indicator_color": "cyan",
+ "is_hidden": 0,
+ "label": "Tools",
+ "link_type": "DocType",
+ "links": [],
+ "modified": "2025-10-15 10:48:27.319658",
+ "modified_by": "Administrator",
+ "module": "Funder Management System",
+ "name": "Tools",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 3.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Import Data",
+   "link_to": "Data Import",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Role Profile",
+   "link_to": "Role Profile",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "ToDo",
+   "link_to": "ToDo",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "FMS User List",
+   "link_to": "User",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Tools",
+ "type": "Workspace"
+}
