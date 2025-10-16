@@ -464,5 +464,5 @@ frappe.realtime.on("reload_utilisation", (data) => {
     if (cur_frm && cur_frm.doc.name === data.utilisation) {
         if (confirm(__("Expense item has been updated. You need to reload the document."))) {
             cur_frm.reload_doc();
-    }
+    }}
 });
