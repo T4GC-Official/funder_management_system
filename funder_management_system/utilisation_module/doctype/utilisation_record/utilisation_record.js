@@ -461,9 +461,8 @@ function render_expense_button(frm) {
 }
 
 frappe.realtime.on("reload_utilisation", (data) => {
-    // Only reload if it's for the current document
     if (cur_frm && cur_frm.doc.name === data.utilisation) {
-        cur_frm.reload_doc();
-        frappe.show_alert({ message: __("Utilisation record reloaded due to deletion"), indicator: "green" });
+        if (confirm(__("Expense item has been updated. You need to reload the document."))) {
+            cur_frm.reload_doc();
     }
 });
