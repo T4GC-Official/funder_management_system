@@ -123,6 +123,30 @@ class ExpenseItem(Document):
         except Exception as e:
             logger.error(f"Error in expense_item after_insert: {e}")
 
+    def on_trash(self):
+        try:
+            user = frappe.session.user
+            logger.info(
+                f"{user} requested to delete to delete expense item record: {self.name}")
+            utilisation_record = frappe.get_doc("Utilisation Record", self.urn)
+            for row in utilisation_record.utilisation_child_table:
+                if row.expenditure_record_name == self.name:
+                    utilisation_record.utilisation_child_table.remove(row)
+                    utilisation_record.save()
+                    frappe.db.commit()
+                    logger.debug(
+                        f"Expense item {self.name} removed from Utilisation Record {utilisation_record.name}")
+            
+            frappe.publish_realtime(
+                event="reload_utilisation", 
+                message={"utilisation": doc.urn},
+                user=None # or None for all users
+            )
+                    
+            update_grand_total_in_utilisation_record(self.urn)
+        except Exception as e:
+            logger.error(f"Error in expense_item on_trash: {e}")
+
 
 @frappe.whitelist()
 def create_utilisation_entries_job(document_name):
