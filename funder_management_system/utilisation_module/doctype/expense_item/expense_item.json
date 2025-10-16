@@ -19,11 +19,11 @@
   "quarters",
   "financial_year",
   "section_break_pzfy",
-  "utilised_amount",
-  "column_break_eaqn",
   "category",
-  "column_break_noba",
+  "column_break_eaqn",
   "sub_category",
+  "column_break_noba",
+  "utilised_amount",
   "column_break_qtxl",
   "amended_from"
  ],
@@ -53,6 +53,8 @@
   {
    "fieldname": "category",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
    "label": "Category",
    "options": "Budget Category",
    "read_only": 1
@@ -60,6 +62,8 @@
   {
    "fieldname": "sub_category",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
    "label": "Sub Category",
    "options": "Budget Sub-Category",
    "read_only": 1
@@ -155,7 +159,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-03-27 14:14:22.390968",
+ "modified": "2025-10-16 12:25:40.393927",
  "modified_by": "Administrator",
  "module": "Utilisation Module",
  "name": "Expense Item",
@@ -203,6 +207,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": []
