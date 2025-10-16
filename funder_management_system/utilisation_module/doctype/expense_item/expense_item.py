@@ -228,7 +228,7 @@ def create_utilisation_entries(document_name):
                 f"No new Expense Items Entries were created (Already Processed) for {document_name}")
             frappe.msgprint(
                 "No new Expense Items Entries were created (Already Processed)", alert=True)
-            return None
+            return {"status": False, "message": "No new Expense Items Entries were created (Already Processed)"}
     except Exception as e:
         logger.error(f"Error creating utilisation records: {str(e)}")
         frappe.log_error(

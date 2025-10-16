@@ -18,13 +18,14 @@ frappe.ui.form.on("Utilisation Record", {
         frm.set_df_property("grant_agreement", "only_select", 1);
     },
     check_if_child_table_is_updated: function (frm) {
+        
         frappe.call({
             method: "funder_management_system.utilisation_module.doctype.utilisation_record.utilisation_record.check_if_child_table_is_updated",
 
             args: {
                 document_name: frm.doc.name
             },
-            freeze: true,
+            freeze: false,
             async: true,
             callback: function (r) {
                 if (r.message) {
@@ -56,12 +57,6 @@ frappe.ui.form.on("Utilisation Record", {
             },
             freeze: true,
             async: false,
-            callback: function (r) {
-                if (r.status) {
-                    frm.reload_doc();
-                    frm.save();
-                }
-            }
         });
     },
 
