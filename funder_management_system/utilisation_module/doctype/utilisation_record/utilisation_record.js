@@ -8,7 +8,7 @@ frappe.ui.form.on("Utilisation Record", {
         frm.trigger("set_financial_year");
     },
     refresh: function (frm) {
-        if (!frm.is_new()) {
+        if (!frm.doc.__islocal) {
             render_expense_button(frm)
             frm.trigger("check_if_child_table_is_updated");
         }
