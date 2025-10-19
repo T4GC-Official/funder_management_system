@@ -9,12 +9,15 @@ frappe.ui.form.on("Utilisation Record", {
     },
     refresh: function (frm) {
         if (!frm.doc.__islocal) {
-            render_expense_button(frm)
+            renderExpenseButtons(frm)
             frm.trigger("check_if_child_table_is_updated");
         }
-        frm.set_df_property("utilisation_child_table", "cannot_add_rows", true)
-        frm.set_df_property("utilisation_child_table", "cannot_delete_rows", true)
-        frm.set_df_property("utilisation_child_table", "cannot_delete_all_rows", true)
+
+        // Restrict child table editing
+        ["cannot_add_rows", "cannot_delete_rows", "cannot_delete_all_rows"].forEach(prop =>
+            frm.set_df_property("utilisation_child_table", prop, true)
+        );
+
         frm.set_df_property("grant_agreement", "only_select", 1);
     },
     check_if_child_table_is_updated: function (frm) {
