@@ -431,28 +431,22 @@ function render_tranche_table(frm, grant) {
 }
 
 
-function render_expense_button(frm) {
+function renderExpenseButtons(frm) {
     frappe.call({
-        method: 'funder_management_system.utilisation_module.doctype.utilisation_record.utilisation_record.count_expense_items',
-        args: {
-            urn: frm.doc.name
-        },
-        callback: function (response) {
-            const counts = response.message; // This will be the dictionary returned by the server-side method
-
-            // Define button labels and colors
-            const buttonConfigs = [
-                { label: 'Submitted Expense Items', status: 1, color: 'btn-primary', count: counts[1] },
-                { label: 'Cancelled Expense Items', status: 2, color: 'btn-danger', count: counts[2] }
+        method: "funder_management_system.utilisation_module.doctype.utilisation_record.utilisation_record.count_expense_items",
+        args: { urn: frm.doc.name },
+        callback({ message }) {
+            const counts = message || {};
+            const buttons = [
+                { label: "Submitted Expense Items", status: 1, color: "btn-primary", count: counts[1] },
+                { label: "Cancelled Expense Items", status: 2, color: "btn-danger", count: counts[2] }
             ];
 
-            // Add buttons dynamically with updated counts
-            buttonConfigs.forEach(config => {
-                let button = frm.add_custom_button(`${__(config.label)} (${config.count})`, function () {
-                    frappe.set_route('List', 'Expense Item', { urn: frm.doc.name, docstatus: config.status });
-                });
-
-                $(button).removeClass('btn-default').addClass(config.color);
+            buttons.forEach(cfg => {
+                const btn = frm.add_custom_button(`${__(cfg.label)} (${cfg.count})`, () =>
+                    frappe.set_route("List", "Expense Item", { urn: frm.doc.name, docstatus: cfg.status })
+                );
+                $(btn).removeClass("btn-default").addClass(cfg.color);
             });
         }
     });
