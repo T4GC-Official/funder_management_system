@@ -139,7 +139,7 @@ class ExpenseItem(Document):
             
             frappe.publish_realtime(
                 event="reload_utilisation", 
-                message={"utilisation": doc.urn},
+                message={"utilisation": self.urn},
                 user=None # or None for all users
             )
                     
@@ -148,29 +148,9 @@ class ExpenseItem(Document):
             logger.error(f"Error in expense_item on_trash: {e}")
 
 
-@frappe.whitelist()
-def create_utilisation_entries_job(document_name):
-    try:
-        ur_doc = frappe.get_doc("Utilisation Record", document_name)
-        frappe.enqueue(
-            "funder_management_system.utilisation_module.doctype.expense_item.expense_item.create_utilisation_entries_task",
-            queue='long',
-            job_name="Create Utilisation Entries",
-            document_name=document_name,
-            is_async=True
-        )
-        # Todo: function to lock the Utilisation Record and then
-        # keep checking the job status and it the job is completed return true
-        frappe.msgprint(
-            f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}", alert=True)
-        logger_create.info(
-            f"Job Enqueued for creating the {len(ur_doc.utilisation_child_table)} Expense Items for Utilisation Record: {document_name}")
-    except Exception as e:
-        logger_create.error(f"Error enqueuing create_utilisation_entries: {e}")
-
 
 @frappe.whitelist()
-# we will convert this function to do bulk insert
+
 def create_utilisation_entries(document_name):
     try:
         ur_doc = frappe.get_doc("Utilisation Record", document_name)
@@ -205,7 +185,7 @@ def create_utilisation_entries(document_name):
         if count > 0:
             logger_create.info(
                 f"utilisation entries in Expense Items: {utilisation_entries}")
-            update_grant_expenditure_new(utilisation_entries)
+            update_expenditure_for_utilisation_entries(utilisation_entries)
 
             update_grand_total_in_utilisation_record(document_name)
             
@@ -236,7 +216,7 @@ def create_utilisation_entries(document_name):
         return False
 
 
-def update_grant_expenditure_new(utilisation_entries):
+def update_expenditure_for_utilisation_entries(utilisation_entries):
     for utilisation_entry in utilisation_entries:
         logger_create.info(
             f"Updating grant expenditure for {utilisation_entry}")
@@ -342,84 +322,3 @@ def submit_record(document_name):
     except Exception as e:
         logger_submit.error(
             f"Error in submitting Expense Item Record: {document_name}: {e}")
-
-
-@frappe.whitelist()
-def create_bulk_utilisation_entries(document_name):
-    try:
-        utilisation_record_doc = frappe.get_doc(
-            "Utilisation Record", document_name)
-        utilisation_entries = []
-        child_updates = []
-        grant_updates = []
-
-        for row in utilisation_record_doc.utilisation_child_table:
-            if row.utilisation_status == "New":
-                utilisation_entries.append([
-                    row.donor,
-                    row.grant_agreement,
-                    row.category,
-                    row.expense_date,
-                    row.expense_title,
-                    row.grant_agreement_tranche,
-                    row.sub_category,
-                    row.utilised_amount,
-                    row.quarters,
-                    row.budget_plan,
-                    row.financial_year,
-                    utilisation_record_doc.urn,
-                    1  # docstatus
-                ])
-                child_updates.append(row)
-                grant_updates.append(
-                    (row.grant_agreement, row.grant_agreement_tranche, row.utilised_amount))
-
-        if utilisation_entries:
-            # Using `bulk_insert` for fast batch insertion
-            frappe.db.bulk_insert(
-                "Expense Item",
-                fields=[
-                    "donor", "grant_agreement", "category", "expense_date", "expense_title",
-                    "grant_agreement_tranche", "sub_category", "utilised_amount", "quarters",
-                    "budget_plan", "financial_year", "urn", "docstatus"
-                ],
-                values=utilisation_entries
-            )
-
-            # Fetch inserted document names
-            inserted_docs = frappe.db.get_list(
-                "Expense Item",
-                # Assuming `urn` is unique for this batch
-                filters={"urn": utilisation_record_doc.urn},
-                fields=["name"]
-            )
-
-            if len(inserted_docs) != len(child_updates):
-                frappe.log_error("Mismatch in inserted records",
-                                 "Utilisation Entry Error")
-                return False
-
-            # Update child table records
-            for row, inserted_doc in zip(child_updates, inserted_docs):
-                row.db_set("expenditure_record_name", inserted_doc["name"])
-                row.db_set("utilisation_status", "Submitted")
-
-            utilisation_record_doc.child_table_value_updated = True
-            utilisation_record_doc.save()
-            frappe.db.commit()
-
-            # Enqueue bulk update for grant expenditures
-            frappe.enqueue(update_grant_expenditure, grants=grant_updates,
-                           queue='long', job_name="Update Grant Expenditure")
-
-            frappe.msgprint(
-                f"{len(utilisation_entries)} Expense Items Created", alert=True)
-            return True
-        else:
-            frappe.msgprint(
-                "No new Expense Items Entries were created (Already Processed)", alert=True)
-            return None
-    except Exception as e:
-        frappe.log_error(
-            f"Error creating utilisation records: {str(e)}", "Utilisation Creation Error")
-        return False
