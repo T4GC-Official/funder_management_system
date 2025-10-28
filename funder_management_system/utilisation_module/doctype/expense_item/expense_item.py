@@ -18,6 +18,7 @@ logger_create = frappe.logger(
 loger_update_total = frappe.logger(
     "total_grant_amount", allow_site=True, file_count=5)
 
+
 class ExpenseItem(Document):
     def on_cancel(self):
         try:
@@ -59,55 +60,23 @@ class ExpenseItem(Document):
         except Exception as e:
             logger.error(f"Error in expense_item on_cancel: {e}")
 
-    def update_draft_status(self, update_utilised_amount=False):
+    def childTableUpdated(self):
         try:
             user = frappe.session.user
             logger.info(
                 f"{user} requested to change utilisation record to draft status: {self.name}")
-            logger.info(f"the doc is amended from : {self.amended_from}")
-
-            # Fetch the Utilisation Record
-            grant_disbursement = frappe.get_doc("Utilisation Record", self.urn)
-
-            # Find the correct child table row
-            row_to_update = None
-            for row in grant_disbursement.utilisation_child_table:
-                logger.info(
-                    f"Checking Utilisation Child Table record: {row.expenditure_record_name} and  self.amended_from: {self.amended_from}")
-                if row.expenditure_record_name == self.amended_from:
-                    row_to_update = row
-                    break  # Stop loop when found
-
-            # If a matching row is found, update it
-            if row_to_update:
-                row.utilised_amount = self.utilised_amount
-                row_to_update.utilisation_status = "Draft"
-                row_to_update.expenditure_record_name = self.name
-                logger.info(f"Updated Child Table Row: {row_to_update.name}")
-                grant_disbursement.child_table_value_updated = True
-                grant_disbursement.save()
-                frappe.db.commit()
-                logger.info(
+            utilisation_record = frappe.get_doc("Utilisation Record", self.urn)
+            utilisation_record.child_table_value_updated = True
+            utilisation_record.save()
+            frappe.db.commit()
+            logger.info(
                     f"Utilisation Record updated and saved: {self.name}")
-
-            else:
-                if update_utilised_amount:
-                    row.utilised_amount = self.utilised_amount
-                    grant_disbursement.child_table_value_updated = True
-                    grant_disbursement.save()
-                    frappe.db.commit()
-                    logger.info(
-                        f"Only the Utilised Amount is updated: {self.utilised_amount}")
-                if not update_utilised_amount:
-                    logger.warning(
-                        f"No matching record found for {self.amended_from} in child table to update utilisation record as draft.")
-
         except Exception as e:
             logger.error(f"Error in expense_item change_to_draft_status: {e}")
 
     def on_change(self):
         try:
-            self.update_draft_status(update_utilised_amount=True)
+            self.childTableUpdated(self)
             logger.info(
                 f" on_change event triggered for utilisation record: {self.name}")
 
@@ -116,7 +85,7 @@ class ExpenseItem(Document):
 
     def after_insert(self):
         try:
-            self.update_draft_status()
+            self.childTableUpdated(self)
             logger.info(
                 f" after_insert event triggered for utilisation record: {self.name}")
 
@@ -136,13 +105,13 @@ class ExpenseItem(Document):
                     frappe.db.commit()
                     logger.debug(
                         f"Expense item {self.name} removed from Utilisation Record {utilisation_record.name}")
-            
+
             frappe.publish_realtime(
-                event="reload_utilisation", 
+                event="reload_utilisation",
                 message={"utilisation": self.urn},
-                user=None # or None for all users
+                user=None  # or None for all users
             )
-                    
+
             update_grand_total_in_utilisation_record(self.urn)
         except Exception as e:
             logger.error(f"Error in expense_item on_trash: {e}")
@@ -158,39 +127,36 @@ def create_utilisation_entries(document_name):
         utilisation_entries = []
         for row in ur_doc.utilisation_child_table:
             if row.utilisation_status == "New":
-                utilisation_doc = frappe.get_doc({
-                    "doctype": "Expense Item",
-                    "donor": row.donor,
-                    "grant_agreement": row.grant_agreement,
-                    "category": row.category,
-                    "expense_date": row.expense_date,
-                    "expense_title": row.expense_title,
-                    "grant_agreement_tranche": row.grant_agreement_tranche,
-                    "sub_category": row.sub_category,
-                    "utilised_amount": row.utilised_amount,
-                    "quarters": row.quarters,
-                    "budget_plan": row.budget_plan,
-                    "financial_year": row.financial_year,
-                    "urn": ur_doc.urn,
-                    "docstatus": 1
-                })
-                utilisation_doc.insert(ignore_permissions=True)
-                row.db_set("expenditure_record_name", utilisation_doc.name)
+                expense_item_doc = frappe.new_doc("Expense Item")
+                expense_item_doc.donor = row.donor
+                expense_item_doc.grant_agreement = row.grant_agreement
+                expense_item_doc.category = row.category
+                expense_item_doc.expense_date = row.expense_date
+                expense_item_doc.expense_title = row.expense_title
+                expense_item_doc.grant_agreement_tranche = row.grant_agreement_tranche
+                expense_item_doc.sub_category = row.sub_category
+                expense_item_doc.utilised_amount = row.utilised_amount
+                expense_item_doc.quarters = row.quarters
+                expense_item_doc.budget_plan = row.budget_plan
+                expense_item_doc.financial_year = row.financial_year
+                expense_item_doc.urn = ur_doc.urn
+                expense_item_doc.insert(ignore_permissions=True)
+                expense_item_doc.submit()
+                row.db_set("expenditure_record_name", expense_item_doc.name)
                 row.db_set("utilisation_status", "Submitted")
                 count += 1
-                utilisation_entries.append(utilisation_doc.name)
-                logger_create.info(
-                    f"{count}|Creating Utilisation Record: {row.expenditure_record_name} for {row.expense_title}")
+                utilisation_entries.append(expense_item_doc.name)
+
+        logger_create.info(
+            f"{count}|Creating Utilisation Record: {expense_item_doc.name} for {row.expense_title}"
+        )
 
         if count > 0:
             logger_create.info(
                 f"utilisation entries in Expense Items: {utilisation_entries}")
             update_expenditure_for_utilisation_entries(utilisation_entries)
-
             update_grand_total_in_utilisation_record(document_name)
-            
             ur_doc.child_table_value_updated = True
-            # ur_doc.save() this will cause the error because the document is already saved
             frappe.db.commit()
             logger_create.info(
                 f"Successfully created {count} utilisation records for {document_name}")
@@ -279,12 +245,15 @@ def update_grand_total_in_utilisation_record(urn):
 
         grand_total = grand_total_result[0][0] or 0.0 if grand_total_result else 0.0
 
-        frappe.db.set_value("Utilisation Record", urn, "grand_total", grand_total)
-        loger_update_total.info(f"Grand total updated for Utilisation Record {urn}: {grand_total}")
+        frappe.db.set_value("Utilisation Record", urn,
+                            "grand_total", grand_total)
+        loger_update_total.info(
+            f"Grand total updated for Utilisation Record {urn}: {grand_total}")
     except Exception as e:
-        loger_update_total.error(f"Error updating grand total for Utilisation Record {urn}: {e}")
-        frappe.log_error(frappe.get_traceback(), f"Grand Total Update Failed for URN: {urn}")
-
+        loger_update_total.error(
+            f"Error updating grand total for Utilisation Record {urn}: {e}")
+        frappe.log_error(frappe.get_traceback(),
+                         f"Grand Total Update Failed for URN: {urn}")
 
 
 @frappe.whitelist()
@@ -316,8 +285,6 @@ def submit_record(document_name):
         frappe.db.commit()
         logger_submit.info(
             f"Utilisation Record {utilisation_record.name} updated and saved")
-        
-        
 
     except Exception as e:
         logger_submit.error(
