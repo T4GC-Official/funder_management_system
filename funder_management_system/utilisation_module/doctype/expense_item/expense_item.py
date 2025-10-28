@@ -60,7 +60,8 @@ class ExpenseItem(Document):
         except Exception as e:
             logger.error(f"Error in expense_item on_cancel: {e}")
 
-    def childTableUpdated(self):
+    
+    def on_change(self):
         try:
             user = frappe.session.user
             logger.info(
@@ -70,14 +71,6 @@ class ExpenseItem(Document):
             utilisation_record.save()
             frappe.db.commit()
             logger.info(
-                    f"Utilisation Record updated and saved: {self.name}")
-        except Exception as e:
-            logger.error(f"Error in expense_item change_to_draft_status: {e}")
-
-    def on_change(self):
-        try:
-            self.childTableUpdated(self)
-            logger.info(
                 f" on_change event triggered for utilisation record: {self.name}")
 
         except Exception as e:
@@ -85,7 +78,13 @@ class ExpenseItem(Document):
 
     def after_insert(self):
         try:
-            self.childTableUpdated(self)
+            user = frappe.session.user
+            logger.info(
+                f"{user} requested to change utilisation record to draft status: {self.name}")
+            utilisation_record = frappe.get_doc("Utilisation Record", self.urn)
+            utilisation_record.child_table_value_updated = True
+            utilisation_record.save()
+            frappe.db.commit()
             logger.info(
                 f" after_insert event triggered for utilisation record: {self.name}")
 
@@ -105,7 +104,7 @@ class ExpenseItem(Document):
                     frappe.db.commit()
                     logger.debug(
                         f"Expense item {self.name} removed from Utilisation Record {utilisation_record.name}")
-
+            resequence_expense_items(utilisation_record.name)
             reload_utilisation_record(self.name)
 
             update_grand_total_in_utilisation_record(self.urn)
@@ -294,3 +293,39 @@ def reload_utilisation_record(document_name):
                 message={"utilisation": document_name},
                 user=None  # or None for all users
             )
+    
+    
+import frappe
+
+
+def resequence_expense_items(parent_name):
+    """
+    Resequence the idx field in 'Expense Item Child Table' for a given parent.
+    """
+
+    if not parent_name:
+        frappe.throw("Parent name is required")
+
+    try:
+        # Step 1: Initialize the row number variable
+        frappe.db.sql("SET @rownum := 0")
+
+        # Step 2: Update idx sequence in correct order
+        frappe.db.sql("""
+            UPDATE `tabExpense Item Child Table` t
+            JOIN (
+                SELECT name, (@rownum := @rownum + 1) AS new_idx
+                FROM `tabExpense Item Child Table`
+                WHERE parent = %s
+                ORDER BY creation ASC
+            ) ranked ON t.name = ranked.name
+            SET t.idx = ranked.new_idx
+            WHERE t.parent = %s
+        """, (parent_name, parent_name))
+
+        frappe.db.commit()
+        frappe.msgprint(f"Resequenced idx for all rows under parent: {parent_name}")
+
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Error resequencing Expense Items")
+        frappe.throw(f"Failed to resequence items: {str(e)}")
