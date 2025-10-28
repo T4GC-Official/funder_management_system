@@ -106,11 +106,7 @@ class ExpenseItem(Document):
                     logger.debug(
                         f"Expense item {self.name} removed from Utilisation Record {utilisation_record.name}")
 
-            frappe.publish_realtime(
-                event="reload_utilisation",
-                message={"utilisation": self.urn},
-                user=None  # or None for all users
-            )
+            reload_utilisation_record(self.name)
 
             update_grand_total_in_utilisation_record(self.urn)
         except Exception as e:
@@ -158,6 +154,7 @@ def create_utilisation_entries(document_name):
             update_grand_total_in_utilisation_record(document_name)
             ur_doc.child_table_value_updated = True
             frappe.db.commit()
+            reload_utilisation_record(document_name)
             logger_create.info(
                 f"Successfully created {count} utilisation records for {document_name}")
             if count == 1:
@@ -289,3 +286,11 @@ def submit_record(document_name):
     except Exception as e:
         logger_submit.error(
             f"Error in submitting Expense Item Record: {document_name}: {e}")
+
+
+def reload_utilisation_record(document_name):
+    frappe.publish_realtime(
+                event="reload_utilisation",
+                message={"utilisation": document_name},
+                user=None  # or None for all users
+            )
