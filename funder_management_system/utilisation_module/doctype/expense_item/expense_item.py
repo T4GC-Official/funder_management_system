@@ -324,7 +324,6 @@ def resequence_expense_items(parent_name):
         """, (parent_name, parent_name))
 
         frappe.db.commit()
-        frappe.msgprint(f"Resequenced idx for all rows under parent: {parent_name}")
 
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "Error resequencing Expense Items")
