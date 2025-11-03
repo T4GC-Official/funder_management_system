@@ -7,3 +7,4 @@
 # Patches added in this section will be executed after doctypes are migrated
 
 funder_management_system.patches.20251010_delete_old_fms_tools
+funder_management_system.patches.20251011_remove_cancelled_expense_items
