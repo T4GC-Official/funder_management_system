@@ -5,6 +5,10 @@ frappe.ui.form.on("Utilisation Record", {
     onload(frm) {
         frm.trigger("set_donor_list");
         frm.trigger("set_financial_year");
+        // Initialize budget sub-category mapping if category is already selected
+        if (frm.doc.budget_category) {
+            frm.trigger("set_budget_sub_category");
+        }
     },
     refresh: function (frm) {
         if (!frm.doc.__islocal) {
@@ -92,6 +96,8 @@ frappe.ui.form.on("Utilisation Record", {
 
     budget_category(frm) {
         frm.trigger("set_budget_sub_category");
+        // Clear sub-category when category changes
+        frm.set_value("budget_sub_category", null);
     },
 
     financial_year(frm) {
@@ -122,11 +128,23 @@ frappe.ui.form.on("Utilisation Record", {
     },
 
     set_budget_sub_category(frm) {
+        if (!frm.doc.budget_category) {
+            frm.set_df_property("budget_sub_category", "options", "");
+            frm.budget_sub_category_map = {};
+            return;
+        }
+
         frappe.db.get_list("Budget Sub-Category", {
-            fields: ["budget_sub_category"],
+            fields: ["name", "budget_sub_category"],
             filters: { budget_category: frm.doc.budget_category }
         }).then(response => {
-            const options = response.map(doc => doc.budget_sub_category).join("\n");
+            // Create a mapping from display name to document ID
+            frm.budget_sub_category_map = {};
+            const options = response.map(doc => {
+                frm.budget_sub_category_map[doc.budget_sub_category] = doc.name;
+                return doc.budget_sub_category;
+            }).join("\n");
+            
             frm.set_df_property("budget_sub_category", "options", options || "");
         });
     },
@@ -193,7 +211,7 @@ frappe.ui.form.on("Utilisation Record", {
             grant_agreement: frm.doc.grant_agreement,
             grant_agreement_tranche: frm.doc.grant_tranche_name,
             category: frm.doc.budget_category,
-            sub_category: frm.doc.budget_sub_category,
+            sub_category: frm.budget_sub_category_map?.[frm.doc.budget_sub_category] || frm.doc.budget_sub_category,
             utilised_amount: frm.doc.expenditure
         };
 
