@@ -73,6 +73,7 @@
   },
   {
    "allow_on_submit": 1,
+   "columns": 7,
    "fieldname": "budget_breakdown",
    "fieldtype": "Table",
    "label": "Budget Breakdown",
@@ -139,7 +140,7 @@
  "force_re_route_to_default_view": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-07 16:10:28.390806",
+ "modified": "2026-03-10 11:44:52.225054",
  "modified_by": "Administrator",
  "module": "Budget Planning",
  "name": "Budget Plan",

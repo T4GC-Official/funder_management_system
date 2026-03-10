@@ -1,7 +1,17 @@
 // Run after Frappe UI is fully loaded
-frappe.ui.toolbar.add_help = function () {
-    console.log("Help menu disabled.");
-};
+if (frappe.ui && frappe.ui.toolbar) {
+    frappe.ui.toolbar.add_help = function () {
+        console.log("Help menu disabled.");
+    };
+} else {
+    $(document).on('app_ready', function () {
+        if (frappe.ui && frappe.ui.toolbar) {
+            frappe.ui.toolbar.add_help = function () {
+                console.log("Help menu disabled.");
+            };
+        }
+    });
+}
 
 // Remove Help menu & vertical separator from the navbar
 $(document).ready(() => {

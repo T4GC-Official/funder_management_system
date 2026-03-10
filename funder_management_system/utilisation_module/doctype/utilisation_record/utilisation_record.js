@@ -9,6 +9,86 @@ frappe.ui.form.on("Utilisation Record", {
         if (frm.doc.budget_category) {
             frm.trigger("set_budget_sub_category");
         }
+        
+        // Inject explicit Grid CSS to ensure the grid does not collapse
+        // This overrides the v16 max-width: 50% issue
+        if (!document.getElementById('utilisation-record-grid-style')) {
+            const style = document.createElement('style');
+            style.id = 'utilisation-record-grid-style';
+            style.innerHTML = `
+                /* Force full width on the specific form column that houses the table. */
+                .form-column:has([data-fieldname="utilisation_child_table"]) {
+                    max-width: 100% !important;
+                    width: 100% !important;
+                    flex: 0 0 100% !important;
+                }
+                
+                /* Force full width on container elements */
+                [data-fieldname="utilisation_child_table"],
+                [data-fieldname="utilisation_child_table"].frappe-control,
+                [data-fieldname="utilisation_child_table"].frappe-control.input-max-width,
+                [data-fieldname="utilisation_child_table"].frappe-control .form-group,
+                [data-fieldname="utilisation_child_table"] .form-grid-container,
+                [data-fieldname="utilisation_child_table"] .form-grid,
+                [data-fieldname="utilisation_child_table"] .grid-heading-row,
+                [data-fieldname="utilisation_child_table"] .rows,
+                [data-fieldname="utilisation_child_table"] .grid-body {
+                    max-width: 100% !important;
+                    width: 100% !important;
+                }
+                
+                /* Ensure columns distribute available width equally instead of fixed widths */
+                [data-fieldname="utilisation_child_table"] .data-row .col.grid-static-col,
+                [data-fieldname="utilisation_child_table"] .grid-heading-row .col.grid-static-col {
+                    flex: 1 1 0% !important;
+                    max-width: none !important;
+                    width: auto !important;
+                    min-width: 0 !important;
+                }
+                
+                /* Prevent rows from wrapping incorrectly */
+                [data-fieldname="utilisation_child_table"] .data-row.row {
+                    flex-wrap: nowrap !important;
+                }
+                
+                /* Keep Checkbox and Row Settings Button tight */
+                [data-fieldname="utilisation_child_table"] .row-check,
+                [data-fieldname="utilisation_child_table"] .data-row > .col:last-child {
+                    flex: 0 0 auto !important;
+                    max-width: 36px !important;
+                }
+                
+                /* Hide row index natively */
+                [data-fieldname="utilisation_child_table"] .row-index {
+                    display: none !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+
+        const grid = frm.fields_dict["utilisation_child_table"]?.grid;
+        if (grid) {
+            grid.setup_visible_columns = function () {
+                this.visible_columns = [];
+                const fields = this.editable_fields || this.docfields;
+                for (let f of fields) {
+                    const df = this.fields_map[f.fieldname];
+                    if (
+                        df &&
+                        !df.hidden &&
+                        (this.editable_fields || df.in_list_view) &&
+                        ((this.frm && this.frm.get_perm(df.permlevel, "read")) || !this.frm) &&
+                        !frappe.model.layout_fields.includes(df.fieldtype)
+                    ) {
+                        // Using colsize 1 ensures total_colsize < 10, preventing native "column-limit-reached" breakage
+                        df.colsize = 1; 
+                        this.visible_columns.push([df, df.colsize]);
+                    }
+                }
+            };
+            grid.visible_columns = null;
+            grid.refresh();
+        }
     },
     refresh: function (frm) {
         if (!frm.doc.__islocal) {

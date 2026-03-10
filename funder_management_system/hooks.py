@@ -4,7 +4,7 @@ app_publisher = "Tech4Good Community"
 app_description = "A comprehensive fundraising management system for NGOs and nonprofits."
 app_email = "hello@tech4goodcommunity.com"
 app_license = "mit"
-app_logo_url = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
+app_logo_url = "/assets/funder_management_system/images/logo.jpeg"
 
 
 
@@ -306,7 +306,8 @@ override_whitelisted_methods = {
 add_to_apps_screen = [
 	{
 		"name": "fms",
-		"logo": "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png",
+		"logo": "/assets/funder_management_system/images/logo.jpeg",
 		"title": "FMS",
-        "route": "/app/main-workspace",}
+		"route": "/app/main-workspace",
+	}
 ]
