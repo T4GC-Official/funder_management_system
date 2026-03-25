@@ -29,8 +29,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Website URL",
-   "options": "URL",
-   "reqd": 1
+   "options": "URL"
   },
   {
    "fieldname": "official_email_id",
@@ -69,7 +68,7 @@
  "icon": "fa fa-edit",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-07-03 04:19:52.415686",
+ "modified": "2026-03-25 14:15:24.821360",
  "modified_by": "Administrator",
  "module": "Funder Management System",
  "name": "Organisation Details",
