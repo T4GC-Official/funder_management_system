@@ -3,6 +3,7 @@ import json
 from frappe import _
 from datetime import datetime, date
 from frappe.share import set_permission
+from frappe.model.utils.user_settings import update_user_settings
 from .role_management import create_roles_if_missing, patch_roles_with_default_app
 
 
@@ -428,3 +429,32 @@ def delete_user():
             print(f"User with email {email_address} deleted successfully.")
     except Exception as e:
         print(_("Error: {0}").format(e))
+
+
+def setup_budget_plan_grid_settings():
+    """
+    Setup default grid view settings for Budget Plan's Budget Breakdown child table.
+    This configures the column widths and visibility for the grid.
+    """
+    try:
+        user_settings = {
+            "updated_on": datetime.now().isoformat(),
+            "GridView": {
+                "Budget Breakdown": [
+                    {"fieldname": "budget_category", "columns": 2},
+                    {"fieldname": "budget_sub_category", "columns": 2},
+                    {"fieldname": "quarter_1_budget", "columns": 1},
+                    {"fieldname": "quarter_2_budget", "columns": 1},
+                    {"fieldname": "quarter_3_budget", "columns": 1},
+                    {"fieldname": "quarter_4_budget", "columns": 1},
+                    {"fieldname": "sub_total", "columns": 2}
+                ]
+            }
+        }
+        
+        # Call the backend function directly to save user settings
+        update_user_settings("Budget Plan", user_settings)
+        
+        print("Budget Plan grid settings configured successfully.")
+    except Exception as e:
+        print(f"Error setting up Budget Plan grid settings: {str(e)}")

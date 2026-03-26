@@ -24,29 +24,6 @@ frappe.ui.form.on("Budget Plan", {
         if (!is_updating_totals) update_totals(frm);
     },
 
-    onload(frm) {
-        const grid = frm.fields_dict["budget_breakdown"].grid;
-        grid.setup_visible_columns = function () {
-            const column_count = 7;
-            const column_width = Math.floor(14 / column_count);
-            this.visible_columns = [];
-            const fields = this.editable_fields || this.docfields;
-            for (let f of fields) {
-                const df = this.fields_map[f.fieldname];
-                if (
-                    df &&
-                    !df.hidden &&
-                    (this.editable_fields || df.in_list_view) &&
-                    ((this.frm && this.frm.get_perm(df.permlevel, "read")) || !this.frm) &&
-                    !frappe.model.layout_fields.includes(df.fieldtype)
-                ) {
-                    df.colsize = column_width;
-                    this.visible_columns.push([df, df.colsize]);
-                }
-            }
-        };
-        grid.refresh();
-    },
 
     budget_plan_template(frm) {
         if (!frm.doc.budget_plan_template) return;
