@@ -9,6 +9,7 @@ class OrganisationPOC(Document):
 	def validate(self):
 		autoname(self)
 
+
 def autoname(doc):
 	if not doc.organisation:
 		frappe.throw("Please select an Organisation")

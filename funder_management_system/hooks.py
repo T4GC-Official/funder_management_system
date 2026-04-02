@@ -7,7 +7,6 @@ app_license = "mit"
 app_logo_url = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png"
 
 
-
 # Apps
 # ------------------
 
@@ -24,29 +23,23 @@ app_logo_url = "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb
 # 	}
 # ]
 
-fixtures = [{
-    "dt": "Thematic Area"
-},
-    {
-    "dt": "Category"
-},
-    {
-    "dt": "Source of Connection"
-},
-    {
-    "dt": "Compliance Checklist"
-},
-    {
-    "dt": "Engagement Checklist Master"
-}]
+fixtures = [
+	{"dt": "Thematic Area"},
+	{"dt": "Category"},
+	{"dt": "Source of Connection"},
+	{"dt": "Compliance Checklist"},
+	{"dt": "Engagement Checklist Master"},
+]
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
-app_include_js = ["/assets/funder_management_system/js/custom_toolbar.js",
-                  "/assets/funder_management_system/js/fms_user_extension.js",
-                  "/assets/funder_management_system/js/fms_role_extension.js",
-                  "/assets/funder_management_system/js/form_timeline_extension.js"]
+app_include_js = [
+	"/assets/funder_management_system/js/custom_toolbar.js",
+	"/assets/funder_management_system/js/fms_user_extension.js",
+	"/assets/funder_management_system/js/fms_role_extension.js",
+	"/assets/funder_management_system/js/form_timeline_extension.js",
+]
 # app_include_css = "/assets/funder_management_system/css/funder_management_system.css"
 # app_include_js = "/assets/funder_management_system/js/funder_management_system.js"
 
@@ -65,12 +58,15 @@ app_include_js = ["/assets/funder_management_system/js/custom_toolbar.js",
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_list_js = {"Expense Item": "public/js/expense_item_list.js",
-                   "Report": "public/js/report_list.js",
-                   "Dashboard List": "public/js/dashboard_listview.js",
-                   }
+doctype_list_js = {
+	"Expense Item": "public/js/expense_item_list.js",
+	"Report": "public/js/report_list.js",
+	"Dashboard List": "public/js/dashboard_listview.js",
+}
 
-doctype_js = {"ToDo": "public/js/custom_todo_script.js",}
+doctype_js = {
+	"ToDo": "public/js/custom_todo_script.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -111,16 +107,16 @@ doctype_js = {"ToDo": "public/js/custom_todo_script.js",}
 
 # before_install = ["funder_management_system.utils.enable_developer_mode"]
 after_install = [
-    "funder_management_system.utils.create_financial_year",
-    "funder_management_system.utils.update_settings",
+	"funder_management_system.utils.create_financial_year",
+	"funder_management_system.utils.update_settings",
 ]
 after_migrate = [
-    "funder_management_system.utils.update_settings",
-    "funder_management_system.role_custom_field.add_custom_fields",
-    "funder_management_system.setup_module_role_permissions.setup_module_specific_roles",
-    "funder_management_system.utils.delete_web_from",
-    "funder_management_system.setup_module_role_permissions.add_dashboard_list_entries",
-    "funder_management_system.utils.setup_budget_plan_grid_settings"
+	"funder_management_system.utils.update_settings",
+	"funder_management_system.role_custom_field.add_custom_fields",
+	"funder_management_system.setup_module_role_permissions.setup_module_specific_roles",
+	"funder_management_system.utils.delete_web_from",
+	"funder_management_system.setup_module_role_permissions.add_dashboard_list_entries",
+	"funder_management_system.utils.setup_budget_plan_grid_settings",
 ]
 # Uninstallation
 # ------------
@@ -156,7 +152,7 @@ after_migrate = [
 
 permission_query_conditions = {
 	"Report": "funder_management_system.report_permission.get_permission_query_conditions",
-    "Page": "funder_management_system.page_list_view_permissions.get_permission_query_conditions",
+	"Page": "funder_management_system.page_list_view_permissions.get_permission_query_conditions",
 }
 
 # has_permission = {
@@ -179,14 +175,16 @@ permission_query_conditions = {
 # ---------------
 # Hook on document methods and events
 doc_events = {
-    "User": {
-        "after_insert": "funder_management_system.utils.set_default_workspace",
-        "before_save": ["funder_management_system.utils.validate_fundraising_admin",
-                        "funder_management_system.utils.limit_maximum_users"]},
-    "File" : {
-        "before_save" : "funder_management_system.utils.limit_storage_quota",
-    }
-
+	"User": {
+		"after_insert": "funder_management_system.utils.set_default_workspace",
+		"before_save": [
+			"funder_management_system.utils.validate_fundraising_admin",
+			"funder_management_system.utils.limit_maximum_users",
+		],
+	},
+	"File": {
+		"before_save": "funder_management_system.utils.limit_storage_quota",
+	},
 }
 
 
@@ -204,13 +202,14 @@ doc_events = {
 # to-do change the all to daily for funder_management_system.task.daily.grant_agreement_daily
 
 scheduler_events = {
-    "all": [
-        "funder_management_system.task.daily.grant_agreement_daily",
-        "funder_management_system.task.daily.organisation_toolkit_daily"
-    ],
-    "daily": [
-        "funder_management_system.task.daily.donor_daily",
-    ]}
+	"all": [
+		"funder_management_system.task.daily.grant_agreement_daily",
+		"funder_management_system.task.daily.organisation_toolkit_daily",
+	],
+	"daily": [
+		"funder_management_system.task.daily.donor_daily",
+	],
+}
 # 	"hourly": [
 # 		"funder_management_system.tasks.hourly"
 # 	],
@@ -231,7 +230,7 @@ scheduler_events = {
 # ------------------------------
 #
 override_whitelisted_methods = {
-    "frappe.core.doctype.user.user.get_all_roles": "funder_management_system.utils.get_all_roles",
+	"frappe.core.doctype.user.user.get_all_roles": "funder_management_system.utils.get_all_roles",
 }
 #
 # each overriding function accepts a `data` argument;
@@ -256,7 +255,6 @@ override_whitelisted_methods = {
 # before_request = [
 #     "funder_management_system.api.site_expiration.check_and_handle_expiration"
 # ]
-
 
 
 # after_request = ["funder_management_system.utils.after_request"]
@@ -309,5 +307,6 @@ add_to_apps_screen = [
 		"name": "fms",
 		"logo": "https://static.wixstatic.com/media/7dc063_4079a88b01c54ab1a2a5cb6580e028a7~mv2.png/v1/fill/w_180,h_188,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/T4G_Website_Logo_edited.png",
 		"title": "FMS",
-        "route": "/app/main-workspace",}
+		"route": "/app/main-workspace",
+	}
 ]

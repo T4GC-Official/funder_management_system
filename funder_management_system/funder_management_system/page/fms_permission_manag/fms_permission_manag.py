@@ -13,11 +13,10 @@ from frappe.exceptions import DoesNotExistError
 from frappe.modules.import_file import get_file_path, read_doc_from_file
 from frappe.permissions import (
 	AUTOMATIC_ROLES,
-	get_all_perms,
 	copy_perms,
+	get_all_perms,
 	get_linked_doctypes,
 	reset_perms,
-	setup_custom_perms,
 	update_permission_property,
 )
 from frappe.utils.user import get_users_with_role as _get_user_with_role
@@ -39,39 +38,28 @@ def get_roles_and_doctypes():
 			"issingle": 0,
 			"name": ["not in", not_allowed_in_permission_manager],
 		},
-		or_filters={
-			"restrict_to_domain": ["in", active_domains],
-			"restrict_to_domain": ""
-		},
-		fields=["name"]
+		or_filters={"restrict_to_domain": ["in", active_domains]},
+		fields=["name"],
 	)
 
 	# Static allowed roles
 	base_roles = ["Fundraising Admin", "Budget Planner"]
 
 	# Custom roles created by the current user
-	custom_roles = frappe.get_all("Role", filters={
-		"owner": frappe.session.user,
-		"disabled": 0
-	}, fields=["name"])
+	custom_roles = frappe.get_all(
+		"Role", filters={"owner": frappe.session.user, "disabled": 0}, fields=["name"]
+	)
 
 	allowed_roles = base_roles + [r.name for r in custom_roles]
 
-	roles = frappe.get_all(
-		"Role",
-		filters={
-			"name": ["in", allowed_roles],
-			"disabled": 0
-		},
-		fields=["name"]
-	)
+	roles = frappe.get_all("Role", filters={"name": ["in", allowed_roles], "disabled": 0}, fields=["name"])
 
 	doctypes_list = [{"label": _(d["name"]), "value": d["name"]} for d in doctypes]
 	roles_list = [{"label": _(r["name"]), "value": r["name"]} for r in roles]
 
 	return {
 		"doctypes": sorted(doctypes_list, key=lambda d: d["label"].casefold()),
-		"roles": sorted(roles_list, key=lambda r: r["label"].casefold())
+		"roles": sorted(roles_list, key=lambda r: r["label"].casefold()),
 	}
 
 
@@ -79,20 +67,14 @@ def get_roles_and_doctypes():
 def get_fms_roles(doctype, txt, searchfield, start, page_len, filters):
 	base_roles = ["Fundraising Admin", "Budget Planner"]
 
-	custom_roles = frappe.get_all("Role", filters={
-		"owner": frappe.session.user,
-		"disabled": 0
-	}, fields=["name"])
+	custom_roles = frappe.get_all(
+		"Role", filters={"owner": frappe.session.user, "disabled": 0}, fields=["name"]
+	)
 
 	all_roles = base_roles + [r.name for r in custom_roles]
 	filtered = [r for r in all_roles if txt.lower() in r.lower()] if txt else all_roles
 
-	return [[r, r] for r in sorted(filtered)[start:start + page_len]]
-
-
-
-
-
+	return [[r, r] for r in sorted(filtered)[start : start + page_len]]
 
 
 @frappe.whitelist()
@@ -106,7 +88,7 @@ def get_permissions(doctype: str | None = None, role: str | None = None):
 
 	else:
 		filters = {"parent": doctype}
-		
+
 		# Allow Fundraising Admin and their created roles
 		if frappe.session.user != "Administrator":
 			allowed_roles = ["Fundraising Admin", "Budget Planner"]
@@ -114,7 +96,7 @@ def get_permissions(doctype: str | None = None, role: str | None = None):
 			filters["role"] = ["in", allowed_roles + custom_roles]
 
 		out = frappe.get_all("Custom DocPerm", fields="*", filters=filters, order_by="permlevel")
-		
+
 		if not out:
 			out = frappe.get_all("DocPerm", fields="*", filters=filters, order_by="permlevel")
 
@@ -134,7 +116,6 @@ def get_permissions(doctype: str | None = None, role: str | None = None):
 			d.in_create = meta.in_create
 
 	return out
-
 
 
 @frappe.whitelist()
@@ -233,35 +214,34 @@ def add_permission(doctype, role, permlevel=0, ptype=None, ignore_permissions=Tr
 
 	setup_custom_perms(doctype)
 
-	existing = frappe.db.exists("Custom DocPerm", {
-		"parent": doctype,
-		"role": role,
-		"permlevel": permlevel,
-		"if_owner": 0
-	})
+	existing = frappe.db.exists(
+		"Custom DocPerm", {"parent": doctype, "role": role, "permlevel": permlevel, "if_owner": 0}
+	)
 
 	if existing:
 		frappe.msgprint(
 			_("Permission already exists for role '{0}' on doctype '{1}' at permlevel {2}").format(
 				role, doctype, permlevel
 			),
-			alert=True
+			alert=True,
 		)
 		return
 
 	if not ptype:
 		ptype = "read"
 
-	custom_docperm = frappe.get_doc({
-		"doctype": "Custom DocPerm",
-		"__islocal": 1,
-		"parent": doctype,
-		"parenttype": "DocType",
-		"parentfield": "permissions",
-		"role": role,
-		"permlevel": permlevel,
-		ptype: 1
-	})
+	custom_docperm = frappe.get_doc(
+		{
+			"doctype": "Custom DocPerm",
+			"__islocal": 1,
+			"parent": doctype,
+			"parenttype": "DocType",
+			"parentfield": "permissions",
+			"role": role,
+			"permlevel": permlevel,
+			ptype: 1,
+		}
+	)
 
 	custom_docperm.insert(ignore_permissions=ignore_permissions)
 
@@ -271,8 +251,7 @@ def add_permission(doctype, role, permlevel=0, ptype=None, ignore_permissions=Tr
 		_("Added '{0}' permission for role '{1}' on doctype '{2}' at permlevel {3}").format(
 			ptype, role, doctype, permlevel
 		),
-		alert=True
+		alert=True,
 	)
 
 	return custom_docperm.name
-
